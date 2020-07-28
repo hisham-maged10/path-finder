@@ -2,6 +2,10 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
 {
   if(s.length){
     curr = s.pop();
+    if(curr.isWall){
+      setTimeout(dfs,15,grid,start,end,s,parentMap,choices,curr);
+      return;
+    }
     let div = curr.divReference;
     div.classList.add("node-current");
     setTimeout(()=> div.classList.remove("node-current"),15);

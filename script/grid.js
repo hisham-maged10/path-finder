@@ -3,12 +3,12 @@ const NODE_SIZE = 40;
 const nodes = [];
 let startNode = null;
 let endNode = null;
-
+let grid = null;
 function generateGrid(){
   let cols = Math.floor(window.innerWidth / NODE_SIZE);
   console.log()
   let rows = Math.floor(window.innerHeight / NODE_SIZE);
-  let grid = document.createElement("div");
+  grid = document.createElement("div");
   grid.id = "grid";
   document.body.appendChild(grid);
   grid.addEventListener("click",divClicked);
@@ -28,16 +28,40 @@ function generateGrid(){
   }
 
   grid.appendChild(fragment);
-  console.log(nodes);
 
+  let down = false;
+  let mouseDownClbk = () => {
+    down = true;
+    grid.removeEventListener("mouseout",divOut);
+  }
+  let mouseUpClbk = () =>{
+    down = false;
+    grid.addEventListener("mouseout",divOut);
+  }
+  let mouseMoveClbk = (e) =>{
+    if(down){
+      let row = e.target.dataset["row"];
+      let col = e.target.dataset["col"];
+      if(nodes[row][col].isStart || nodes[row][col].isEnd){
+        return;
+      }
+      e.target.classList.add("node-wall");
+      console.log(e.target.classList.contains("node-wall"));
+      console.log("moving");
+      nodes[row][col].isWall = true;
+      console.log(nodes[row][col])
+    }
+  }
+
+  grid.addEventListener("mousedown",mouseDownClbk);
+  grid.addEventListener("mouseup",mouseUpClbk);
+  grid.addEventListener("mousemove",mouseMoveClbk);
 }
 
 function divClicked(e){
   e.preventDefault();
-  if(startNode && endNode) { return; }
-  let i = parseInt(e.target.dataset["row"]);
-  let j = parseInt(e.target.dataset["col"]);
-  console.log(i,j)
+  let i = e.target.dataset["row"];
+  let j = e.target.dataset["col"];
   if(!startNode){
     e.target.classList.add("node-start");
     nodes[i][j].isStart = true;
@@ -46,17 +70,17 @@ function divClicked(e){
     e.target.classList.add("node-end");
     nodes[i][j].isEnd = true;
     endNode = nodes[i][j];
+    grid.removeEventListener("click",divClicked);
   }
-  console.log(nodes[i][j])
 }
 
 function divHover(e){
   e.preventDefault();
   if(startNode && endNode)
   {
-    return;
+    e.target.classList.add("node-wall-hover");
   }
-  if(!startNode){
+  else if(!startNode){
     e.target.classList.add("node-start");
   }else{
     e.target.classList.add("node-end");
@@ -67,9 +91,9 @@ function divOut(e){
   e.preventDefault();
   if(startNode && endNode)
   {
-    return;
+    e.target.classList.remove("node-wall-hover");
   }
-  if(startNode){
+  else if(startNode){
     e.target.classList.remove("node-end");
   }else{
     e.target.classList.remove("node-start");

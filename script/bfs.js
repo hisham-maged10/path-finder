@@ -7,6 +7,9 @@ function bfs(grid, start, end, q, parentMap, choices)
     for(let i = 0 ; i < size ; ++i)
     {
       curr = q.shift();
+      if(curr.isWall){
+        continue;
+      }
       curr.divReference.classList.add("node-check");
       curr.divReference.classList.add("node-current");
       let div = curr.divReference;

@@ -15,6 +15,9 @@
   background-color:red;
 } */
 
+.node-wall, .node-wall-hover{
+  background-color:black;
+}
 .node-start{
   background-color:blue;
 }
@@ -22,9 +25,6 @@
   background-color:green;
 }
 
-.node-hover{
-  background-color:red;
-}
 
 .node-check{
   background-color:cyan;
@@ -35,5 +35,5 @@
 }
 
 .node-path{
-  background-color:black;
+  background-color:red;
 }
