@@ -1,8 +1,8 @@
-function bfs(grid, start, end, q, visited, choices)
+function bfs(grid, start, end, q, parentMap, choices)
 {
   let size = 0;
   let curr = null;
-  if(q.length !== 0){
+  if(q.length){
     size = q.length;
     for(let i = 0 ; i < size ; ++i)
     {
@@ -15,21 +15,22 @@ function bfs(grid, start, end, q, visited, choices)
         console.log("Found it!");
         console.log(end);
         console.log(curr);
-        clearInterval(bfsTimerID);
+        console.log(parentMap);
+        executeDrawPath(parentMap,curr);
         return;
       }
       for(let j = 0 ; j < choices.length ; ++j){
         let row = curr.row + choices[j][0];
         let col = curr.col + choices[j][1];
-        if(grid[row] && grid[row][col] && !visited.has(grid[row][col])){
+        if(grid[row] && grid[row][col] && !parentMap.has(grid[row][col])){
           q.push(grid[row][col]);
-          visited.add(grid[row][col]);
+          parentMap.set(grid[row][col],curr);
         }
       }
     }
   }else{
     console.log("NOT FOUND!");
-    clearInterval(bfsTimerID);
     return;
   }
+  setTimeout(bfs,30,nodes,startNode,endNode,q,parentMap,choices);
 }

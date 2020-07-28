@@ -33,3 +33,7 @@
 .node-current{
   background-color:yellow;
 }
+
+.node-path{
+  background-color:black;
+}

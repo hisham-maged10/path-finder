@@ -1,6 +1,7 @@
 
 document.querySelector("#dfs").addEventListener("click",executeDFS);
 document.querySelector("#bfs").addEventListener("click",executeBFS);
+document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 
 function executeDFS(){
   if(!nodes || !startNode || !endNode){
@@ -9,10 +10,9 @@ function executeDFS(){
   }
   let s = [];
   let visited = new Set();
-  let curr = null;
   s.push(startNode);
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-  dfsTimerID = setInterval(dfs,15,nodes,startNode,endNode,s,visited,curr,choices);
+  setTimeout(dfs,15,nodes,startNode,endNode,s,visited,choices);
 
 }
 
@@ -25,9 +25,14 @@ function executeBFS(){
   let curr = null;
   let q = [];
   q.push(startNode);
-  let visited = new Set();
-  visited.add(startNode);
+  let parentMap = new Map();
+  parentMap.set(startNode, null);
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-  bfsTimerID = setInterval(bfs,30,nodes,startNode,endNode,q,visited,choices);
+  setTimeout(bfs,30,nodes,startNode,endNode,q,parentMap,choices);
 
+}
+
+function executeDrawPath(parentMap,endNode){
+  let path = getPath(parentMap,endNode);
+  setTimeout(drawPath,15,0,path);
 }
