@@ -9,10 +9,10 @@ function executeDFS(){
     return;
   }
   let s = [];
-  let visited = new Set();
+  let parentMap = new Map();
   s.push(startNode);
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-  setTimeout(dfs,15,nodes,startNode,endNode,s,visited,choices);
+  setTimeout(dfs,15,nodes,startNode,endNode,s,parentMap,choices);
 
 }
 
@@ -33,6 +33,7 @@ function executeBFS(){
 }
 
 function executeDrawPath(parentMap,endNode){
+  console.log("Entered here")
   let path = getPath(parentMap,endNode);
   setTimeout(drawPath,15,0,path);
 }
