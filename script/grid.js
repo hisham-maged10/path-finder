@@ -46,10 +46,10 @@ function generateGrid(){
         return;
       }
       e.target.classList.add("node-wall");
-      console.log(e.target.classList.contains("node-wall"));
-      console.log("moving");
+      // console.log(e.target.classList.contains("node-wall"));
+      // console.log("moving");
       nodes[row][col].isWall = true;
-      console.log(nodes[row][col])
+      // console.log(nodes[row][col])
     }
   }
 

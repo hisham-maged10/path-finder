@@ -37,3 +37,7 @@
 .node-path{
   background-color:red;
 }
+
+.node-child{
+  background-color:purple;
+}
