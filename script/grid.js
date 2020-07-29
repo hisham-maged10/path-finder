@@ -4,6 +4,7 @@ const nodes = [];
 let startNode = null;
 let endNode = null;
 let grid = null;
+let mouseDown = false;
 function generateGrid(){
   let cols = Math.floor(window.innerWidth / NODE_SIZE);
   console.log()
@@ -29,26 +30,36 @@ function generateGrid(){
 
   grid.appendChild(fragment);
 
-  let down = false;
   let mouseDownClbk = () => {
-    down = true;
-    grid.removeEventListener("mouseout",divOut);
+    mouseDown = true;
+    // grid.removeEventListener("mouseout",divOut);
   }
   let mouseUpClbk = () =>{
-    down = false;
+    mouseDown = false;
     grid.addEventListener("mouseout",divOut);
   }
   let mouseMoveClbk = (e) =>{
-    if(down){
+    if(mouseDown){
       let row = e.target.dataset["row"];
       let col = e.target.dataset["col"];
-      if(nodes[row][col].isStart || nodes[row][col].isEnd){
+      if(nodes[row][col].isStart || nodes[row][col].isEnd || nodes[row][col].isWall){
         return;
       }
-      e.target.classList.add("node-wall");
+      if(e.shiftKey){
+        e.target.classList.add("node-strong-1");
+        nodes[row][col].weight = 1;
+      }else if(e.altKey){
+        e.target.classList.add("node-strong-2");
+        nodes[row][col].weight = 2;
+      }else if(e.metaKey){
+        e.target.classList.add("node-strong-3")
+        nodes[row][col].weight = 3;
+      }else{
+        e.target.classList.add("node-wall")
+        nodes[row][col].isWall = true;
+      }
       // console.log(e.target.classList.contains("node-wall"));
       // console.log("moving");
-      nodes[row][col].isWall = true;
       // console.log(nodes[row][col])
     }
   }
@@ -89,8 +100,9 @@ function divHover(e){
 
 function divOut(e){
   e.preventDefault();
-  if(startNode && endNode)
+  if(startNode && endNode )
   {
+    console.log("should be removed!");
     e.target.classList.remove("node-wall-hover");
   }
   else if(startNode){

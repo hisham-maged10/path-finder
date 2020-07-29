@@ -1,5 +1,6 @@
 function dfs(grid,start,end,s,parentMap,choices,prev = null)
 {
+  let curr = null;
   if(s.length){
     curr = s.pop();
     if(curr.isWall){
@@ -8,7 +9,7 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
     }
     let div = curr.divReference;
     div.classList.add("node-current");
-    setTimeout(()=> div.classList.remove("node-current"),30);
+    setTimeout(()=> div.classList.remove("node-current"),10);
     if(parentMap.has(curr)){
     setTimeout(dfs,15,grid,start,end,s,parentMap,choices,curr);
       return;
@@ -31,13 +32,13 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
       if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
         s.push(grid[row][col]);
         let childDiv = grid[row][col].divReference;
-        childDiv.classList.add("node-child");
-        setTimeout(() => childDiv.classList.remove("node-child"), 30);
+        // childDiv.classList.add("node-child");
+        // setTimeout(() => childDiv.classList.remove("node-child"), 10);
       }
     }
   }else{
     console.log("NOT FOUND!");
     return;
   }
-  setTimeout(dfs,30,grid,start,end,s,parentMap,choices,curr);
+  setTimeout(dfs,10,grid,start,end,s,parentMap,choices,curr);
 }

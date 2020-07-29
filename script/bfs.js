@@ -28,8 +28,8 @@ function bfs(grid, start, end, q, parentMap, choices)
         if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
           q.push(grid[row][col]);
           let childDiv = grid[row][col].divReference;
-          childDiv.classList.add("node-child");
-          setTimeout(() => childDiv.classList.remove("node-child"), 30);
+          // childDiv.classList.add("node-child");
+          // setTimeout(() => childDiv.classList.remove("node-child"), 10);
           parentMap.set(grid[row][col],curr);
         }
       }

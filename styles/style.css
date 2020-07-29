@@ -41,3 +41,16 @@
 .node-child{
   background-color:purple;
 }
+
+.node-strong-1{
+  border:2px solid black;
+}
+.node-strong-2{
+  border:3px solid black;
+}
+.node-strong-3{
+  border:4px solid black;
+}
+.node-strong-4{
+  border:5px solid black;
+}
