@@ -3,17 +3,14 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
   let curr = null;
   if(s.length){
     curr = s.pop();
-    if(curr.isWall){
+    let div = curr.divReference;
+    if(parentMap.has(curr)){
+      div.classList.add("node-backtrack");
       setTimeout(dfs,15,grid,start,end,s,parentMap,choices,curr);
       return;
     }
-    let div = curr.divReference;
     div.classList.add("node-current");
     setTimeout(()=> div.classList.remove("node-current"),10);
-    if(parentMap.has(curr)){
-    setTimeout(dfs,15,grid,start,end,s,parentMap,choices,curr);
-      return;
-    }
     curr.divReference.classList.add("node-check");
     parentMap.set(curr,prev);
     if(curr === end)

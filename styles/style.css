@@ -24,18 +24,92 @@
 .node-end{
   background-color:green;
 }
+@keyframes fadein {
+  from {
+    transform: scale(0);
+    background-color: rgba(255, 255, 255,0.75);
+    opacity: 0;
+    border-radius: 100%;
+    border:0;
+  }
+  to {
+    transform: scale(1);
+    background-color: rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */
+    opacity: 1;
+    /* border-radius: 0%; */
+  }
+}
 
+@keyframes check{
+  0%  {
+    transform: scale(.3) rotate(30);
+    background-color: rgba(50, 168, 82,0.75);
+    opacity: 0.75;
+    border-radius: 100%;
+    border:0;
+  }
+
+  25% {
+    opacity:0.5;
+    background-color: rgba(50,168,117,0.75);
+  }
+
+  50%  {
+    opacity:0.25;
+    background-color rgba(17,104,217,0.75);
+  }
+
+  75%  {
+    opacity:0.50;
+    transform:scale(1.2) rotate(180);
+    background-color: rgba(0,217,159,0.75);
+    border:0;
+  }
+
+  100%  {
+    opacity:1;
+    transform: scale(1.0) rotate(360);
+    background-color: rgba(0,190,218,0.75);
+  }
+}
 
 .node-check{
-  background-color:cyan;
+  /* background-color:cyan; */
+  background-color: rgba(0,190,218,0.75);
+  animation-name:check ;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+}
+
+.node-backtrack{
+  animation-name:backtrack;
+  animation-duration:1s;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes backtrack{
+  0%  {
+    background-color:rgba(50, 168, 82,0.75);
+  }
+
+  75%  {
+    background-color rgba(17,104,217,0.75);
+  }
+  100%  {
+  background-color: rgba(0,190,218,0.75);
+  }
 }
 
 .node-current{
-  background-color:yellow;
+  background-color: rgba(50, 168, 82,0.75);
+  animation-name:fadein;
+  animation-duration:1s;
+  animation-timing-function: ease-out;
 }
 
 .node-path{
   background-color:red;
+  border:0;
 }
 
 .node-child{

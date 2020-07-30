@@ -11,7 +11,7 @@ function bfs(grid, start, end, q, parentMap, choices)
         continue;
       }
       curr.divReference.classList.add("node-check");
-      curr.divReference.classList.add("node-current");
+      // curr.divReference.classList.add("node-current");
       let div = curr.divReference;
       setTimeout(()=> div.classList.remove("node-current"),30);
       if(curr === end){

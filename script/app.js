@@ -53,9 +53,11 @@ function executeDijkstra(){
     }
   }
   distanceMap.set(curr,0);
-  let points = [];
-  points.push(curr);
-  setTimeout(dijkstra,0,nodes,startNode,endNode,distanceMap,processed,choices,parentMap,points)
+  // let minHeap = new MinHeap();
+  let minHeap = [];
+  // minHeap.insert(curr);
+  minHeap.push(curr);
+  setTimeout(dijkstra,0,nodes,startNode,endNode,distanceMap,processed,choices,parentMap,minHeap)
 }
 
 function executeDrawPath(parentMap,endNode){

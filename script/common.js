@@ -11,6 +11,6 @@ function drawPath(counter,path){
   if(counter !== path.length){
     const curr = path[counter];
     curr.divReference.classList.add("node-path");
-    setTimeout(drawPath,15,++counter,path);
+    setTimeout(drawPath,30,++counter,path);
   }
 }
