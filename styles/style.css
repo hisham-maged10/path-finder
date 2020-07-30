@@ -3,7 +3,7 @@
   margin:0 auto;
 }
 .node{
-  border:1px solid black;
+  border:1px solid rgba(0,190,218,0.75);
   width:40px;
   height:40px;
   box-sizing:border-box;
@@ -17,6 +17,7 @@
 
 .node-wall, .node-wall-hover{
   background-color:black;
+  border:0;
 }
 .node-start{
   background-color:blue;
@@ -76,6 +77,7 @@
 .node-check{
   /* background-color:cyan; */
   background-color: rgba(0,190,218,0.75);
+  border:1px solid white;
   animation-name:check ;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
@@ -83,6 +85,7 @@
 
 .node-backtrack{
   animation-name:backtrack;
+  border:1px solid white;
   animation-duration:1s;
   animation-timing-function: ease-in-out;
 }
@@ -102,6 +105,7 @@
 
 .node-current{
   background-color: rgba(50, 168, 82,0.75);
+  border:1px solid white;
   animation-name:fadein;
   animation-duration:1s;
   animation-timing-function: ease-out;
