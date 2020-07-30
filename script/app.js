@@ -1,6 +1,7 @@
 document.querySelector("#dfs").addEventListener("click",executeDFS);
 document.querySelector("#bfs").addEventListener("click",executeBFS);
 document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
+document.querySelector("#astar").addEventListener("click",executeAstar);
 document.querySelector("#clear").addEventListener("click",clearGrid);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 let status = 0;
@@ -43,6 +44,37 @@ function executeBFS(){
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
   setTimeout(bfs,0,nodes,startNode,endNode,q,parentMap,choices);
 
+}
+
+function executeAstar(){
+  if(!nodes || !startNode || !endNode){
+    console.log("Invalid input!");
+    return;
+  }
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "astar";
+  let parentMap = new Map();
+  let distanceMap = new Map();
+  let hMap = new Map();
+  let processed = new Set();
+  let minHeap = [];
+  let choices = [[-1,0],[1,0],[0,1],[0,-1]];
+  let curr = startNode;
+  minHeap.push(curr);
+  let h = 0;
+  for(let i = 0 ; i < nodes.length ; ++i){
+    for(let j = 0 ; j < nodes[i].length ; ++j){
+      distanceMap.set(nodes[i][j],Infinity);
+      h = Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col);
+      hMap.set(nodes[i][j],h);
+    }
+  }
+  distanceMap.set(curr, 0);
+  parentMap.set(curr, null);
+  setTimeout(astar,0,nodes,startNode,endNode,parentMap,distanceMap,hMap,processed,minHeap,choices);
 }
 
 function executeDijkstra(){

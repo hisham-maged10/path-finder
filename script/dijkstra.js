@@ -57,5 +57,4 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
     return;
   }
   setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
-// 15,8 13,8 14,7 14,9
 }

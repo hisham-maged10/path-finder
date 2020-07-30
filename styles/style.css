@@ -95,7 +95,7 @@
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
   /* animation-iteration-count: 2; */
-  animation-delay: 0.3s;
+  /* animation-delay: 0.3s; */
 }
 
 .node-check-rt{
@@ -129,14 +129,14 @@
     /* background-color: rgba(0,217,159,0.75); */
     background-color: #ffd400 /*rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */;
     /* background-color: rgba(255, 255, 255,0.75); */
-    opacity: 0.5;
+    opacity: 1;
     border-radius: 100%;
     border:0;
   }
   to {
     transform: scale(0.8);
-    background-color: rgba(0,217,159,0.75);
-    opacity: 1;
+    /* background-color: rgba(0,217,159,0.75); */
+    opacity: 0.5;
     border-radius: 100%;
     /* border-radius: 0%; */
   }
