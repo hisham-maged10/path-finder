@@ -10,10 +10,10 @@ function bfs(grid, start, end, q, parentMap, choices)
       if(curr.isWall){
         continue;
       }
-      curr.divReference.classList.add("node-check");
-      // curr.divReference.classList.add("node-current");
+      curr.divReference.classList.add("node-current");
       let div = curr.divReference;
-      setTimeout(()=> div.classList.remove("node-current"),30);
+      setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
+      // curr.divReference.classList.add("node-check");
       if(curr === end){
         console.log("Found it!");
         console.log(end);

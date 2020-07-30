@@ -4,8 +4,8 @@
 }
 .node{
   border:1px solid rgba(0,190,218,0.75);
-  width:40px;
-  height:40px;
+  width:30px;
+  height:30px;
   box-sizing:border-box;
   display:inline-block;
   vertical-align: top;
@@ -15,9 +15,28 @@
   background-color:red;
 } */
 
-.node-wall, .node-wall-hover{
-  background-color:black;
+.node-wall{
+  background-color:#1e2431;
   border:0;
+  animation-name:wall;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
+.node-wall-hover{
+  background-color:#1e2431;
+  border:0;
+}
+
+@keyframes wall {
+  from {
+    transform:scale(.3);
+  }
+
+  to {
+    transform: scale(1);
+  }
+
 }
 .node-start{
   background-color:blue;
@@ -25,51 +44,43 @@
 .node-end{
   background-color:green;
 }
-@keyframes fadein {
-  from {
-    transform: scale(0);
-    background-color: rgba(255, 255, 255,0.75);
-    opacity: 0;
-    border-radius: 100%;
-    border:0;
-  }
-  to {
-    transform: scale(1);
-    background-color: rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */
-    opacity: 1;
-    /* border-radius: 0%; */
-  }
-}
 
 @keyframes check{
   0%  {
     transform: scale(.3) rotate(30);
-    background-color: rgba(50, 168, 82,0.75);
+    /* background-color: #ffd400 /*rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */; */
+    /* background-color: #f5a124;/*rgba(50, 168, 82,0.75);*/ */
+    background-color: rgba(50,168,117,0.75);
+    /* background-color: rgba(0,190,218,0.75); */
     opacity: 0.75;
     border-radius: 100%;
     border:0;
   }
 
   25% {
+    transform: rotate(60);
     opacity:0.5;
-    background-color: rgba(50,168,117,0.75);
   }
 
   50%  {
     opacity:0.25;
-    background-color rgba(17,104,217,0.75);
+    /* background-color: rgba(0,217,159,0.75); */
+    transform: rotate(90);
   }
 
   75%  {
     opacity:0.50;
-    transform:scale(1.2) rotate(180);
+    transform:scale(3.0) rotate(180);
     background-color: rgba(0,217,159,0.75);
+    /* background-color rgba(17,104,217,0.75); */
     border:0;
   }
 
   100%  {
     opacity:1;
     transform: scale(1.0) rotate(360);
+    border:0;
+    border-radius:75%;
     background-color: rgba(0,190,218,0.75);
   }
 }
@@ -77,15 +88,18 @@
 .node-check{
   /* background-color:cyan; */
   background-color: rgba(0,190,218,0.75);
-  border:1px solid white;
+  border:1px solid rgba(207,221,239,0.65);
   animation-name:check ;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
+  animation-iteration-count: 3;
+  animation-delay: 0.3s;
 }
 
 .node-backtrack{
   animation-name:backtrack;
-  border:1px solid white;
+  border:1px solid rgba(207,221,239,0.65);
+  /* border:1px solid rgba(17,104,217,0.75); */
   animation-duration:1s;
   animation-timing-function: ease-in-out;
 }
@@ -102,17 +116,35 @@
   background-color: rgba(0,190,218,0.75);
   }
 }
+@keyframes fadein {
+  from {
+    transform: scale(0.3);
+    /* background-color: rgba(0,217,159,0.75); */
+    background-color: #ffd400 /*rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */;
+    /* background-color: rgba(255, 255, 255,0.75); */
+    opacity: 0.5;
+    border-radius: 100%;
+    border:0;
+  }
+  to {
+    transform: scale(0.8);
+    background-color: rgba(0,217,159,0.75);
+    opacity: 1;
+    border-radius: 100%;
+    /* border-radius: 0%; */
+  }
+}
 
 .node-current{
-  background-color: rgba(50, 168, 82,0.75);
-  border:1px solid white;
-  animation-name:fadein;
+  background-color: #ffd400; /*rgba(50, 168, 82,0.75);*/
+  border:1px solid rgba(17,104,217,0.75);
+  animation-name: fadein;
   animation-duration:1s;
   animation-timing-function: ease-out;
 }
 
 .node-path{
-  background-color:red;
+  background-color:#ffd400;
   border:0;
 }
 

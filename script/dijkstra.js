@@ -13,11 +13,14 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
     let div = curr.divReference;
     if(processed.has(curr)){
       // div.classList.add("node-backtrack");
-      setTimeout(dijkstra,5,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
+      setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
       return;
     }
-    div.classList.add("node-current");
-    setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check");},500);
+    curr.divReference.classList.add("node-current");
+    // let div = curr.divReference;
+    setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
+    // div.classList.add("node-current");
+    // setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check");},500);
     processed.add(curr);
     if(curr === end){
       console.log("FOUND IT");
@@ -53,6 +56,6 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
     console.log("Not FOUND!");
     return;
   }
-  setTimeout(dijkstra,5,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
+  setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
 // 15,8 13,8 14,7 14,9
 }

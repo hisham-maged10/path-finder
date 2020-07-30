@@ -1,14 +1,20 @@
-
 document.querySelector("#dfs").addEventListener("click",executeDFS);
 document.querySelector("#bfs").addEventListener("click",executeBFS);
 document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
+document.querySelector("#clear").addEventListener("click",clearGrid);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
-
+let status = 0;
+let running = "";
 function executeDFS(){
   if(!nodes || !startNode || !endNode){
     console.log("one of the inputs is empty");
     return;
   }
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "dfs";
   let s = [];
   let parentMap = new Map();
   s.push(startNode);
@@ -23,6 +29,11 @@ function executeBFS(){
     console.log("Empty input");
     return;
   }
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "bfs";
   let curr = null;
   let q = [];
   q.push(startNode);
@@ -40,7 +51,11 @@ function executeDijkstra(){
     console.log("Empty input!");
     return;
   }
-
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "dijkstra";
   let curr = startNode;
   let distanceMap = new Map();
   let processed = new Set();
@@ -64,4 +79,26 @@ function executeDrawPath(parentMap,endNode){
   console.log("Entered here")
   let path = getPath(parentMap,endNode);
   setTimeout(drawPath,0,0,path);
+}
+
+function clearGrid(){
+  for(let i = 0 ; i < nodes.length ; ++i){
+    for(let j = 0 ; j < nodes[i].length ; ++j){
+      nodes[i][j].divReference.className = "node";
+      if(nodes[i][j].isStart){
+        nodes[i][j].divReference.classList.add("node-start");
+      }
+      if(nodes[i][j].isEnd){
+        nodes[i][j].divReference.classList.add("node-end");
+      }
+      if(nodes[i][j].isWall){
+        nodes[i][j].divReference.classList.add("node-wall");
+      }
+      if(nodes[i][j].weight){
+        nodes[i][j].divReference.classList.add(`node-strong-${nodes[i][j].weight}`);
+      }
+    }
+  }
+  status = 0;
+  running = "";
 }

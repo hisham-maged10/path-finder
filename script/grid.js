@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded",generateGrid);
-const NODE_SIZE = 40;
+const NODE_SIZE = 30;
 const nodes = [];
 let startNode = null;
 let endNode = null;
 let grid = null;
 let mouseDown = false;
 function generateGrid(){
-  let cols = Math.floor(window.innerWidth / NODE_SIZE);
-  console.log()
+  let cols = Math.floor(window.innerWidth / NODE_SIZE) - 1;
   let rows = Math.floor(window.innerHeight / NODE_SIZE);
   grid = document.createElement("div");
   grid.id = "grid";
@@ -29,19 +28,37 @@ function generateGrid(){
   }
 
   grid.appendChild(fragment);
+  console.log(grid);
 
-  let mouseDownClbk = () => {
+  let mouseDownClbk = (e) => {
+    e.preventDefault();
+    if(e.target === grid)
+    {
+      return;
+    }
     mouseDown = true;
     // grid.removeEventListener("mouseout",divOut);
   }
-  let mouseUpClbk = () =>{
+  let mouseUpClbk = (e) =>{
+    e.preventDefault();
+    console.log(e);
     mouseDown = false;
     grid.addEventListener("mouseout",divOut);
   }
   let mouseMoveClbk = (e) =>{
+    e.preventDefault();
+    if(e.target === grid)
+    {
+      return;
+    }
     if(mouseDown){
       let row = e.target.dataset["row"];
       let col = e.target.dataset["col"];
+      if(e.which === 2){
+        e.target.classList.remove("node-wall");
+        nodes[row][col].isWall = false;
+        return;
+      }
       if(nodes[row][col].isStart || nodes[row][col].isEnd || nodes[row][col].isWall){
         return;
       }
@@ -71,6 +88,10 @@ function generateGrid(){
 
 function divClicked(e){
   e.preventDefault();
+    if(e.target === grid)
+    {
+      return;
+    }
   let i = e.target.dataset["row"];
   let j = e.target.dataset["col"];
   if(!startNode){
@@ -87,6 +108,10 @@ function divClicked(e){
 
 function divHover(e){
   e.preventDefault();
+    if(e.target === grid)
+    {
+      return;
+    }
   if(startNode && endNode)
   {
     e.target.classList.add("node-wall-hover");
@@ -100,6 +125,10 @@ function divHover(e){
 
 function divOut(e){
   e.preventDefault();
+    if(e.target === grid)
+    {
+      return;
+    }
   if(startNode && endNode )
   {
     console.log("should be removed!");
