@@ -14,3 +14,12 @@ function drawPath(counter,path){
     setTimeout(drawPath,45,++counter,path);
   }
 }
+
+function drawPathRT(path){
+  let counter = 0;
+  while(counter !== path.length){
+    const curr = path[counter];
+    curr.divReference.classList.add("node-path");
+    ++counter;
+  }
+}

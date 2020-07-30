@@ -29,12 +29,24 @@ function generateGrid(){
 
   grid.appendChild(fragment);
   console.log(grid);
+  let prev = null;
+  let prevEnd = null;
 
   let mouseDownClbk = (e) => {
     e.preventDefault();
     if(e.target === grid)
     {
       return;
+    }
+    if(e.target.classList.contains("node-start")){
+      let row = e.target.dataset["row"];
+      let col = e.target.dataset["col"];
+      prev = nodes[row][col];
+    }
+    if(e.target.classList.contains("node-end")){
+      let row = e.target.dataset["row"];
+      let col = e.target.dataset["col"];
+      prevEnd = nodes[row][col];
     }
     mouseDown = true;
     // grid.removeEventListener("mouseout",divOut);
@@ -43,6 +55,8 @@ function generateGrid(){
     e.preventDefault();
     console.log(e);
     mouseDown = false;
+    prev = null;
+    prevEnd = null;
     grid.addEventListener("mouseout",divOut);
   }
   let mouseMoveClbk = (e) =>{
@@ -59,7 +73,37 @@ function generateGrid(){
         nodes[row][col].isWall = false;
         return;
       }
+      if(prev){
+        prev.divReference.classList.remove("node-start");
+        prev.isStart = false;
+        nodes[row][col].isStart = true;
+        nodes[row][col].divReference.classList.add("node-start");
+        startNode = nodes[row][col];
+        prev = nodes[row][col];
+        console.log(status);
+        if(status === 1){
+          clearGrid(1);
+          bfsRT(nodes,startNode, endNode);
+        }
+        return;
+      }
+
+      if(prevEnd){
+        prevEnd.divReference.classList.remove("node-end");
+        prevEnd.isEnd = false;
+        nodes[row][col].isEnd = true;
+        nodes[row][col].divReference.classList.add("node-end");
+        endNode = nodes[row][col];
+        prevEnd = nodes[row][col];
+        console.log(status);
+        if(status === 1){
+          clearGrid(1);
+          bfsRT(nodes,startNode, endNode);
+        }
+        return;
+      }
       if(nodes[row][col].isStart || nodes[row][col].isEnd || nodes[row][col].isWall){
+
         return;
       }
       if(e.shiftKey){

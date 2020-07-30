@@ -81,7 +81,7 @@ function executeDrawPath(parentMap,endNode){
   setTimeout(drawPath,0,0,path);
 }
 
-function clearGrid(){
+function clearGrid(statusVal = 0){
   for(let i = 0 ; i < nodes.length ; ++i){
     for(let j = 0 ; j < nodes[i].length ; ++j){
       nodes[i][j].divReference.className = "node";
@@ -99,6 +99,6 @@ function clearGrid(){
       }
     }
   }
-  status = 0;
+  status = statusVal;
   running = "";
 }

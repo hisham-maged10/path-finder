@@ -4,6 +4,7 @@ function bfs(grid, start, end, q, parentMap, choices)
   let curr = null;
   if(q.length){
     size = q.length;
+      console.log(q.length);
     for(let i = 0 ; i < size ; ++i)
     {
       curr = q.shift();
@@ -39,4 +40,43 @@ function bfs(grid, start, end, q, parentMap, choices)
     return;
   }
   setTimeout(bfs,30,nodes,startNode,endNode,q,parentMap,choices);
+}
+
+function bfsRT(grid, start, end)
+{
+  // console.log("entered here");
+  // console.log(start);
+  // console.log(start.divReference);
+  if(!grid || !start || !end){
+    console.log("empty input!");
+    return;
+  }
+  let curr = start;
+  let q = [];
+  let parentMap = new Map();
+  parentMap.set(curr,null);
+  q.push(curr);
+  let choices = [[-1,0],[1,0],[0,1],[0,-1]];
+  let size = 0;
+  while(q.length){
+    size = q.length;
+    for(let i = 0 ; i < size ; ++i){
+      curr = q.shift();
+      curr.divReference.classList.add("node-check-rt")
+      if(curr === end){
+        path = getPath(parentMap,curr);
+        drawPathRT(path);
+        return;
+      }
+      for(let j = 0 ; j < choices.length ; ++j){
+        let row = curr.row + choices[j][0];
+        let col = curr.col + choices[j][1];
+        if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
+          q.push(grid[row][col]);
+          parentMap.set(grid[row][col],curr);
+        }
+      }
+
+    }
+  }
 }

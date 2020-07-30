@@ -40,9 +40,11 @@
 }
 .node-start{
   background-color:blue;
+  border: 4px solid black !important;
 }
 .node-end{
   background-color:green;
+  border: 4px solid black !important;
 }
 
 @keyframes check{
@@ -92,10 +94,15 @@
   animation-name:check ;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
-  animation-iteration-count: 3;
+  /* animation-iteration-count: 2; */
   animation-delay: 0.3s;
 }
 
+.node-check-rt{
+  /* background-color:cyan; */
+  background-color: rgba(0,190,218,0.75);
+  border:1px solid rgba(207,221,239,0.65);
+}
 .node-backtrack{
   animation-name:backtrack;
   border:1px solid rgba(207,221,239,0.65);
