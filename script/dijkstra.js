@@ -12,7 +12,7 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
     // debugger;
     let div = curr.divReference;
     if(processed.has(curr)){
-      // div.classList.add("node-backtrack");
+      div.classList.add("node-backtrack");
       setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
       return;
     }

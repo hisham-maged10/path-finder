@@ -155,6 +155,10 @@
   border:0;
 }
 
+.node-intersection{
+  background-color: red !important;
+}
+
 .node-child{
   background-color:purple;
 }
