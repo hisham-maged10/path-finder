@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded",generateGrid);
-const NODE_SIZE = 30;
+const NODE_SIZE = 28;
 const nodes = [];
 let startNode = null;
 let endNode = null;

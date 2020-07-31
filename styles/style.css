@@ -4,16 +4,13 @@
 }
 .node{
   border:1px solid rgba(0,190,218,0.75);
-  width:30px;
-  height:30px;
+  width:28px;
+  height:28px;
   box-sizing:border-box;
   display:inline-block;
   vertical-align: top;
 }
 
-/* .node:hover{
-  background-color:red;
-} */
 
 .node-wall{
   background-color:#1e2431;
@@ -38,75 +35,82 @@
   }
 
 }
+.node-start:before{
+  content : "S";
+  text-align:center;
+  font-weight:bold;
+  color:black;
+  vertical-align: middle;
+  position:relative;
+  top:1px;
+}
 .node-start{
-  background-color:blue;
+  text-align:center;
+  font-weight:bolder;
   border: 4px solid black !important;
 }
+.node-end:before{
+  content : "E";
+  text-align:center;
+  font-weight:bold;
+  color:black;
+  position:relative;
+  vertical-align: middle;
+  left:5px;
+}
 .node-end{
-  background-color:green;
   border: 4px solid black !important;
 }
 
 @keyframes check{
   0%  {
     transform: scale(.3) rotate(30);
-    /* background-color: #ffd400 /*rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */; */
-    /* background-color: #f5a124;/*rgba(50, 168, 82,0.75);*/ */
-    background-color: rgba(50,168,117,0.75);
-    /* background-color: rgba(0,190,218,0.75); */
+    background-color rgba(17,104,217,0.75);
     opacity: 0.75;
-    border-radius: 100%;
     border:0;
   }
 
   25% {
     transform: rotate(60);
-    opacity:0.5;
+    opacity:0.90;
   }
 
   50%  {
-    opacity:0.25;
-    /* background-color: rgba(0,217,159,0.75); */
+    opacity:1;
+    transform:scale(1.2) rotate(180);
+    background-color: rgba(0,190,218,0.75);
     transform: rotate(90);
   }
 
   75%  {
-    opacity:0.50;
-    transform:scale(3.0) rotate(180);
-    background-color: rgba(0,217,159,0.75);
-    /* background-color rgba(17,104,217,0.75); */
+    background-color:rgba(17,104,217,0.75);
     border:0;
   }
 
   100%  {
-    opacity:1;
     transform: scale(1.0) rotate(360);
     border:0;
-    border-radius:75%;
     background-color: rgba(0,190,218,0.75);
   }
 }
 
 .node-check{
-  /* background-color:cyan; */
   background-color: rgba(0,190,218,0.75);
   border:1px solid rgba(207,221,239,0.65);
-  animation-name:check ;
+  /* animation-name:check;
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
-  /* animation-iteration-count: 2; */
-  /* animation-delay: 0.3s; */
+  animation-iteration-count: 2; */
+  animation: check 1s ease-in-out 0s, pulse 1s ease-in-out 30s 3;
 }
 
 .node-check-rt{
-  /* background-color:cyan; */
   background-color: rgba(0,190,218,0.75);
   border:1px solid rgba(207,221,239,0.65);
 }
 .node-backtrack{
   animation-name:backtrack;
   border:1px solid rgba(207,221,239,0.65);
-  /* border:1px solid rgba(17,104,217,0.75); */
   animation-duration:1s;
   animation-timing-function: ease-in-out;
 }
@@ -125,38 +129,67 @@
 }
 @keyframes fadein {
   from {
-    transform: scale(0.3);
-    /* background-color: rgba(0,217,159,0.75); */
-    background-color: #ffd400 /*rgba(50, 168, 82,0.75);/*rgba(0,0,66,0.75); */;
-    /* background-color: rgba(255, 255, 255,0.75); */
+    transform: scale(1);
+    background-color: #ffd400;
     opacity: 1;
     border-radius: 100%;
     border:0;
   }
   to {
-    transform: scale(0.8);
-    /* background-color: rgba(0,217,159,0.75); */
-    opacity: 0.5;
+    transform: scale(0.4);
+    background-color: rgba(17,104,217,0.75);
+    opacity: 0.75;
     border-radius: 100%;
-    /* border-radius: 0%; */
+  }
+}
+
+@keyframes pulse{
+  0% {
+    background-color: rgba(0,190,218,0.75);
+  }
+  50% {
+    background-color: rgba(17,104,217,0.75);
+    /* background-color: #eba400; */
+  }
+  100% {
+    background-color: rgba(0,190,218,0.75);
   }
 }
 
 .node-current{
-  background-color: #ffd400; /*rgba(50, 168, 82,0.75);*/
-  border:1px solid rgba(17,104,217,0.75);
+  border:1px solid rgba(207,221,239,0.65);
+  background-color : rgba(17,104,217,1);
   animation-name: fadein;
-  animation-duration:1s;
-  animation-timing-function: ease-out;
+  opacity:0.75;
+  animation-duration:0.3s;
+  animation-timing-function: ease-in;
 }
 
 .node-path{
-  background-color:#ffd400;
+  background-color:#ffd400 ;
+  animation-name:path-pulse;
+  animation-duration:1s;
+  animation-timing-function: ease-in-out;
+  animation-delay: 10s;
+  animation-iteration-count: 10;
   border:0;
 }
 
+@keyframes path-pulse{
+  0% {
+    background-color: #ffd400;
+  }
+  50% {
+  /* background-color : rgba(17,104,217,1); */
+  /* background-color: rgba(0,190,218,0.75); */
+    background-color: #eba400;
+  }
+  100% {
+    background-color: #ffd400;
+  }
+}
 .node-intersection{
-  background-color: red !important;
+  background-color: #5f5852 !important;
 }
 
 .node-child{
