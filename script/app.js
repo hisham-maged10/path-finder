@@ -2,7 +2,7 @@ document.querySelector("#dfs").addEventListener("click",executeDFS);
 document.querySelector("#bfs").addEventListener("click",executeBFS);
 document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
 document.querySelector("#astar").addEventListener("click",executeAstar);
-document.querySelector("#bidirectional").addEventListener("click",executeBidrectional);
+document.querySelector("#bidirectional-astar").addEventListener("click",executeBidrectional);
 document.querySelector("#clear").addEventListener("click",clearGrid);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 let status = 0;
@@ -150,40 +150,8 @@ function executeBidrectional(){
   forwardMinHeap.push(forwardCurr);
   backwardMinHeap.push(backwardCurr);
 
-  // let sParentMap = new Map();
-  // let eParentMap = new Map();
-  // let sMinHeap = [];
-  // let eMinHeap = [];
-  // let sProcessed = new Set();
-  // let eProcessed = new Set();
-  // let sDistanceMap = new Map();
-  // let eDistanceMap = new Map();
-  // let sHMap = new Map();
-  // let eHMap = new Map();
-  // let sCurr = startNode;
-  // let eCurr = endNode;
-  // let choices = [[-1,0],[1,0],[0,-1],[0,1]]
-  // sMinHeap.push(sCurr);
-  // eMinHeap.push(eCurr);
-  // let sH = 0;
-  // let eH = 0;
-  // for(let i = 0 ; i < nodes.length ; ++i){
-  //   for(let j = 0 ; j < nodes[i].length ; ++j){
-  //     eDistanceMap.set(nodes[i][j],Infinity);
-  //     sDistanceMap.set(nodes[i][j],Infinity);
-  //     sH = Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col);
-  //     sHMap.set(nodes[i][j],sH);
-  //     eH = Math.abs(nodes[i][j].row - startNode.row) + Math.abs(nodes[i][j].col - startNode.col);
-  //     eHMap.set(nodes[i][j],eH);
-  //   }
-  // }
-  // eDistanceMap.set(eCurr, 0);
-  // sDistanceMap.set(sCurr, 0);
-  // eParentMap.set(eCurr, null);
-  // sParentMap.set(sCurr, null);
   setTimeout(bidirectional,10,nodes, startNode, endNode, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
- // setTimeout(bidirectional,0,nodes, startNode, endNode,sParentMap,eParentMap,sMinHeap,eMinHeap,sProcessed,eProcessed,sDistanceMap,eDistanceMap,sHMap,eHMap,choices,sCurr,eCurr)
 }
 
 function executeDrawPath(parentMap,endNode){
