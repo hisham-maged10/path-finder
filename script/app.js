@@ -109,6 +109,8 @@ function executeDijkstra(){
 }
 
 function executeBidrectional(){
+  bidirectionalRT(nodes,startNode,endNode);
+  return;
   if(!nodes || !startNode || !endNode)
   {
     console.log("Empty input!");
@@ -151,7 +153,7 @@ function executeBidrectional(){
   sDistanceMap.set(sCurr, 0);
   eParentMap.set(eCurr, null);
   sParentMap.set(sCurr, null);
- setTimeout(bidirectional,0,nodes, startNode, endNode,sParentMap,eParentMap,sMinHeap,eMinHeap,sProcessed,eProcessed,sDistanceMap,eDistanceMap,sHMap,eHMap,choices)
+ setTimeout(bidirectional,0,nodes, startNode, endNode,sParentMap,eParentMap,sMinHeap,eMinHeap,sProcessed,eProcessed,sDistanceMap,eDistanceMap,sHMap,eHMap,choices,sCurr,eCurr)
 }
 
 function executeDrawPath(parentMap,endNode){
