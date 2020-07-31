@@ -109,8 +109,8 @@ function executeDijkstra(){
 }
 
 function executeBidrectional(){
-  bidirectionalRT(nodes,startNode,endNode);
-  return;
+  // bidirectionalRT(nodes,startNode,endNode);
+  // return;
   if(!nodes || !startNode || !endNode)
   {
     console.log("Empty input!");
@@ -122,38 +122,68 @@ function executeBidrectional(){
   status = 1;
   running = "bidirectional";
 
-  let sParentMap = new Map();
-  let eParentMap = new Map();
-  let sMinHeap = [];
-  let eMinHeap = [];
-  let sProcessed = new Set();
-  let eProcessed = new Set();
-  let sDistanceMap = new Map();
-  let eDistanceMap = new Map();
-  let sHMap = new Map();
-  let eHMap = new Map();
-  let sCurr = startNode;
-  let eCurr = endNode;
-  let choices = [[-1,0],[1,0],[0,-1],[0,1]]
-  sMinHeap.push(sCurr);
-  eMinHeap.push(eCurr);
-  let sH = 0;
-  let eH = 0;
+  let forwardDistanceMap = new Map();
+  let backwardDistanceMap = new Map();
+  let forwardProcessed = new Set();
+  let backwardProcessed = new Set();
+  let forwardHeuristic = new Map();
+  let backwardHeuristic = new Map();
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardMinHeap = [];
+  let backwardMinHeap = [];
+  let forwardCurr = startNode;
+  let backwardCurr = endNode;
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
   for(let i = 0 ; i < nodes.length ; ++i){
     for(let j = 0 ; j < nodes[i].length ; ++j){
-      eDistanceMap.set(nodes[i][j],Infinity);
-      sDistanceMap.set(nodes[i][j],Infinity);
-      sH = Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col);
-      sHMap.set(nodes[i][j],sH);
-      eH = Math.abs(nodes[i][j].row - startNode.row) + Math.abs(nodes[i][j].col - startNode.col);
-      eHMap.set(nodes[i][j],eH);
+      forwardDistanceMap.set(nodes[i][j],Infinity);
+      backwardDistanceMap.set(nodes[i][j],Infinity);
+      forwardHeuristic.set(nodes[i][j], Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col));
+      backwardHeuristic.set(nodes[i][j], Math.abs(nodes[i][j].row - startNode.row) + Math.abs(nodes[i][j].col - startNode.col));
     }
   }
-  eDistanceMap.set(eCurr, 0);
-  sDistanceMap.set(sCurr, 0);
-  eParentMap.set(eCurr, null);
-  sParentMap.set(sCurr, null);
- setTimeout(bidirectional,0,nodes, startNode, endNode,sParentMap,eParentMap,sMinHeap,eMinHeap,sProcessed,eProcessed,sDistanceMap,eDistanceMap,sHMap,eHMap,choices,sCurr,eCurr)
+  forwardDistanceMap.set(forwardCurr,0);
+  backwardDistanceMap.set(backwardCurr,0);
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardMinHeap.push(forwardCurr);
+  backwardMinHeap.push(backwardCurr);
+
+  // let sParentMap = new Map();
+  // let eParentMap = new Map();
+  // let sMinHeap = [];
+  // let eMinHeap = [];
+  // let sProcessed = new Set();
+  // let eProcessed = new Set();
+  // let sDistanceMap = new Map();
+  // let eDistanceMap = new Map();
+  // let sHMap = new Map();
+  // let eHMap = new Map();
+  // let sCurr = startNode;
+  // let eCurr = endNode;
+  // let choices = [[-1,0],[1,0],[0,-1],[0,1]]
+  // sMinHeap.push(sCurr);
+  // eMinHeap.push(eCurr);
+  // let sH = 0;
+  // let eH = 0;
+  // for(let i = 0 ; i < nodes.length ; ++i){
+  //   for(let j = 0 ; j < nodes[i].length ; ++j){
+  //     eDistanceMap.set(nodes[i][j],Infinity);
+  //     sDistanceMap.set(nodes[i][j],Infinity);
+  //     sH = Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col);
+  //     sHMap.set(nodes[i][j],sH);
+  //     eH = Math.abs(nodes[i][j].row - startNode.row) + Math.abs(nodes[i][j].col - startNode.col);
+  //     eHMap.set(nodes[i][j],eH);
+  //   }
+  // }
+  // eDistanceMap.set(eCurr, 0);
+  // sDistanceMap.set(sCurr, 0);
+  // eParentMap.set(eCurr, null);
+  // sParentMap.set(sCurr, null);
+  setTimeout(bidirectional,10,nodes, startNode, endNode, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
+forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
+ // setTimeout(bidirectional,0,nodes, startNode, endNode,sParentMap,eParentMap,sMinHeap,eMinHeap,sProcessed,eProcessed,sDistanceMap,eDistanceMap,sHMap,eHMap,choices,sCurr,eCurr)
 }
 
 function executeDrawPath(parentMap,endNode){
