@@ -4,6 +4,7 @@ document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
 document.querySelector("#astar").addEventListener("click",executeAstar);
 document.querySelector("#bidirectional-astar").addEventListener("click",executeBidrectionalAStar);
 document.querySelector("#bidirectional-bfs").addEventListener("click",executeBidrectionalBFS);
+document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",executeBidrectionalGreedyBFS);
 document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
 document.querySelector("#clear").addEventListener("click",clearGrid);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
@@ -183,6 +184,40 @@ function executeBidrectionalBFS(){
 setTimeout(bidirectionalBFS,0,nodes, startNode, endNode, forwardQueue, backwardQueue, forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices);
 }
 
+function executeBidrectionalGreedyBFS(){
+  if(!nodes || !startNode || !endNode)
+  {
+    console.log("Empty input!");
+    return;
+  }
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "bidirectional-greedy-bfs";
+
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardMinHeap = [];
+  let backwardMinHeap = [];
+  let forwardCurr = startNode;
+  let backwardCurr = endNode;
+  let forwardHeuristic = new Map();
+  let backwardHeuristic = new Map();
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
+  for(let i = 0 ; i < nodes.length ; ++i){
+    for(let j = 0 ; j < nodes[i].length ; ++j){
+      forwardHeuristic.set(nodes[i][j], Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col));
+      backwardHeuristic.set(nodes[i][j], Math.abs(nodes[i][j].row - startNode.row) + Math.abs(nodes[i][j].col - startNode.col));
+    }
+  }
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardMinHeap.push(forwardCurr);
+  backwardMinHeap.push(backwardCurr);
+
+setTimeout(bidirectionalGreedyBFS,0,nodes, startNode, endNode, forwardMinHeap, backwardMinHeap,forwardParentMap, backwardParentMap, forwardHeuristic, backwardHeuristic, forwardCurr, backwardCurr, choices);
+}
 function executeGreedyBestFirst(){
   if(!nodes || !startNode || !endNode)
   {

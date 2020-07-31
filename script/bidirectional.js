@@ -36,6 +36,24 @@ setTimeout(bidirectionalBFS,10,grid, start, end, forwardQueue, backwardQueue,for
     return;
   }
 }
+function bidirectionalGreedyBFS(grid, start, end, forwardMinHeap, backwardMinHeap, forwardParentMap, backwardParentMap, forwardHeuristic, backwardHeuristic, forwardCurr, backwardCurr, choices)
+{
+  if(forwardMinHeap.length || backwardMinHeap.length){
+    if(checkIntersectionBFS(forwardParentMap, backwardCurr, backwardParentMap)){ return;}
+    if(checkIntersectionBFS(backwardParentMap, forwardCurr, forwardParentMap)){ return;}
+    if(forwardMinHeap.length){
+      forwardCurr = doGreedyBFS(forwardMinHeap, forwardHeuristic,choices,grid,forwardParentMap);
+    }
+    if(backwardMinHeap.length){
+      backwardCurr = doGreedyBFS(backwardMinHeap,backwardHeuristic,choices,grid,backwardParentMap);
+    }
+
+setTimeout(bidirectionalGreedyBFS,10,grid, start, end, forwardMinHeap, backwardMinHeap,forwardParentMap, backwardParentMap, forwardHeuristic, backwardHeuristic, forwardCurr, backwardCurr, choices);
+  }else{
+    console.log("not found");
+    return;
+  }
+}
 function doBFS(q,choices,grid,parentMap){
   let curr = q.shift();
   let div = curr.divReference;
@@ -46,6 +64,22 @@ function doBFS(q,choices,grid,parentMap){
     let col = curr.col + choices[i][1];
     if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
       q.push(grid[row][col]);
+      parentMap.set(grid[row][col], curr);
+    }
+  }
+  return curr;
+}
+function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap){
+  minHeap.sort((a,b) => heuristicMap.get(b) - heuristicMap.get(a));
+  let curr = minHeap.pop();
+  let div = curr.divReference;
+  div.classList.add("node-current");
+  setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")},1000);
+  for(let i = 0 ; i < choices.length ; ++i){
+    let row = curr.row + choices[i][0];
+    let col = curr.col + choices[i][1];
+    if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
+      minHeap.push(grid[row][col]);
       parentMap.set(grid[row][col], curr);
     }
   }
