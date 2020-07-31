@@ -1,27 +1,56 @@
-function bidirectional(grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
+function bidirectionalAStar(grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices){
 
   if(forwardMinHeap.length || backwardMinHeap.length){
-    if(checkIntersection(forwardProcessed, backwardCurr, forwardParentMap, backwardParentMap)){ return;}
-    if(checkIntersection(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
+    if(checkIntersectionAStar(forwardProcessed, backwardCurr, forwardParentMap, backwardParentMap)){ return;}
+    if(checkIntersectionAStar(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
     if(forwardMinHeap.length){
       forwardCurr = doAStar(forwardMinHeap,forwardDistanceMap,forwardHeuristic,forwardProcessed,choices,grid,forwardParentMap);
-      console.log(forwardCurr);
     }
     if(backwardMinHeap.length){
       backwardCurr = doAStar(backwardMinHeap,backwardDistanceMap,backwardHeuristic,backwardProcessed,choices,grid,backwardParentMap);
-      console.log(backwardCurr);
     }
 
-setTimeout(bidirectional,10,grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
+setTimeout(bidirectionalAStar,10,grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
   }else{
     console.log("not found");
     return;
   }
-  console.log("finished");
 }
+function bidirectionalBFS(grid, start, end, forwardQueue, backwardQueue, forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices){
 
+  if(forwardQueue.length || backwardQueue.length){
+    if(checkIntersectionBFS(forwardParentMap, backwardCurr, backwardParentMap)){ return;}
+    if(checkIntersectionBFS(backwardParentMap, forwardCurr, forwardParentMap)){ return;}
+    if(forwardQueue.length){
+      forwardCurr = doBFS(forwardQueue,choices,grid,forwardParentMap);
+    }
+    if(backwardQueue.length){
+      backwardCurr = doBFS(backwardQueue,choices,grid,backwardParentMap);
+    }
+
+setTimeout(bidirectionalBFS,10,grid, start, end, forwardQueue, backwardQueue,forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices);
+  }else{
+    console.log("not found");
+    return;
+  }
+}
+function doBFS(q,choices,grid,parentMap){
+  let curr = q.shift();
+  let div = curr.divReference;
+  div.classList.add("node-current");
+  setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")},1000);
+  for(let i = 0 ; i < choices.length ; ++i){
+    let row = curr.row + choices[i][0];
+    let col = curr.col + choices[i][1];
+    if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
+      q.push(grid[row][col]);
+      parentMap.set(grid[row][col], curr);
+    }
+  }
+  return curr;
+}
 function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap){
   minHeap.sort((a,b) => (distanceMap.get(b) + heursticMap.get(b)) - (distanceMap.get(a) + heursticMap.get(a)));
   let curr = minHeap.pop();
@@ -49,7 +78,18 @@ function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, pa
 
   return curr;
 }
-function checkIntersection(processed, curr, currentParentMap, otherParentMap){
+function checkIntersectionBFS(parentMap, curr, otherParentMap){
+  if(parentMap.has(curr)){
+    console.log("intersection");
+    curr.divReference.classList.add("node-intersection");
+    executeDrawPath(parentMap, curr);
+    executeDrawPath(otherParentMap, curr);
+    return true;
+  }
+  return false;
+}
+
+function checkIntersectionAStar(processed, curr, currentParentMap, otherParentMap){
   if(processed.has(curr)){
     console.log("intersection");
     curr.divReference.classList.add("node-intersection");
@@ -59,7 +99,6 @@ function checkIntersection(processed, curr, currentParentMap, otherParentMap){
   }
   return false;
 }
-
 function bidirectionalRT(grid, start, end){
   if(!grid || !start || !end){
     console.log("invalid input");

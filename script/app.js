@@ -2,7 +2,9 @@ document.querySelector("#dfs").addEventListener("click",executeDFS);
 document.querySelector("#bfs").addEventListener("click",executeBFS);
 document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
 document.querySelector("#astar").addEventListener("click",executeAstar);
-document.querySelector("#bidirectional-astar").addEventListener("click",executeBidrectional);
+document.querySelector("#bidirectional-astar").addEventListener("click",executeBidrectionalAStar);
+document.querySelector("#bidirectional-bfs").addEventListener("click",executeBidrectionalBFS);
+document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
 document.querySelector("#clear").addEventListener("click",clearGrid);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 let status = 0;
@@ -108,7 +110,7 @@ function executeDijkstra(){
   setTimeout(dijkstra,0,nodes,startNode,endNode,distanceMap,processed,choices,parentMap,minHeap)
 }
 
-function executeBidrectional(){
+function executeBidrectionalAStar(){
   // bidirectionalRT(nodes,startNode,endNode);
   // return;
   if(!nodes || !startNode || !endNode)
@@ -120,7 +122,7 @@ function executeBidrectional(){
     clearGrid();
   }
   status = 1;
-  running = "bidirectional";
+  running = "bidirectional-astar";
 
   let forwardDistanceMap = new Map();
   let backwardDistanceMap = new Map();
@@ -150,8 +152,62 @@ function executeBidrectional(){
   forwardMinHeap.push(forwardCurr);
   backwardMinHeap.push(backwardCurr);
 
-  setTimeout(bidirectional,10,nodes, startNode, endNode, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
+  setTimeout(bidirectionalAStar,0,nodes, startNode, endNode, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
+}
+
+function executeBidrectionalBFS(){
+  if(!nodes || !startNode || !endNode)
+  {
+    console.log("Empty input!");
+    return;
+  }
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "bidirectional-bfs";
+
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardQueue = [];
+  let backwardQueue = [];
+  let forwardCurr = startNode;
+  let backwardCurr = endNode;
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardQueue.push(forwardCurr);
+  backwardQueue.push(backwardCurr);
+
+setTimeout(bidirectionalBFS,0,nodes, startNode, endNode, forwardQueue, backwardQueue, forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices);
+}
+
+function executeGreedyBestFirst(){
+  if(!nodes || !startNode || !endNode)
+  {
+    console.log("Empty input!");
+    return;
+  }
+  if(status === 1){
+    clearGrid();
+  }
+  status = 1;
+  running = "greedy-best";
+  let heuristicMap = new Map();
+  let minHeap = [];
+  let parentMap = new Map();
+  let curr = startNode;
+  let choices = [[-1,0],[1,0],[0,1],[0,-1]];
+  for(let i = 0 ; i < nodes.length ; ++i){
+    for(let j = 0 ; j < nodes[i].length ; ++j){
+      heuristicMap.set(nodes[i][j], Math.abs(nodes[i][j].row - endNode.row) + Math.abs(nodes[i][j].col - endNode.col));
+    }
+  }
+  parentMap.set(curr, null);
+  minHeap.push(curr);
+
+setTimeout(greedyBest,0,nodes, startNode, endNode, heuristicMap,minHeap,parentMap,choices);
 }
 
 function executeDrawPath(parentMap,endNode){
