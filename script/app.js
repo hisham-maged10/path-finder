@@ -7,6 +7,7 @@ document.querySelector("#bidirectional-bfs").addEventListener("click",executeBid
 document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",executeBidrectionalGreedyBFS);
 document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
 document.querySelector("#clear").addEventListener("click",clearGrid);
+document.querySelector("#maze").addEventListener("click",() => generateMazePrim(nodes));
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 let status = 0;
 let running = "";
