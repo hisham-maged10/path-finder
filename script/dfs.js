@@ -42,7 +42,7 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
   setTimeout(dfs,10,grid,start,end,s,parentMap,choices,curr);
 }
 
-function dfs(grid, start, end){
+function dfsRT(grid, start, end){
   let curr = start;
   let s = [];
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];

@@ -35,6 +35,28 @@
   }
 
 }
+@keyframes passage {
+  0% {
+    background-color: #1e2431;
+    transform:scale(1);
+    border:0;
+  }
+
+  50% {
+    transform: scale(0.3);
+    border:0;
+  }
+  100% {
+    transform: scale(1);
+    border:1px solid rgba(0,190,218,0.75);
+  }
+
+}
+.node-passage{
+  animation-name: passage;
+  animation-duration: 0.4s;
+  animation-timing-function: ease-in-out;
+}
 .node-start:before{
   content : "S";
   text-align:center;
@@ -167,11 +189,15 @@
 
 .node-path{
   background-color:#ffd400 ;
+  animation: wall 0.3s ease-in-out 0s, path-pulse 1s ease-in-out 10s 10;
+  /* animation-name:wall;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
   animation-name:path-pulse;
   animation-duration:1s;
   animation-timing-function: ease-in-out;
   animation-delay: 10s;
-  animation-iteration-count: 10;
+  animation-iteration-count: 10; */
   border:0;
 }
 
@@ -189,7 +215,8 @@
   }
 }
 .node-intersection{
-  background-color: #5f5852 !important;
+  background-color: #eba400 !important;
+  /* background-color: #5f5852 !important; */
 }
 
 .node-child{

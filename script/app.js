@@ -7,10 +7,30 @@ document.querySelector("#bidirectional-bfs").addEventListener("click",executeBid
 document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",executeBidrectionalGreedyBFS);
 document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
 document.querySelector("#clear").addEventListener("click",clearGrid);
-document.querySelector("#maze").addEventListener("click",() => generateMazePrim(nodes));
+document.querySelector("#maze").addEventListener("click",() => generateMazePrimRT(nodes));
+document.querySelector("#maze-animation").addEventListener("click",executePrimMazeGeneration);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 let status = 0;
 let running = "";
+function executePrimMazeGeneration(){
+    clearGrid();
+    for(let i = 0 ; i < nodes.length ; ++i){
+      for(let j = 0 ; j < nodes[i].length ; ++j){
+        nodes[i][j].divReference.classList.add("node-wall");
+        nodes[i][j].isWall = true;
+      }
+    }
+    // let choices = [[-1,0],[0,1],[1,0],[0,-1]];
+    let choices = [[-2,0],[0,2],[2,0],[0,-2]];
+    // picking random cell and making it a passage
+    let cell = nodes[Math.floor(Math.random() * nodes.length)][Math.floor(Math.random() * nodes[0].length)];
+    cell.isWall = false;
+    cell.divReference.classList.remove("node-wall");
+    // compute frontier cells of picked random cell
+    let frontierList = [];
+    computeFrontierCells(nodes,cell,frontierList,choices);
+    setTimeout(generateMazePrim,0,nodes,frontierList,choices);
+}
 function executeDFS(){
   if(!nodes || !startNode || !endNode){
     console.log("one of the inputs is empty");

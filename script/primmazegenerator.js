@@ -1,4 +1,24 @@
-function generateMazePrim(grid){
+function generateMazePrim(grid,frontierList,choices){
+      // console.log(frontierList);
+    if(frontierList.length){
+      let rnd = Math.floor(Math.random() * frontierList.length);
+      let batch = frontierList[rnd];
+      frontierList.splice(rnd,1);
+      let inBetween = batch[0];
+      let frontier = batch[1];
+      if(frontier.isWall){
+        frontier.isWall = false;
+        frontier.divReference.classList.remove("node-wall");
+        frontier.divReference.classList.add("node-passage");
+        inBetween.isWall = false;
+        inBetween.divReference.classList.remove("node-wall");
+        inBetween.divReference.classList.add("node-passage");
+        computeFrontierCells(grid,frontier,frontierList,choices);
+      }
+      setTimeout(generateMazePrim,0,grid,frontierList,choices);
+    }
+}
+function generateMazePrimRT(grid){
     clearGrid();
     for(let i = 0 ; i < grid.length ; ++i){
       for(let j = 0 ; j < grid[i].length ; ++j){
