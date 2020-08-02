@@ -1,7 +1,25 @@
+*{
+  overflow-x: hidden;
+}
+.buttons-container{
+  display:flex;
+  flex-direction: row;
+  /* flex-wrap: nowrap; */
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  /* height:5vh; */
+}
 #grid{
   padding:0;
   margin:0 auto;
+  box-sizing: border-box;
+  height:96vh;
+  width:99vw;
 }
+
+/* .row{
+  width:100%;
+} */
 .node{
   border:1px solid rgba(0,190,218,0.75);
   width:28px;

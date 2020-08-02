@@ -1,5 +1,27 @@
-function recursiveBacktracker(grid){
-  clearGrid();
+function recursiveBacktracker(grid, s, choices){
+  if(s.length){
+    let batch = s[s.length - 1];
+    let frontier = batch[1];
+    let inBetween = batch[0];
+    frontier.isWall = false;
+    frontier.divReference.classList.remove("node-wall");
+    frontier.divReference.classList.add("node-passage");
+    inBetween.isWall = false;
+    inBetween.divReference.classList.remove("node-wall");
+    inBetween.divReference.classList.add("node-passage");
+    neighbours = computeFrontierCellsRBT(grid,frontier,choices);
+    if(neighbours.length){
+      rnd = Math.floor(Math.random () * neighbours.length);
+      s.push(neighbours[rnd]);
+    }else{
+      s.pop();
+    }
+    setTimeout(recursiveBacktracker,0,grid,s,choices);
+  }
+}
+
+function recursiveBacktrackerRT(grid){
+  clearGrid(0,false);
   for(let i = 0 ; i < grid.length ; ++i){
     for(let j = 0 ; j < grid[i].length ; ++j){
       grid[i][j].isWall = true;

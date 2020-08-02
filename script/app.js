@@ -9,28 +9,49 @@ document.querySelector("#greedybest").addEventListener("click",executeGreedyBest
 document.querySelector("#clear").addEventListener("click",clearGrid);
 document.querySelector("#maze").addEventListener("click",() => generateMazePrimRT(nodes));
 document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => recursiveBacktracker(nodes));
+document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",executeRecursiveBacktrackerMazeGeneration);
 document.querySelector("#maze-animation").addEventListener("click",executePrimMazeGeneration);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
 let status = 0;
 let running = "";
 function executePrimMazeGeneration(){
-    clearGrid();
-    for(let i = 0 ; i < nodes.length ; ++i){
-      for(let j = 0 ; j < nodes[i].length ; ++j){
-        nodes[i][j].divReference.classList.add("node-wall");
-        nodes[i][j].isWall = true;
-      }
+  clearGrid(0,false);
+  for(let i = 0 ; i < nodes.length ; ++i){
+    for(let j = 0 ; j < nodes[i].length ; ++j){
+      nodes[i][j].divReference.classList.add("node-wall");
+      nodes[i][j].isWall = true;
     }
-    // let choices = [[-1,0],[0,1],[1,0],[0,-1]];
-    let choices = [[-2,0],[0,2],[2,0],[0,-2]];
-    // picking random cell and making it a passage
-    let cell = nodes[Math.floor(Math.random() * nodes.length)][Math.floor(Math.random() * nodes[0].length)];
-    cell.isWall = false;
-    cell.divReference.classList.remove("node-wall");
-    // compute frontier cells of picked random cell
-    let frontierList = [];
-    computeFrontierCells(nodes,cell,frontierList,choices);
-    setTimeout(generateMazePrim,0,nodes,frontierList,choices);
+  }
+  // let choices = [[-1,0],[0,1],[1,0],[0,-1]];
+  let choices = [[-2,0],[0,2],[2,0],[0,-2]];
+  // picking random cell and making it a passage
+  let cell = nodes[Math.floor(Math.random() * nodes.length)][Math.floor(Math.random() * nodes[0].length)];
+  cell.isWall = false;
+  cell.divReference.classList.remove("node-wall");
+  // compute frontier cells of picked random cell
+  let frontierList = [];
+  computeFrontierCells(nodes,cell,frontierList,choices);
+  setTimeout(generateMazePrim,0,nodes,frontierList,choices);
+}
+
+function executeRecursiveBacktrackerMazeGeneration(){
+  clearGrid(0,false);
+  for(let i = 0 ; i < nodes.length ; ++i){
+    for(let j = 0 ; j < nodes[i].length ; ++j){
+      nodes[i][j].divReference.classList.add("node-wall");
+      nodes[i][j].isWall = true;
+    }
+  }
+
+  let cell = nodes[Math.floor(Math.random() * nodes.length)][Math.floor(Math.random() * nodes[0].length)];
+  let s = [];
+  cell.isWall = false;
+  cell.divReference.classList.remove("node-wall");
+  let choices = [[-2,0],[0,2],[2,0],[0,-2]];
+  let neighbours = computeFrontierCellsRBT(nodes,cell,choices);
+  let rnd = Math.floor(Math.random () * neighbours.length);
+  s.push(neighbours[rnd]);
+  setTimeout(recursiveBacktracker,0,nodes,s,choices);
 }
 function executeDFS(){
   if(!nodes || !startNode || !endNode){
@@ -273,24 +294,45 @@ function executeDrawPath(parentMap,endNode){
   setTimeout(drawPath,0,0,path);
 }
 
-function clearGrid(statusVal = 0){
+function clearGrid(statusVal = 0, keep = true){
+  if(!keep){
+    grid.addEventListener("click",divClicked);
+  }
   for(let i = 0 ; i < nodes.length ; ++i){
     for(let j = 0 ; j < nodes[i].length ; ++j){
       nodes[i][j].divReference.className = "node";
-      if(nodes[i][j].isStart){
-        nodes[i][j].divReference.classList.add("node-start");
-      }
-      if(nodes[i][j].isEnd){
-        nodes[i][j].divReference.classList.add("node-end");
-      }
-      if(nodes[i][j].isWall){
-        nodes[i][j].divReference.classList.add("node-wall");
-      }
-      if(nodes[i][j].weight){
-        nodes[i][j].divReference.classList.add(`node-strong-${nodes[i][j].weight}`);
+        if(nodes[i][j].isStart){
+          if(keep){
+            nodes[i][j].divReference.classList.add("node-start");
+          }else{
+            startNode = null;
+            nodes[i][j].isStart = false;
+          }
+        }
+        if(nodes[i][j].isEnd){
+          if(keep){
+            nodes[i][j].divReference.classList.add("node-end");
+          }else{
+            endNode = null;
+            nodes[i][j].isEnd = false;
+          }
+        }
+        if(nodes[i][j].isWall){
+          if(keep){
+            nodes[i][j].divReference.classList.add("node-wall");
+          }else{
+            nodes[i][j].isWall = false;
+          }
+        }
+        if(nodes[i][j].weight){
+          if(keep){
+            nodes[i][j].divReference.classList.add(`node-strong-${nodes[i][j].weight}`);
+          }else{
+            nodes[i][j].weight = 0;
+          }
+        }
       }
     }
-  }
   status = statusVal;
   running = "";
 }

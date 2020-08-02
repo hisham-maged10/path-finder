@@ -1,5 +1,4 @@
 function generateMazePrim(grid,frontierList,choices){
-      // console.log(frontierList);
     if(frontierList.length){
       let rnd = Math.floor(Math.random() * frontierList.length);
       let batch = frontierList[rnd];
@@ -15,11 +14,11 @@ function generateMazePrim(grid,frontierList,choices){
         inBetween.divReference.classList.add("node-passage");
         computeFrontierCells(grid,frontier,frontierList,choices);
       }
-      setTimeout(generateMazePrim,1500,grid,frontierList,choices);
+      setTimeout(generateMazePrim,0,grid,frontierList,choices);
     }
 }
 function generateMazePrimRT(grid){
-    clearGrid();
+    clearGrid(0,false);
     for(let i = 0 ; i < grid.length ; ++i){
       for(let j = 0 ; j < grid[i].length ; ++j){
         grid[i][j].divReference.classList.add("node-wall");

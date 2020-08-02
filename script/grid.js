@@ -6,16 +6,22 @@ let endNode = null;
 let grid = null;
 let mouseDown = false;
 function generateGrid(){
-  let cols = Math.floor(window.innerWidth / NODE_SIZE) - 1;
-  let rows = Math.floor(window.innerHeight / NODE_SIZE);
+  // let cols = Math.floor(window.innerWidth / NODE_SIZE) - 1;
+  // let rows = Math.floor(window.innerHeight / NODE_SIZE);
   grid = document.createElement("div");
   grid.id = "grid";
   document.body.appendChild(grid);
+  // console.log("grid width", grid.offsetWidth);
+  // console.log("grid height", grid.offsetHeight);
+  let rows = Math.floor(grid.offsetHeight / NODE_SIZE);
+  let cols = Math.floor(grid.offsetWidth / NODE_SIZE);
   grid.addEventListener("click",divClicked);
   grid.addEventListener("mouseover",divHover);
   grid.addEventListener("mouseout",divOut);
   let fragment = document.createDocumentFragment();
   outer: for(let i = 0 ; i < rows ; ++i){
+    let rowDiv = document.createElement("div");
+    rowDiv.className = "row";
      nodes.push([]);
      inner: for(let j = 0 ; j < cols ; ++j){
        let div = document.createElement("div");
@@ -23,8 +29,9 @@ function generateGrid(){
        div.dataset["row"] = i;
        div.dataset["col"] = j;
        nodes[i][j] = new Node(div,i,j);
-       fragment.appendChild(div);
+       rowDiv.appendChild(div);
      }
+     fragment.appendChild(rowDiv);
   }
 
   grid.appendChild(fragment);
@@ -34,7 +41,7 @@ function generateGrid(){
 
   let mouseDownClbk = (e) => {
     e.preventDefault();
-    if(e.target === grid)
+    if(e.target === grid || e.target.classList.contains("row"))
     {
       return;
     }
@@ -61,19 +68,19 @@ function generateGrid(){
   }
   let mouseMoveClbk = (e) =>{
     e.preventDefault();
-    if(e.target === grid)
+    let row = e.target.dataset["row"];
+    let col = e.target.dataset["col"];
+    if(e.target === grid || e.target.classList.contains("row"))
     {
       return;
     }
     if(mouseDown){
-      let row = e.target.dataset["row"];
-      let col = e.target.dataset["col"];
       if(e.which === 2){
         e.target.classList.remove("node-wall");
         nodes[row][col].isWall = false;
         return;
       }
-      if(prev){
+      if(prev && !nodes[row][col].isWall){
         prev.divReference.classList.remove("node-start");
         prev.isStart = false;
         nodes[row][col].isStart = true;
@@ -88,7 +95,7 @@ function generateGrid(){
         return;
       }
 
-      if(prevEnd){
+      if(prevEnd && !nodes[row][col].isWall){
         prevEnd.divReference.classList.remove("node-end");
         prevEnd.isEnd = false;
         nodes[row][col].isEnd = true;
@@ -132,7 +139,7 @@ function generateGrid(){
 
 function divClicked(e){
   e.preventDefault();
-    if(e.target === grid)
+    if(e.target === grid || e.target.classList.contains("row"))
     {
       return;
     }
@@ -152,7 +159,7 @@ function divClicked(e){
 
 function divHover(e){
   e.preventDefault();
-    if(e.target === grid)
+    if(e.target === grid || e.target.classList.contains("row") || e.target.classList.contains("node-wall"))
     {
       return;
     }
@@ -169,7 +176,7 @@ function divHover(e){
 
 function divOut(e){
   e.preventDefault();
-    if(e.target === grid)
+    if(e.target === grid || e.target.classList.contains("row"))
     {
       return;
     }
