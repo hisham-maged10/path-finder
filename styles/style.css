@@ -9,9 +9,16 @@
   box-sizing: border-box;
   /* height:5vh; */
 }
+button{
+  box-sizing: border-box;;
+}
+/* body{
+  margin:0;
+} */
 #grid{
   padding:0;
   margin:0 auto;
+  /* margin:0; */
   box-sizing: border-box;
   height:96vh;
   width:99vw;
@@ -20,6 +27,9 @@
 /* .row{
   width:100%;
 } */
+.row{
+  vertical-align: top;
+}
 .node{
   border:1px solid rgba(0,190,218,0.75);
   width:28px;
@@ -252,4 +262,9 @@
 }
 .node-strong-4{
   border:5px solid black;
+}
+@media screen and (max-width: 1800px){
+  body{
+    margin:0;
+  }
 }

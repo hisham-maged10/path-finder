@@ -13,7 +13,13 @@ function generateGrid(){
   document.body.appendChild(grid);
   // console.log("grid width", grid.offsetWidth);
   // console.log("grid height", grid.offsetHeight);
-  let rows = Math.floor(grid.offsetHeight / NODE_SIZE);
+  const height = window.innerHeight|| document.documentElement.clientHeight||
+document.body.clientHeight;
+  const width = window.innerWdith || document.documentElement.clientWidth ||
+document.body.clientWidth;
+  let rows = height > width ? Math.floor(grid.offsetHeight / NODE_SIZE) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ NODE_SIZE);
+  // console.log(rows);
+  // let rows = Math.floor(grid.offsetHeight / NODE_SIZE);
   let cols = Math.floor(grid.offsetWidth / NODE_SIZE);
   grid.addEventListener("click",divClicked);
   grid.addEventListener("mouseover",divHover);

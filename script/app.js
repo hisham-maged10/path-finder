@@ -8,7 +8,7 @@ document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",exe
 document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
 document.querySelector("#clear").addEventListener("click",clearGrid);
 document.querySelector("#maze").addEventListener("click",() => generateMazePrimRT(nodes));
-document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => recursiveBacktracker(nodes));
+document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => recursiveBacktrackerRT(nodes));
 document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",executeRecursiveBacktrackerMazeGeneration);
 document.querySelector("#maze-animation").addEventListener("click",executePrimMazeGeneration);
 // document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
