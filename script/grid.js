@@ -17,6 +17,9 @@ function generateGrid(){
 document.body.clientHeight;
   const width = window.innerWdith || document.documentElement.clientWidth ||
 document.body.clientWidth;
+  // if(width > height){
+  //   document.documentElement.style.cssText = "overflow-y:hidden";
+  // }
   let rows = height > width ? Math.floor(grid.offsetHeight / NODE_SIZE) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ NODE_SIZE);
   // console.log(rows);
   // let rows = Math.floor(grid.offsetHeight / NODE_SIZE);
