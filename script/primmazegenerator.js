@@ -15,7 +15,7 @@ function generateMazePrim(grid,frontierList,choices){
         inBetween.divReference.classList.add("node-passage");
         computeFrontierCells(grid,frontier,frontierList,choices);
       }
-      setTimeout(generateMazePrim,0,grid,frontierList,choices);
+      setTimeout(generateMazePrim,1500,grid,frontierList,choices);
     }
 }
 function generateMazePrimRT(grid){

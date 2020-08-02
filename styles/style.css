@@ -123,7 +123,7 @@
   animation-duration: 1s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: 2; */
-  animation: check 1s ease-in-out 0s, pulse 1s ease-in-out 30s 3;
+  animation: check 1s ease-in-out 0s, pulse 1s ease-in-out 14s 3;
 }
 
 .node-check-rt{
