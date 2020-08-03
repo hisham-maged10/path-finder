@@ -1,18 +1,62 @@
 document.addEventListener("DOMContentLoaded",generateGrid);
+document.querySelector("#size-slider").addEventListener("input", (e) => resizeGrid(e.target.value));
 const NODE_SIZE = 28;
-const nodes = [];
+let nodes = [];
 let startNode = null;
 let endNode = null;
 let grid = null;
 let mouseDown = false;
+const height = window.innerHeight|| document.documentElement.clientHeight||
+document.body.clientHeight;
+const width = window.innerWdith || document.documentElement.clientWidth ||
+document.body.clientWidth;
+function resizeGrid(size){
+  console.log("bla")
+  let rows = height > width ? Math.floor(grid.offsetHeight / size) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ size);
+  let cols = Math.floor(grid.offsetWidth / size);
+  let startRndRow = Math.floor(Math.random() * rows);
+  let startRndCol = Math.floor(Math.random() * cols);
+  let endRndRow = Math.floor(Math.random() * rows);
+  let endRndCol = Math.floor(Math.random() * cols);
+  while(endRndCol === startRndCol){
+   endRndCol = Math.floor(Math.random() * cols);
+  }
+  nodes = [];
+  let documentFragment = document.createDocumentFragment();
+  for(let i = 0 ; i < rows ; ++i){
+    let rowDiv = document.createElement("div");
+    rowDiv.className = "row";
+    nodes.push([]);
+    for(let j = 0 ; j < cols ; ++j){
+      let div = document.createElement("div");
+      div.classList.add("node");
+      div.dataset["row"] = i;
+      div.dataset["col"] = j;
+      div.style.width = `${size}px`;
+      div.style.height = `${size}px`;
+      nodes[i][j] = new Node(div,i,j);
+      if(i === startRndRow && j === startRndCol){
+       div.classList.add("node-start");
+       startNode = nodes[i][j];
+       nodes[i][j].isStart = true;
+      }
+      else if(i === endRndRow && j === endRndCol){
+       div.classList.add("node-end");
+       endNode = nodes[i][j];
+       nodes[i][j].isEnd = true;
+      }
+     rowDiv.appendChild(div);
+    }
+    documentFragment.appendChild(rowDiv);
+  }
+  grid.textContent = "";
+  grid.appendChild(documentFragment);
+
+}
 function generateGrid(){
   grid = document.createElement("div");
   grid.id = "grid";
   document.body.appendChild(grid);
-  const height = window.innerHeight|| document.documentElement.clientHeight||
-document.body.clientHeight;
-  const width = window.innerWdith || document.documentElement.clientWidth ||
-document.body.clientWidth;
   if(width > height){
     document.documentElement.style.cssText = "overflow-y:hidden";
   }
@@ -177,18 +221,20 @@ function divClicked(e){
   if(node.isStart || node.isEnd || node.isWall || node.weight !== 0){
     return;
   }
-  node.isWall = true;
-  e.target.classList.add("node-wall");
-  // if(!startNode){
-  //   e.target.classList.add("node-start");
-  //   nodes[i][j].isStart = true;
-  //   startNode = nodes[i][j];
-  // }else if(!nodes[i][j].isStart){
-  //   e.target.classList.add("node-end");
-  //   nodes[i][j].isEnd = true;
-  //   endNode = nodes[i][j];
-  //   grid.removeEventListener("click",divClicked);
-  // }
+  if(startNode && endNode){
+    node.isWall = true;
+    e.target.classList.add("node-wall");
+    return;
+  }else if(!startNode){
+    e.target.classList.add("node-start");
+    nodes[i][j].isStart = true;
+    startNode = nodes[i][j];
+  }else if(!nodes[i][j].isStart){
+    e.target.classList.add("node-end");
+    nodes[i][j].isEnd = true;
+    endNode = nodes[i][j];
+    grid.removeEventListener("click",divClicked);
+  }
 }
 
 function divHover(e){
