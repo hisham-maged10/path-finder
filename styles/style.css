@@ -32,8 +32,8 @@ button{
 }
 .node{
   border:1px solid rgba(0,190,218,0.75);
-  width:28px;
-  height:28px;
+  /* width:28px;
+  height:28px; */
   box-sizing:border-box;
   display:inline-block;
   vertical-align: top;
@@ -144,14 +144,59 @@ button{
   }
 }
 
+@keyframes check-backward{
+  0%  {
+    transform: scale(.3) rotate(30);
+    /* background-color: #7296c4FF; */
+  background-color: #05AC72;
+    /* background-color: #0AD48B; */
+    /* background-color: #056644; */
+    opacity: 0.75;
+    border:0;
+  }
+
+  25% {
+    transform: rotate(60);
+    opacity:0.90;
+  }
+
+  50%  {
+    opacity:1;
+    transform:scale(1.2) rotate(180);
+    /* background-color: #97B3D0FF; */
+    background-color: #13EBA2;
+    /* background-color: #0AD48B; */
+    transform: rotate(90);
+  }
+
+  75%  {
+  background-color: #05AC72;
+    /* background-color: #0AD48B; */
+    /* background-color: #056644; */
+    /* background-color: #7296c4FF; */
+    border:0;
+  }
+
+  100%  {
+    transform: scale(1.0) rotate(360);
+    border:0;
+    background-color: #13EBA2;
+    /* background-color: #97B3D0FF; */
+  }
+}
 .node-check{
   background-color: rgba(0,190,218,0.75);
   border:1px solid rgba(207,221,239,0.65);
-  /* animation-name:check;
-  animation-duration: 1s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: 2; */
   animation: check 1s ease-in-out 0s, pulse 1s ease-in-out 14s 3;
+}
+
+.node-check-backward{
+  /* background-color: #056644; */
+  /* background-color: #0AD48B; */
+  background-color: #13EBA2;
+  /* background-color: #97B3D0FF; */
+  border:1px solid rgba(207,221,239,0.65);
+  animation: check-backward 1s ease-in-out 0s, pulse-backward 1s ease-in-out 14s 3;
 }
 
 .node-check-rt{
@@ -193,6 +238,25 @@ button{
   }
 }
 
+@keyframes fadein-backward {
+  from {
+    transform: scale(1);
+    background-color: #ffd400;
+    opacity: 1;
+    border-radius: 100%;
+    border:0;
+  }
+  to {
+    transform: scale(0.4);
+    /* background-color : #ABD1C9FF; */
+    /* background-color: #7296c4FF; */
+  background-color: #05AC72;
+    /* background-color: #0AD48B; */
+    /* background-color: #056644; */
+    opacity: 0.75;
+    border-radius: 100%;
+  }
+}
 @keyframes pulse{
   0% {
     background-color: rgba(0,190,218,0.75);
@@ -206,6 +270,24 @@ button{
   }
 }
 
+@keyframes pulse-backward{
+  0% {
+    background-color: #13EBA2;
+    /* background-color: #97B3D0FF; */
+  }
+  50% {
+  background-color: #05AC72;
+    /* background-color: #0AD48B; */
+    /* background-color:#056644; */
+    /* background-color: #7296c4FF; */
+  }
+  100% {
+    background-color: #13EBA2;
+    /* background-color: #0AD48B; */
+    /* background-color: #97B3D0FF; */
+  }
+}
+
 .node-current{
   border:1px solid rgba(207,221,239,0.65);
   background-color : rgba(17,104,217,1);
@@ -214,18 +296,22 @@ button{
   animation-duration:0.3s;
   animation-timing-function: ease-in;
 }
+.node-current-backward{
+  border:1px solid rgba(207,221,239,0.65);
+  /* background-color: #7296c4FF; */
+  background-color: #05AC72;
+  /* background-color: #0AD48B; */
+  /* background-color: #056644; */
+  /* background-color : #ABD1C9FF; */
+  animation-name: fadein-backward;
+  opacity:0.75;
+  animation-duration:0.3s;
+  animation-timing-function: ease-in;
+}
 
 .node-path{
   background-color:#ffd400 ;
   animation: wall 0.3s ease-in-out 0s, path-pulse 1s ease-in-out 10s 10;
-  /* animation-name:wall;
-  animation-duration: 0.3s;
-  animation-timing-function: ease-in-out;
-  animation-name:path-pulse;
-  animation-duration:1s;
-  animation-timing-function: ease-in-out;
-  animation-delay: 10s;
-  animation-iteration-count: 10; */
   border:0;
 }
 
@@ -234,8 +320,6 @@ button{
     background-color: #ffd400;
   }
   50% {
-  /* background-color : rgba(17,104,217,1); */
-  /* background-color: rgba(0,190,218,0.75); */
     background-color: #eba400;
   }
   100% {
@@ -244,7 +328,6 @@ button{
 }
 .node-intersection{
   background-color: #eba400 !important;
-  /* background-color: #5f5852 !important; */
 }
 
 .node-child{

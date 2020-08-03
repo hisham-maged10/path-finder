@@ -8,7 +8,7 @@ forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCur
       forwardCurr = doAStar(forwardMinHeap,forwardDistanceMap,forwardHeuristic,forwardProcessed,choices,grid,forwardParentMap);
     }
     if(backwardMinHeap.length){
-      backwardCurr = doAStar(backwardMinHeap,backwardDistanceMap,backwardHeuristic,backwardProcessed,choices,grid,backwardParentMap);
+      backwardCurr = doAStar(backwardMinHeap,backwardDistanceMap,backwardHeuristic,backwardProcessed,choices,grid,backwardParentMap,"-backward");
     }
 
 setTimeout(bidirectionalAStar,10,grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
@@ -27,7 +27,7 @@ function bidirectionalBFS(grid, start, end, forwardQueue, backwardQueue, forward
       forwardCurr = doBFS(forwardQueue,choices,grid,forwardParentMap);
     }
     if(backwardQueue.length){
-      backwardCurr = doBFS(backwardQueue,choices,grid,backwardParentMap);
+      backwardCurr = doBFS(backwardQueue,choices,grid,backwardParentMap,"-backward");
     }
 
 setTimeout(bidirectionalBFS,10,grid, start, end, forwardQueue, backwardQueue,forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices);
@@ -45,7 +45,7 @@ function bidirectionalGreedyBFS(grid, start, end, forwardMinHeap, backwardMinHea
       forwardCurr = doGreedyBFS(forwardMinHeap, forwardHeuristic,choices,grid,forwardParentMap);
     }
     if(backwardMinHeap.length){
-      backwardCurr = doGreedyBFS(backwardMinHeap,backwardHeuristic,choices,grid,backwardParentMap);
+      backwardCurr = doGreedyBFS(backwardMinHeap,backwardHeuristic,choices,grid,backwardParentMap,"-backward");
     }
 
 setTimeout(bidirectionalGreedyBFS,10,grid, start, end, forwardMinHeap, backwardMinHeap,forwardParentMap, backwardParentMap, forwardHeuristic, backwardHeuristic, forwardCurr, backwardCurr, choices);
@@ -54,11 +54,11 @@ setTimeout(bidirectionalGreedyBFS,10,grid, start, end, forwardMinHeap, backwardM
     return;
   }
 }
-function doBFS(q,choices,grid,parentMap){
+function doBFS(q,choices,grid,parentMap,type=""){
   let curr = q.shift();
   let div = curr.divReference;
-  div.classList.add("node-current");
-  setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")},1000);
+  div.classList.add(`node-current${type}`);
+  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];
     let col = curr.col + choices[i][1];
@@ -69,12 +69,14 @@ function doBFS(q,choices,grid,parentMap){
   }
   return curr;
 }
-function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap){
+function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap,type=""){
   minHeap.sort((a,b) => heuristicMap.get(b) - heuristicMap.get(a));
   let curr = minHeap.pop();
   let div = curr.divReference;
-  div.classList.add("node-current");
-  setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")},1000);
+  div.classList.add(`node-current${type}`);
+  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  // div.classList.add("node-current");
+  // setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")},1000);
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];
     let col = curr.col + choices[i][1];
@@ -85,7 +87,7 @@ function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap){
   }
   return curr;
 }
-function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap){
+function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap,type=""){
   minHeap.sort((a,b) => (distanceMap.get(b) + heursticMap.get(b)) - (distanceMap.get(a) + heursticMap.get(a)));
   let curr = minHeap.pop();
   let div = curr.divReference;
@@ -93,8 +95,10 @@ function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, pa
     div.classList.add("node-backtrack");
     return curr;
   }
-  div.classList.add("node-current");
-  setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")});
+  div.classList.add(`node-current${type}`);
+  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  // div.classList.add("node-current");
+  // setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")});
   processed.add(curr);
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];

@@ -6,13 +6,9 @@ let endNode = null;
 let grid = null;
 let mouseDown = false;
 function generateGrid(){
-  // let cols = Math.floor(window.innerWidth / NODE_SIZE) - 1;
-  // let rows = Math.floor(window.innerHeight / NODE_SIZE);
   grid = document.createElement("div");
   grid.id = "grid";
   document.body.appendChild(grid);
-  // console.log("grid width", grid.offsetWidth);
-  // console.log("grid height", grid.offsetHeight);
   const height = window.innerHeight|| document.documentElement.clientHeight||
 document.body.clientHeight;
   const width = window.innerWdith || document.documentElement.clientWidth ||
@@ -21,8 +17,6 @@ document.body.clientWidth;
     document.documentElement.style.cssText = "overflow-y:hidden";
   }
   let rows = height > width ? Math.floor(grid.offsetHeight / NODE_SIZE) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ NODE_SIZE);
-  // console.log(rows);
-  // let rows = Math.floor(grid.offsetHeight / NODE_SIZE);
   let cols = Math.floor(grid.offsetWidth / NODE_SIZE);
   grid.addEventListener("click",divClicked);
   grid.addEventListener("mouseover",divHover);
@@ -37,6 +31,8 @@ document.body.clientWidth;
        div.className = "node";
        div.dataset["row"] = i;
        div.dataset["col"] = j;
+       div.style.width = `${NODE_SIZE}px`;
+       div.style.height = `${NODE_SIZE}px`;
        nodes[i][j] = new Node(div,i,j);
        rowDiv.appendChild(div);
      }
@@ -135,9 +131,6 @@ document.body.clientWidth;
         e.target.classList.add("node-wall")
         nodes[row][col].isWall = true;
       }
-      // console.log(e.target.classList.contains("node-wall"));
-      // console.log("moving");
-      // console.log(nodes[row][col])
     }
   }
 
