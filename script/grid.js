@@ -18,6 +18,13 @@ document.body.clientWidth;
   }
   let rows = height > width ? Math.floor(grid.offsetHeight / NODE_SIZE) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ NODE_SIZE);
   let cols = Math.floor(grid.offsetWidth / NODE_SIZE);
+  let startRndRow = Math.floor(Math.random() * rows);
+  let startRndCol = Math.floor(Math.random() * cols);
+  let endRndRow = Math.floor(Math.random() * rows);
+  let endRndCol = Math.floor(Math.random() * cols);
+  while(endRndCol === startRndCol){
+   endRndCol = Math.floor(Math.random() * cols);
+  }
   grid.addEventListener("click",divClicked);
   grid.addEventListener("mouseover",divHover);
   grid.addEventListener("mouseout",divOut);
@@ -34,6 +41,16 @@ document.body.clientWidth;
        div.style.width = `${NODE_SIZE}px`;
        div.style.height = `${NODE_SIZE}px`;
        nodes[i][j] = new Node(div,i,j);
+       if(i === startRndRow && j === startRndCol){
+         div.classList.add("node-start");
+         startNode = nodes[i][j];
+         nodes[i][j].isStart = true;
+       }
+       else if(i === endRndRow && j === endRndCol){
+         div.classList.add("node-end");
+         endNode = nodes[i][j];
+         nodes[i][j].isEnd = true;
+       }
        rowDiv.appendChild(div);
      }
      fragment.appendChild(rowDiv);
@@ -44,6 +61,10 @@ document.body.clientWidth;
   let prev = null;
   let prevEnd = null;
 
+  grid.oncontextmenu = function(e) {
+    e.preventDefault();
+    mouseDown = true;
+  }
   let mouseDownClbk = (e) => {
     e.preventDefault();
     if(e.target === grid || e.target.classList.contains("row"))
@@ -80,9 +101,17 @@ document.body.clientWidth;
       return;
     }
     if(mouseDown){
-      if(e.which === 2){
+      if(e.which === 3){
         e.target.classList.remove("node-wall");
         nodes[row][col].isWall = false;
+        if(e.shiftKey){
+          nodes[row][col].weight = 0;
+          e.target.classList.remove("node-strong-1")
+        }
+        if(e.altKey){
+          nodes[row][col].weight = 0;
+          e.target.classList.remove("node-strong-3")
+        }
         return;
       }
       if(prev && !nodes[row][col].isWall){
@@ -120,12 +149,9 @@ document.body.clientWidth;
       }
       if(e.shiftKey){
         e.target.classList.add("node-strong-1");
-        nodes[row][col].weight = 1;
-      }else if(e.altKey){
-        e.target.classList.add("node-strong-2");
         nodes[row][col].weight = 2;
-      }else if(e.metaKey){
-        e.target.classList.add("node-strong-3")
+      }else if(e.altKey){
+        e.target.classList.add("node-strong-3");
         nodes[row][col].weight = 3;
       }else{
         e.target.classList.add("node-wall")
@@ -141,27 +167,33 @@ document.body.clientWidth;
 
 function divClicked(e){
   e.preventDefault();
-    if(e.target === grid || e.target.classList.contains("row"))
-    {
-      return;
-    }
+  if(e.target === grid || e.target.classList.contains("row"))
+  {
+    return;
+  }
   let i = e.target.dataset["row"];
   let j = e.target.dataset["col"];
-  if(!startNode){
-    e.target.classList.add("node-start");
-    nodes[i][j].isStart = true;
-    startNode = nodes[i][j];
-  }else if(!nodes[i][j].isStart){
-    e.target.classList.add("node-end");
-    nodes[i][j].isEnd = true;
-    endNode = nodes[i][j];
-    grid.removeEventListener("click",divClicked);
+  let node = nodes[i][j];
+  if(node.isStart || node.isEnd || node.isWall || node.weight !== 0){
+    return;
   }
+  node.isWall = true;
+  e.target.classList.add("node-wall");
+  // if(!startNode){
+  //   e.target.classList.add("node-start");
+  //   nodes[i][j].isStart = true;
+  //   startNode = nodes[i][j];
+  // }else if(!nodes[i][j].isStart){
+  //   e.target.classList.add("node-end");
+  //   nodes[i][j].isEnd = true;
+  //   endNode = nodes[i][j];
+  //   grid.removeEventListener("click",divClicked);
+  // }
 }
 
 function divHover(e){
   e.preventDefault();
-    if(e.target === grid || e.target.classList.contains("row") || e.target.classList.contains("node-wall"))
+    if(e.target === grid || mouseDown || e.target.classList.contains("row") || e.target.classList.contains("node-wall") || e.target.classList.contains("node-start") || e.target.classList.contains("node-end"))
     {
       return;
     }
