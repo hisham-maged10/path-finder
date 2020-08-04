@@ -6,6 +6,14 @@
     <meta name="author" content="Hisham Maged"/>
     <meta name="description" content="Path finder project using different kind of graph algorithms"/>
     <title> Graph Pathfinder </title>
+    <link
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" type="text/css" href="styles/style.css"/>
     <script defer type="text/javascript" src="script/node.js"></script>
     <script defer type="text/javascript" src="script/heap.js"></script>
@@ -20,50 +28,160 @@
     <script defer type="text/javascript" src="script/primmazegenerator.js"></script>
     <script defer type="text/javascript" src="script/recursivebacktracker.js"></script>
     <script defer type="text/javascript" src="script/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/mdb.min.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="styles/mdb.min.css.map"/> -->
+    <script defer type="text/javascript" src="script/mdb.min.js"></script>
+    <!-- <script defer type="text/javascript" src="script/mdb.min.js.map"></script> -->
   </head>
 
   <body>
-    <div class="buttons-container">
-      <button id="dfs">
-        do DFS
-      </button>
-      <button id="bfs">
-        do BFS
-      </button>
-      <button id="dijkstra">
-        do dijkstra
-      </button>
-      <button id="astar">
-        do astar
-      </button>
-      <button id="greedybest">
-        do greedy best
-      </button>
-      <button id="bidirectional-astar">
-        do bidirectional swarm using A-star
-      </button>
-      <button id="bidirectional-bfs">
-        do bidirectional swarm using bfs
-      </button>
-      <button id="bidirectional-greedy-bfs">
-        do bidirectional swarm using greedy bfs
-      </button>
-      <button id="clear">
-        Clear
-      </button>
-      <button id="maze">
-        Generate Maze Realtime
-      </button>
-      <button id="maze-recursive-backtracker">
-        Generate Maze Realtime (recursive backtracker)
-      </button>
-      <button id="maze-animation">
-        Generate Maze with Animation
-      </button>
-      <button id="maze-animation-recursive-backtracker">
-        Generate Maze with Animation (Recursive backtracker)
-      </button>
-      <input type="range" id="size-slider" value="28" min="19" max="90"/>
-    </div>
-  </body>
+    <header>
+        <nav class="buttons-container navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+          <!-- Navbar brand -->
+          <a class="navbar-brand" >Graph search Visualization</a>
+          <!-- Toggle button -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon" id="breakpoint-toggler"></span>
+          </button>
+
+          <!-- Collapsible wrapper -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left links -->
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <!-- <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+              </li> -->
+              <!-- Navbar dropdown -->
+              <div class="btn-group shadow-5">
+                <button
+                  type="button"
+                  class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
+                  data-ripple-color="dark"
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Path Finding Algorithms
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" id="dfs">DFS</a></li>
+                  <li><a class="dropdown-item" id="bfs">BFS</a></li>
+                  <li><a class="dropdown-item" id="dijkstra">Dijkstra (UCS)</a></li>
+                  <li><a class="dropdown-item" id="bidirectional-bfs">Bidirectional BFS</a></li>
+                  <!-- <li><a class="dropdown-item" id="bidirectional-dijkstra">Bidirectional Dijkstra</a></li> -->
+                  <!-- <li><hr class="dropdown-divider" /></li> -->
+                  <li><a class="dropdown-item" id="astar">A* (Manhattan Distance)</a></li>
+                  <li><a class="dropdown-item" id="greedybest">Greedy Best-first (Manhattan Distance)</a></li>
+                  <li><a class="dropdown-item" id="bidirectional-astar">Bidirectional A*</a></li>
+                  <li><a class="dropdown-item" id="bidirectional-greedy-bfs">Bidirectional Greedy Best-first</a></li>
+                </ul>
+              </div>
+              <div class="btn-group shadow-0">
+                <button
+                  type="button"
+                  class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Maze Generation Algorithms
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" id="maze-recursive-backtracker">Recursive Backtracker (real-time)</a></li>
+                  <li><a class="dropdown-item" id="maze-prim">Prim's Algorithm (real-time)</a></li>
+                  <!-- <li><hr class="dropdown-divider" /></li> -->
+                  <li><a class="dropdown-item" id="maze-animation-recursive-backtracker">Animated Recurisve Backtracker</a></li>
+                  <li><a class="dropdown-item" id="maze-prim-animation">Animated Prim's Algorithm</a></li>
+                </ul>
+              </div>
+              <!-- <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Path finding Algorithms
+                </a>
+                <!-- Dropdown menu -->
+                <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">DFS</a></li>
+                  <li><a class="dropdown-item" href="#">BFS</a></li>
+                  <li><a class="dropdown-item" href="#">Dijkstra (UCS)</a></li>
+                  <li><a class="dropdown-item" href="#">A* (Manhattan Distance)</a></li>
+                  <li><a class="dropdown-item" href="#">Greedy Best-first (Manhattan Distance)</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                </ul> -->
+              <!-- </li>  -->
+              <li class="nav-item" >
+                <button
+                  disabled
+                  type="button"
+                  class="btn btn-outline-danger mr-2 ml-1 mt-2"
+                  data-ripple-color="light"
+                  id="visualize"
+                  >
+                    Visualize
+                </button>
+              </li>
+              <li class="nav-item">
+                <button id="clear-path" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                    Clear Path
+                </button>
+              </li>
+              <li class="nav-item">
+                <button id="clear" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                    Clear All
+                </button>
+                <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
+                  >Clear Walls</a
+                > -->
+              </li>
+            </ul>
+
+              <li class="nav-item">
+                <label class="text-warning" for="grid-size">  Grid Size: </label>
+                <input name="grid-size" type="range" class="form-range" id="size-slider" value="28" min="19" max="90"  />
+              </li>
+          </div>
+          <!-- Collapsible wrapper -->
+        </div>
+        <!-- Container wrapper -->
+        </nav>
+      </header>
+      <main>
+      </main>
+      <footer>
+        <div class="text-center p-3 bg-dark">
+    <a class="text-light">© 2020 Copyright: Hisham Maged</a>
+    <div>
+      <a class="btn btn-primary btn-floating" style="background-color: #0082ca;" href="https://www.linkedin.com/in/hishammaged10/" target="_blank" role="button"
+    ><i class="fab fa-linkedin-in"></i
+  ></a>
+  <a class="btn btn-primary btn-floating" style="background-color: #333333;" href="https://github.com/hisham-maged10" target="_blank" role="button"
+  ><i class="fab fa-github"></i
+></a>
+<a class="btn btn-primary btn-floating" style="background-color: #3b5998;" href="https://www.facebook.com/Hisham.maged2" target="_blank" role="button"
+  ><i class="fab fa-facebook-f"></i
+></a>
+</div>
+  </div>
+      </footer>
+ </body>
 </html>

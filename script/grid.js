@@ -25,7 +25,7 @@ function resizeGrid(size){
   let documentFragment = document.createDocumentFragment();
   for(let i = 0 ; i < rows ; ++i){
     let rowDiv = document.createElement("div");
-    rowDiv.className = "row";
+    rowDiv.className = "grid-row";
     nodes.push([]);
     for(let j = 0 ; j < cols ; ++j){
       let div = document.createElement("div");
@@ -56,9 +56,9 @@ function resizeGrid(size){
 function generateGrid(){
   grid = document.createElement("div");
   grid.id = "grid";
-  document.body.appendChild(grid);
+  document.querySelector("main").appendChild(grid);
   if(width > height){
-    document.documentElement.style.cssText = "overflow-y:hidden";
+    // document.documentElement.style.cssText = "overflow-y:hidden";
   }
   let rows = height > width ? Math.floor(grid.offsetHeight / NODE_SIZE) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ NODE_SIZE);
   let cols = Math.floor(grid.offsetWidth / NODE_SIZE);
@@ -75,7 +75,7 @@ function generateGrid(){
   let fragment = document.createDocumentFragment();
   outer: for(let i = 0 ; i < rows ; ++i){
     let rowDiv = document.createElement("div");
-    rowDiv.className = "row";
+    rowDiv.className = "grid-row";
      nodes.push([]);
      inner: for(let j = 0 ; j < cols ; ++j){
        let div = document.createElement("div");
@@ -109,9 +109,14 @@ function generateGrid(){
     e.preventDefault();
     mouseDown = true;
   }
+
+  grid.addEventListener("touchstart", touchHandler);
+  grid.addEventListener("touchmove", touchHandler);
+  grid.addEventListener("touchend", touchHandler);
+  grid.addEventListener("touchcancel", touchHandler);
   let mouseDownClbk = (e) => {
     e.preventDefault();
-    if(e.target === grid || e.target.classList.contains("row"))
+    if(e.target === grid || e.target.classList.contains("grid-row"))
     {
       return;
     }
@@ -140,7 +145,7 @@ function generateGrid(){
     e.preventDefault();
     let row = e.target.dataset["row"];
     let col = e.target.dataset["col"];
-    if(e.target === grid || e.target.classList.contains("row"))
+    if(e.target === grid || e.target.classList.contains("grid-row"))
     {
       return;
     }
@@ -166,9 +171,9 @@ function generateGrid(){
         startNode = nodes[row][col];
         prev = nodes[row][col];
         console.log(status);
-        if(status === 1){
+        if(running !== ""){
           clearGrid(1);
-          bfsRT(nodes,startNode, endNode);
+          visualize();
         }
         return;
       }
@@ -181,9 +186,9 @@ function generateGrid(){
         endNode = nodes[row][col];
         prevEnd = nodes[row][col];
         console.log(status);
-        if(status === 1){
+        if(running !== ""){
           clearGrid(1);
-          bfsRT(nodes,startNode, endNode);
+          visualize();
         }
         return;
       }
@@ -211,7 +216,7 @@ function generateGrid(){
 
 function divClicked(e){
   e.preventDefault();
-  if(e.target === grid || e.target.classList.contains("row"))
+  if(e.target === grid || e.target.classList.contains("grid-row"))
   {
     return;
   }
@@ -239,7 +244,7 @@ function divClicked(e){
 
 function divHover(e){
   e.preventDefault();
-    if(e.target === grid || mouseDown || e.target.classList.contains("row") || e.target.classList.contains("node-wall") || e.target.classList.contains("node-start") || e.target.classList.contains("node-end"))
+    if(e.target === grid || mouseDown || e.target.classList.contains("grid-row") || e.target.classList.contains("node-wall") || e.target.classList.contains("node-start") || e.target.classList.contains("node-end"))
     {
       return;
     }
@@ -256,7 +261,7 @@ function divHover(e){
 
 function divOut(e){
   e.preventDefault();
-    if(e.target === grid || e.target.classList.contains("row"))
+    if(e.target === grid || e.target.classList.contains("grid-row"))
     {
       return;
     }
@@ -270,4 +275,31 @@ function divOut(e){
   }else{
     e.target.classList.remove("node-start");
   }
+}
+
+function touchHandler(event)
+{
+    var touches = event.changedTouches,
+        first = touches[0],
+        type = "";
+    switch(event.type)
+    {
+        case "touchstart": type = "mousedown"; break;
+        case "touchmove":  type = "mousemove"; break;
+        case "touchend":   type = "mouseup";   break;
+        default:           return;
+    }
+
+    // initMouseEvent(type, canBubble, cancelable, view, clickCount,
+    //                screenX, screenY, clientX, clientY, ctrlKey,
+    //                altKey, shiftKey, metaKey, button, relatedTarget);
+
+    var simulatedEvent = document.createEvent("MouseEvent");
+    simulatedEvent.initMouseEvent(type, true, true, window, 1,
+                                  first.screenX, first.screenY,
+                                  first.clientX, first.clientY, false,
+                                  false, false, false, 0/*left*/, null);
+
+    first.target.dispatchEvent(simulatedEvent);
+    // event.preventDefault();
 }

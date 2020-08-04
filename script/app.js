@@ -1,21 +1,57 @@
-document.querySelector("#dfs").addEventListener("click",executeDFS);
-document.querySelector("#bfs").addEventListener("click",executeBFS);
-document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
-document.querySelector("#astar").addEventListener("click",executeAstar);
-document.querySelector("#bidirectional-astar").addEventListener("click",executeBidrectionalAStar);
-document.querySelector("#bidirectional-bfs").addEventListener("click",executeBidrectionalBFS);
-document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",executeBidrectionalGreedyBFS);
-document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
-document.querySelector("#clear").addEventListener("click",clearGrid);
-document.querySelector("#maze").addEventListener("click",() => generateMazePrimRT(nodes));
+// document.querySelector("#dfs").addEventListener("click",executeDFS);
+// document.querySelector("#bfs").addEventListener("click",executeBFS);
+// document.querySelector("#dijkstra").addEventListener("click",executeDijkstra);
+// document.querySelector("#astar").addEventListener("click",executeAstar);
+// document.querySelector("#bidirectional-astar").addEventListener("click",executeBidrectionalAStar);
+// document.querySelector("#bidirectional-bfs").addEventListener("click",executeBidrectionalBFS);
+// document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",executeBidrectionalGreedyBFS);
+// document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
+document.querySelector("#clear-path").addEventListener("click",clearGrid);
+document.querySelector("#clear").addEventListener("click",()=>clearGrid(0,false,true));
+document.querySelector("#clear-path").addEventListener("click",()=>clearGrid());
+document.querySelector("#maze-prim").addEventListener("click",() => generateMazePrimRT(nodes));
 document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => recursiveBacktrackerRT(nodes));
 document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",executeRecursiveBacktrackerMazeGeneration);
-document.querySelector("#maze-animation").addEventListener("click",executePrimMazeGeneration);
-// document.querySelector("#stop").addEventListener("click",() => clearInterval(dfsTimerID));
+document.querySelector("#maze-prim-animation").addEventListener("click",executePrimMazeGeneration);
+document.querySelector("#visualize").addEventListener("click",visualize);
+document.querySelector("#dfs").addEventListener("click",() => makeChoice("DFS"));
+document.querySelector("#bfs").addEventListener("click",() => makeChoice("BFS"));
+document.querySelector("#dijkstra").addEventListener("click",() => makeChoice("Dijkstra"));
+document.querySelector("#astar").addEventListener("click",() => makeChoice("A*"));
+document.querySelector("#bidirectional-astar").addEventListener("click",() => makeChoice("Bidirectional A*"));
+document.querySelector("#bidirectional-bfs").addEventListener("click",() => makeChoice("Bidirectional BFS"));
+document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",() => makeChoice("Bidirectional Greedy Best First"));
+document.querySelector("#greedybest").addEventListener("click",() => makeChoice("Greedy Best First"));
 let status = 0;
 let running = "";
+function visualize(){
+  document.querySelector("#visualize").disabled = true;
+  document.querySelector("#clear").disabled = true;
+  document.querySelector("#clear-path").disabled = true;
+  document.querySelector("#size-slider").disabled = true;
+  document.querySelector("#breakpoint-toggler").click();
+  switch(running){
+    case "DFS": executeDFS(); break;
+    case "BFS": executeBFS(); break;
+    case "Dijkstra": executeDijkstra(); break;
+    case "A*": executeAstar(); break;
+    case "Bidirectional A*": executeBidrectionalAStar(); break;
+    case "Bidirectional BFS": executeBidrectionalBFS(); break;
+    case "Bidirectional Greedy Best First": executeBidrectionalGreedyBFS(); break;
+    case "Greedy Best First": executeGreedyBestFirst(); break;
+  }
+}
+function makeChoice(choice){
+  running = choice;
+  let btn = document.querySelector("#visualize");
+  btn.disabled = false;
+  btn.title = `Click to <em>Visualize</em> <u>${choice}`
+  btn.textContent = `Visualize ${choice}`
+
+}
 function executePrimMazeGeneration(){
-  clearGrid(0,false);
+  clearGrid(0,false,false);
+  document.querySelector("#breakpoint-toggler").click();
   for(let i = 0 ; i < nodes.length ; ++i){
     for(let j = 0 ; j < nodes[i].length ; ++j){
       nodes[i][j].divReference.classList.add("node-wall");
@@ -35,7 +71,8 @@ function executePrimMazeGeneration(){
 }
 
 function executeRecursiveBacktrackerMazeGeneration(){
-  clearGrid(0,false);
+  clearGrid(0,false,false);
+  document.querySelector("#breakpoint-toggler").click();
   for(let i = 0 ; i < nodes.length ; ++i){
     for(let j = 0 ; j < nodes[i].length ; ++j){
       nodes[i][j].divReference.classList.add("node-wall");
@@ -98,11 +135,7 @@ function executeAstar(){
     console.log("Invalid input!");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "astar";
+  clearGrid();
   let parentMap = new Map();
   let distanceMap = new Map();
   let hMap = new Map();
@@ -292,9 +325,12 @@ function executeDrawPath(parentMap,endNode){
   console.log("Entered here")
   let path = getPath(parentMap,endNode);
   setTimeout(drawPath,0,0,path);
+  document.querySelector("#clear").disabled = false;
+  document.querySelector("#clear-path").disabled = false;
+  document.querySelector("#size-slider").disabled = false;
 }
 
-function clearGrid(statusVal = 0, keep = true){
+function clearGrid(statusVal = 0, keep = true, initials=true){
   if(!keep){
     grid.addEventListener("click",divClicked);
   }
@@ -302,7 +338,7 @@ function clearGrid(statusVal = 0, keep = true){
     for(let j = 0 ; j < nodes[i].length ; ++j){
       nodes[i][j].divReference.className = "node";
         if(nodes[i][j].isStart){
-          if(keep){
+          if(keep || initials){
             nodes[i][j].divReference.classList.add("node-start");
           }else{
             startNode = null;
@@ -310,7 +346,7 @@ function clearGrid(statusVal = 0, keep = true){
           }
         }
         if(nodes[i][j].isEnd){
-          if(keep){
+          if(keep || initials){
             nodes[i][j].divReference.classList.add("node-end");
           }else{
             endNode = null;
@@ -334,5 +370,28 @@ function clearGrid(statusVal = 0, keep = true){
       }
     }
   status = statusVal;
-  running = "";
+}
+
+function chooseRndStartEnd(){
+  let rows = nodes.length;
+  let cols = nodes[0].length;
+  let startRndRow = Math.floor(Math.random() * rows);
+  let startRndCol = Math.floor(Math.random() * cols);
+  while(nodes[startRndRow][startRndCol].isWall){
+    startRndRow = Math.floor(Math.random() * rows);
+    startRndCol = Math.floor(Math.random() * cols);
+  }
+  let endRndRow = Math.floor(Math.random() * rows);
+  let endRndCol = Math.floor(Math.random() * cols);
+  while(endRndCol === startRndCol || nodes[endRndRow][endRndCol].isWall){
+   endRndRow = Math.floor(Math.random() * rows);
+   endRndCol = Math.floor(Math.random() * cols);
+  }
+
+ nodes[startRndRow][startRndCol].divReference.classList.add("node-start");
+ startNode = nodes[startRndRow][startRndCol];
+ nodes[startRndRow][startRndCol].isStart = true;
+ nodes[endRndRow][endRndCol].divReference.classList.add("node-end");
+ endNode = nodes[endRndRow][endRndCol];
+ nodes[endRndRow][endRndCol].isEnd = true;
 }

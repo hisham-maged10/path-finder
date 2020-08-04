@@ -17,6 +17,8 @@ function recursiveBacktracker(grid, s, choices){
       s.pop();
     }
     setTimeout(recursiveBacktracker,0,grid,s,choices);
+  }else{
+    chooseRndStartEnd();
   }
 }
 
@@ -53,6 +55,7 @@ function recursiveBacktrackerRT(grid){
       s.pop();
     }
   }
+  chooseRndStartEnd();
 }
 
 

@@ -1,24 +1,12 @@
-*{
+body{
   overflow-x: hidden;
-}
-.buttons-container{
-  display:flex;
-  flex-direction: row;
-  /* flex-wrap: nowrap; */
-  flex-wrap: wrap;
-  box-sizing: border-box;
-  /* height:5vh; */
 }
 button{
   box-sizing: border-box;;
 }
-/* body{
-  margin:0;
-} */
 #grid{
   padding:0;
   margin:0 auto;
-  /* margin:0; */
   box-sizing: border-box;
   height:96vh;
   width:99vw;
@@ -30,11 +18,9 @@ svg{
   width:80%;
 }
 
-/* .row{
-  width:100%;
-} */
-.row{
+.grid-row{
   vertical-align: top;
+  line-height: 1;
 }
 .node{
   border:1px solid rgba(0,190,218,0.75);
@@ -58,6 +44,7 @@ svg{
   background-color:#1e2431;
   border:0;
 }
+
 
 @keyframes wall {
   from {
@@ -91,33 +78,21 @@ svg{
   animation-duration: 0.4s;
   animation-timing-function: ease-in-out;
 }
-/* .node-start:before{
-  content : "S";
-  text-align:center;
-  font-weight:bold;
-  color:black;
-  vertical-align: middle;
-  position:relative;
-  top:1px;
-} */
 .node-start{
   text-align:center;
   background-image: url(../start.svg);
+  animation-name:wall;
+  animation-duration:0.3s;
+  animation-timing-function:ease-in-out;
   filter: invert(18%) sepia(45%) saturate(7496%) hue-rotate(207deg) brightness(103%) contrast(87%);
   border: 3px solid black !important;
 }
-/* .node-end:before{
-  content : "E";
-  text-align:center;
-  font-weight:bold;
-  color:black;
-  position:relative;
-  vertical-align: middle;
-  left:5px;
-} */
 .node-end{
   text-align:center;
   background-image: url(../end2.svg);
+  animation-name:wall;
+  animation-duration:0.3s;
+  animation-timing-function:ease-in-out;
   filter: invert(18%) sepia(45%) saturate(7496%) hue-rotate(207deg) brightness(103%) contrast(87%);
   border: 3px solid black !important;
 }
@@ -157,10 +132,7 @@ svg{
 @keyframes check-backward{
   0%  {
     transform: scale(.3) rotate(30);
-    /* background-color: #7296c4FF; */
   background-color: #05AC72;
-    /* background-color: #0AD48B; */
-    /* background-color: #056644; */
     opacity: 0.75;
     border:0;
   }
@@ -173,17 +145,12 @@ svg{
   50%  {
     opacity:1;
     transform:scale(1.2) rotate(180);
-    /* background-color: #97B3D0FF; */
     background-color: #13EBA2;
-    /* background-color: #0AD48B; */
     transform: rotate(90);
   }
 
   75%  {
   background-color: #05AC72;
-    /* background-color: #0AD48B; */
-    /* background-color: #056644; */
-    /* background-color: #7296c4FF; */
     border:0;
   }
 
@@ -191,22 +158,18 @@ svg{
     transform: scale(1.0) rotate(360);
     border:0;
     background-color: #13EBA2;
-    /* background-color: #97B3D0FF; */
   }
 }
 .node-check{
   background-color: rgba(0,190,218,0.75);
   border:1px solid rgba(207,221,239,0.65);
-  animation: check 1s ease-in-out 0s, pulse 1s ease-in-out 14s 3;
+  animation: check 1s ease-in-out 0s, pulse 1s ease-in-out 14s Infinite;
 }
 
 .node-check-backward{
-  /* background-color: #056644; */
-  /* background-color: #0AD48B; */
   background-color: #13EBA2;
-  /* background-color: #97B3D0FF; */
   border:1px solid rgba(207,221,239,0.65);
-  animation: check-backward 1s ease-in-out 0s, pulse-backward 1s ease-in-out 14s 3;
+  animation: check-backward 1s ease-in-out 0s, pulse-backward 1s ease-in-out 14s infinite;
 }
 
 .node-check-rt{
@@ -258,11 +221,7 @@ svg{
   }
   to {
     transform: scale(0.4);
-    /* background-color : #ABD1C9FF; */
-    /* background-color: #7296c4FF; */
   background-color: #05AC72;
-    /* background-color: #0AD48B; */
-    /* background-color: #056644; */
     opacity: 0.75;
     border-radius: 100%;
   }
@@ -273,7 +232,6 @@ svg{
   }
   50% {
     background-color: rgba(17,104,217,0.75);
-    /* background-color: #eba400; */
   }
   100% {
     background-color: rgba(0,190,218,0.75);
@@ -283,18 +241,12 @@ svg{
 @keyframes pulse-backward{
   0% {
     background-color: #13EBA2;
-    /* background-color: #97B3D0FF; */
   }
   50% {
   background-color: #05AC72;
-    /* background-color: #0AD48B; */
-    /* background-color:#056644; */
-    /* background-color: #7296c4FF; */
   }
   100% {
     background-color: #13EBA2;
-    /* background-color: #0AD48B; */
-    /* background-color: #97B3D0FF; */
   }
 }
 
@@ -308,11 +260,7 @@ svg{
 }
 .node-current-backward{
   border:1px solid rgba(207,221,239,0.65);
-  /* background-color: #7296c4FF; */
   background-color: #05AC72;
-  /* background-color: #0AD48B; */
-  /* background-color: #056644; */
-  /* background-color : #ABD1C9FF; */
   animation-name: fadein-backward;
   opacity:0.75;
   animation-duration:0.3s;
@@ -321,7 +269,7 @@ svg{
 
 .node-path{
   background-color:#ffd400 ;
-  animation: wall 0.3s ease-in-out 0s, path-pulse 1s ease-in-out 10s 10;
+  animation: wall 0.3s ease-in-out 0s, path-pulse 1s ease-in-out 10s infinite;
   border:0;
 }
 

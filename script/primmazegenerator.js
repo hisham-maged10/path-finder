@@ -15,6 +15,8 @@ function generateMazePrim(grid,frontierList,choices){
         computeFrontierCells(grid,frontier,frontierList,choices);
       }
       setTimeout(generateMazePrim,0,grid,frontierList,choices);
+    }else{
+      chooseRndStartEnd();
     }
 }
 function generateMazePrimRT(grid){
@@ -48,6 +50,7 @@ function generateMazePrimRT(grid){
         computeFrontierCells(grid,frontier,frontierList,choices);
       }
     }
+  chooseRndStartEnd();
 }
 function computeFrontierCells(grid, cell, frontierList, choices){
   for(let i = 0 ; i < choices.length ; ++i){
