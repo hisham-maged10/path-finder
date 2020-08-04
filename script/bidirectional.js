@@ -18,6 +18,24 @@ forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCur
     return;
   }
 }
+function bidirectionalDijkstra(grid,start,end,forwardDistanceMap,backwardDistanceMap,forwardProcessed,backwardProcessed,forwardParentMap,backwardParentMap,
+forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices){
+  if(forwardMinHeap.length || backwardMinHeap.length){
+    if(checkIntersectionAStar(forwardProcessed, backwardCurr, forwardParentMap, backwardParentMap)){return ;}
+    if(checkIntersectionAStar(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){return ;}
+    if(forwardMinHeap.length){
+      forwardCurr = doDijkstra(forwardMinHeap,forwardDistanceMap,forwardProcessed,choices,grid,forwardParentMap);
+    }
+    if(backwardMinHeap.length){
+      backwardCurr = doDijkstra(backwardMinHeap,backwardDistanceMap,backwardProcessed,choices,grid,backwardParentMap,"-backward");
+    }
+setTimeout(bidirectionalDijkstra,10,grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed,
+forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
+  }else{
+    console.log("not found");
+    return;
+  }
+}
 function bidirectionalBFS(grid, start, end, forwardQueue, backwardQueue, forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices){
 
   if(forwardQueue.length || backwardQueue.length){
@@ -85,6 +103,32 @@ function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap,type=""){
       parentMap.set(grid[row][col], curr);
     }
   }
+  return curr;
+}
+function doDijkstra(minHeap, distanceMap, processed, choices, grid, parentMap, type=""){
+  minHeap.sort((a,b) => distanceMap.get(b) - distanceMap.get(a));
+  let curr = minHeap.pop();
+  let div = curr.divReference;
+  if(processed.has(curr)){
+    return;
+  }
+  div.classList.add(`node-current${type}`);
+  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  processed.add(curr);
+  for(let i = 0 ; i < choices.length ; ++i){
+    let row = curr.row + choices[i][0];
+    let col = curr.col + choices[i][1];
+    if(grid[row] && grid[row][col] && !grid[row][col].isWall && !processed.has(grid[row][col])){
+      let edgeWeight = !grid[row][col].weight ? 1 : grid[row][col].weight;
+      let newDistance = distanceMap.get(curr) + edgeWeight;
+      if(!distanceMap.has(grid[row][col]) || newDistance < distanceMap.get(grid[row][col])){
+        parentMap.set(grid[row][col], curr);
+        distanceMap.set(grid[row][col], newDistance);
+      }
+      minHeap.push(grid[row][col]);
+    }
+  }
+
   return curr;
 }
 function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap,type=""){

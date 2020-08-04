@@ -6,12 +6,7 @@ let startNode = null;
 let endNode = null;
 let grid = null;
 let mouseDown = false;
-const height = window.innerHeight|| document.documentElement.clientHeight||
-document.body.clientHeight;
-const width = window.innerWdith || document.documentElement.clientWidth ||
-document.body.clientWidth;
 function resizeGrid(size){
-  console.log("bla")
   let rows = height > width ? Math.floor(grid.offsetHeight / size) : Math.floor((height - document.querySelector(".buttons-container").offsetHeight)/ size);
   let cols = Math.floor(grid.offsetWidth / size);
   let startRndRow = Math.floor(Math.random() * rows);
@@ -56,7 +51,7 @@ function resizeGrid(size){
 function generateGrid(){
   grid = document.createElement("div");
   grid.id = "grid";
-  document.querySelector("main").appendChild(grid);
+  document.querySelector("#grid-container").appendChild(grid);
   if(width > height){
     // document.documentElement.style.cssText = "overflow-y:hidden";
   }
@@ -131,7 +126,6 @@ function generateGrid(){
       prevEnd = nodes[row][col];
     }
     mouseDown = true;
-    // grid.removeEventListener("mouseout",divOut);
   }
   let mouseUpClbk = (e) =>{
     e.preventDefault();
@@ -290,9 +284,6 @@ function touchHandler(event)
         default:           return;
     }
 
-    // initMouseEvent(type, canBubble, cancelable, view, clickCount,
-    //                screenX, screenY, clientX, clientY, ctrlKey,
-    //                altKey, shiftKey, metaKey, button, relatedTarget);
 
     var simulatedEvent = document.createEvent("MouseEvent");
     simulatedEvent.initMouseEvent(type, true, true, window, 1,
@@ -301,5 +292,4 @@ function touchHandler(event)
                                   false, false, false, 0/*left*/, null);
 
     first.target.dispatchEvent(simulatedEvent);
-    // event.preventDefault();
 }

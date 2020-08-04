@@ -4,6 +4,9 @@ body{
 button{
   box-sizing: border-box;;
 }
+canvas{
+  border: 2px solid black;
+}
 #grid{
   padding:0;
   margin:0 auto;
@@ -317,3 +320,9 @@ svg{
     margin:0;
   }
 }
+
+/* #mynetwork{
+  width: 100vw;
+  height: 100vh;
+  border: 2px solid black;
+} */

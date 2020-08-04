@@ -16,14 +16,20 @@ document.querySelector("#maze-prim-animation").addEventListener("click",executeP
 document.querySelector("#visualize").addEventListener("click",visualize);
 document.querySelector("#dfs").addEventListener("click",() => makeChoice("DFS"));
 document.querySelector("#bfs").addEventListener("click",() => makeChoice("BFS"));
-document.querySelector("#dijkstra").addEventListener("click",() => makeChoice("Dijkstra"));
+document.querySelector("#dijkstra").addEventListener("click",() => makeChoice("Dijkstra (UCS)"));
 document.querySelector("#astar").addEventListener("click",() => makeChoice("A*"));
 document.querySelector("#bidirectional-astar").addEventListener("click",() => makeChoice("Bidirectional A*"));
 document.querySelector("#bidirectional-bfs").addEventListener("click",() => makeChoice("Bidirectional BFS"));
 document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",() => makeChoice("Bidirectional Greedy Best First"));
+document.querySelector("#bidirectional-dijkstra").addEventListener("click",() => makeChoice("Bidirectional Dijkstra (UCS)"));
 document.querySelector("#greedybest").addEventListener("click",() => makeChoice("Greedy Best First"));
 let status = 0;
 let running = "";
+const height = window.innerHeight|| document.documentElement.clientHeight||
+document.body.clientHeight;
+const width = window.innerWdith || document.documentElement.clientWidth ||
+document.body.clientWidth;
+
 function visualize(){
   document.querySelector("#visualize").disabled = true;
   document.querySelector("#clear").disabled = true;
@@ -33,11 +39,12 @@ function visualize(){
   switch(running){
     case "DFS": executeDFS(); break;
     case "BFS": executeBFS(); break;
-    case "Dijkstra": executeDijkstra(); break;
+    case "Dijkstra (UCS)": executeDijkstra(); break;
     case "A*": executeAstar(); break;
     case "Bidirectional A*": executeBidrectionalAStar(); break;
     case "Bidirectional BFS": executeBidrectionalBFS(); break;
     case "Bidirectional Greedy Best First": executeBidrectionalGreedyBFS(); break;
+    case "Bidirectional Dijkstra (UCS)" : executeBidrectionalDijkstra(); break;
     case "Greedy Best First": executeGreedyBestFirst(); break;
   }
 }
@@ -45,7 +52,6 @@ function makeChoice(choice){
   running = choice;
   let btn = document.querySelector("#visualize");
   btn.disabled = false;
-  btn.title = `Click to <em>Visualize</em> <u>${choice}`
   btn.textContent = `Visualize ${choice}`
 
 }
@@ -95,11 +101,7 @@ function executeDFS(){
     console.log("one of the inputs is empty");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "dfs";
+  clearGrid();
   let s = [];
   let parentMap = new Map();
   s.push(startNode);
@@ -114,11 +116,7 @@ function executeBFS(){
     console.log("Empty input");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "bfs";
+  clearGrid();
   let curr = null;
   let q = [];
   q.push(startNode);
@@ -163,11 +161,7 @@ function executeDijkstra(){
     console.log("Empty input!");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "dijkstra";
+  clearGrid();
   let curr = startNode;
   let distanceMap = new Map();
   let processed = new Set();
@@ -195,12 +189,7 @@ function executeBidrectionalAStar(){
     console.log("Empty input!");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "bidirectional-astar";
-
+  clearGrid();
   let forwardDistanceMap = new Map();
   let backwardDistanceMap = new Map();
   let forwardProcessed = new Set();
@@ -233,17 +222,41 @@ function executeBidrectionalAStar(){
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
 }
 
+function executeBidrectionalDijkstra(){
+  if(!nodes || !startNode || !endNode)
+  {
+    console.log("Empty input!");
+    return;
+  }
+  clearGrid();
+  let forwardDistanceMap = new Map();
+  let backwardDistanceMap = new Map();
+  let forwardProcessed = new Set();
+  let backwardProcessed = new Set();
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardMinHeap = [];
+  let backwardMinHeap = [];
+  let forwardCurr = startNode;
+  let backwardCurr = endNode;
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
+  forwardDistanceMap.set(forwardCurr,0);
+  backwardDistanceMap.set(backwardCurr,0);
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardMinHeap.push(forwardCurr);
+  backwardMinHeap.push(backwardCurr);
+
+  setTimeout(bidirectionalDijkstra,0,nodes, startNode, endNode, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed,
+forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
+}
 function executeBidrectionalBFS(){
   if(!nodes || !startNode || !endNode)
   {
     console.log("Empty input!");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "bidirectional-bfs";
+  clearGrid();
 
   let forwardParentMap = new Map();
   let backwardParentMap = new Map();
@@ -266,12 +279,7 @@ function executeBidrectionalGreedyBFS(){
     console.log("Empty input!");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "bidirectional-greedy-bfs";
-
+  clearGrid();
   let forwardParentMap = new Map();
   let backwardParentMap = new Map();
   let forwardMinHeap = [];
@@ -300,11 +308,7 @@ function executeGreedyBestFirst(){
     console.log("Empty input!");
     return;
   }
-  if(status === 1){
-    clearGrid();
-  }
-  status = 1;
-  running = "greedy-best";
+  clearGrid();
   let heuristicMap = new Map();
   let minHeap = [];
   let parentMap = new Map();

@@ -35,11 +35,11 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
         // setTimeout(() => childDiv.classList.remove("node-child"), 10);
       }
     }
+    setTimeout(dfs,10,grid,start,end,s,parentMap,choices,curr);
   }else{
     console.log("NOT FOUND!");
     return;
   }
-  setTimeout(dfs,10,grid,start,end,s,parentMap,choices,curr);
 }
 
 function dfsRT(grid, start, end){

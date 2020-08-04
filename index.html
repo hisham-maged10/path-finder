@@ -28,10 +28,13 @@
     <script defer type="text/javascript" src="script/primmazegenerator.js"></script>
     <script defer type="text/javascript" src="script/recursivebacktracker.js"></script>
     <script defer type="text/javascript" src="script/app.js"></script>
+    <script defer type="text/javascript" src="script/vertix.js"></script>
+    <script defer type="text/javascript" src="script/canvas.js"></script>
+    <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="styles/mdb.min.css"/>
-    <!-- <link rel="stylesheet" type="text/css" href="styles/mdb.min.css.map"/> -->
+    <script defer type="text/javascript" src="script/network.js"></script>
     <script defer type="text/javascript" src="script/mdb.min.js"></script>
-    <!-- <script defer type="text/javascript" src="script/mdb.min.js.map"></script> -->
   </head>
 
   <body>
@@ -40,7 +43,7 @@
         <!-- Container wrapper -->
         <div class="container-fluid">
           <!-- Navbar brand -->
-          <a class="navbar-brand" >Graph search Visualization</a>
+          <a class="navbar-brand" >Graph Algorithms Visualization</a>
           <!-- Toggle button -->
           <button
             class="navbar-toggler"
@@ -80,7 +83,7 @@
                   <li><a class="dropdown-item" id="bfs">BFS</a></li>
                   <li><a class="dropdown-item" id="dijkstra">Dijkstra (UCS)</a></li>
                   <li><a class="dropdown-item" id="bidirectional-bfs">Bidirectional BFS</a></li>
-                  <!-- <li><a class="dropdown-item" id="bidirectional-dijkstra">Bidirectional Dijkstra</a></li> -->
+                  <li><a class="dropdown-item" id="bidirectional-dijkstra">Bidirectional Dijkstra (UCS)</a></li>
                   <!-- <li><hr class="dropdown-divider" /></li> -->
                   <li><a class="dropdown-item" id="astar">A* (Manhattan Distance)</a></li>
                   <li><a class="dropdown-item" id="greedybest">Greedy Best-first (Manhattan Distance)</a></li>
@@ -95,7 +98,7 @@
                   data-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Maze Generation Algorithms
+                  Random Maze Generation Algorithms
                 </button>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item" id="maze-recursive-backtracker">Recursive Backtracker (real-time)</a></li>
@@ -105,30 +108,6 @@
                   <li><a class="dropdown-item" id="maze-prim-animation">Animated Prim's Algorithm</a></li>
                 </ul>
               </div>
-              <!-- <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  id="navbarDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Path finding Algorithms
-                </a>
-                <!-- Dropdown menu -->
-                <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">DFS</a></li>
-                  <li><a class="dropdown-item" href="#">BFS</a></li>
-                  <li><a class="dropdown-item" href="#">Dijkstra (UCS)</a></li>
-                  <li><a class="dropdown-item" href="#">A* (Manhattan Distance)</a></li>
-                  <li><a class="dropdown-item" href="#">Greedy Best-first (Manhattan Distance)</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </li>
-                </ul> -->
-              <!-- </li>  -->
               <li class="nav-item" >
                 <button
                   disabled
@@ -149,9 +128,6 @@
                 <button id="clear" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
                     Clear All
                 </button>
-                <!-- <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
-                  >Clear Walls</a
-                > -->
               </li>
             </ul>
 
@@ -166,7 +142,54 @@
         </nav>
       </header>
       <main>
+        <section id="grid-container">
+        </section>
+        <section id="canvas-container">
+        </section>
+        <section id="network-container">
+          <div id="mynetwork"></div>
+        </section>
       </main>
+      <form name="tasks">
+        <div id="tasks-input">
+          <div class="row g-3 align-items-center ml-2">
+            <div class="form-outline col-auto mr-2">
+              <input
+                type="text"
+                name="task-1"
+                class="form-control"
+                aria-describedby="task-1"
+                required
+              />
+              <label class="form-label" for="task-1">Task #1</label>
+            </div>
+            <div class="form-outline col-auto">
+              <input
+                type="text"
+                name="preq-1"
+                class="form-control"
+                aria-describedby="preq-1"
+                required
+              />
+              <label class="form-label" for="preq-1">Task #1 Prerequisites</label>
+            </div>
+          <div class="col-auto">
+            <span id="textExample2" class="form-text">
+              Prerequisites Must be comma separated Values
+            </span>
+          </div>
+        </div>
+        </div>
+         <!-- Submit button -->
+         <div id="tasks-submit" class="mb-2">
+          <button id="task-adder" class="btn btn-danger ml-2 mt-2">
+            Add more
+          </button>
+          <button id="network-visualizer" class="btn btn-danger mt-2">
+            Visualize
+          </button>
+        </div>
+    </form>
       <footer>
         <div class="text-center p-3 bg-dark">
     <a class="text-light">© 2020 Copyright: Hisham Maged</a>
