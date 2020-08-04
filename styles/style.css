@@ -89,7 +89,7 @@ svg{
 }
 .node-end{
   text-align:center;
-  background-image: url(../end2.svg);
+  background-image: url(../end.svg);
   animation-name:wall;
   animation-duration:0.3s;
   animation-timing-function:ease-in-out;
