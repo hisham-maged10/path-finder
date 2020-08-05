@@ -147,49 +147,49 @@
         <section id="canvas-container">
         </section>
         <section id="network-container">
+            <form name="tasks">
+              <div id="tasks-input">
+                <div class="row g-3 align-items-center ml-2">
+                  <div class="form-outline col-auto mr-2">
+                    <input
+                      type="text"
+                      name="task-1"
+                      class="form-control"
+                      aria-describedby="task-1"
+                      required
+                    />
+                    <label class="form-label" for="task-1">Task #1</label>
+                  </div>
+                  <div class="form-outline col-auto">
+                    <input
+                      type="text"
+                      name="preq-1"
+                      class="form-control"
+                      aria-describedby="preq-1"
+                      required
+                    />
+                    <label class="form-label" for="preq-1">Task #1 Prerequisites</label>
+                  </div>
+                <div class="col-auto">
+                  <span id="textExample2" class="form-text">
+                    Prerequisites Must be comma separated Values
+                  </span>
+                </div>
+              </div>
+              </div>
+               <!-- Submit button -->
+               <div id="tasks-submit" class="mb-2">
+                <button id="task-adder" class="btn btn-danger ml-2 mt-2">
+                  Add more
+                </button>
+                <button id="network-visualizer" class="btn btn-danger mt-2">
+                  Visualize
+                </button>
+              </div>
+          </form>
           <div id="mynetwork"></div>
         </section>
       </main>
-      <form name="tasks">
-        <div id="tasks-input">
-          <div class="row g-3 align-items-center ml-2">
-            <div class="form-outline col-auto mr-2">
-              <input
-                type="text"
-                name="task-1"
-                class="form-control"
-                aria-describedby="task-1"
-                required
-              />
-              <label class="form-label" for="task-1">Task #1</label>
-            </div>
-            <div class="form-outline col-auto">
-              <input
-                type="text"
-                name="preq-1"
-                class="form-control"
-                aria-describedby="preq-1"
-                required
-              />
-              <label class="form-label" for="preq-1">Task #1 Prerequisites</label>
-            </div>
-          <div class="col-auto">
-            <span id="textExample2" class="form-text">
-              Prerequisites Must be comma separated Values
-            </span>
-          </div>
-        </div>
-        </div>
-         <!-- Submit button -->
-         <div id="tasks-submit" class="mb-2">
-          <button id="task-adder" class="btn btn-danger ml-2 mt-2">
-            Add more
-          </button>
-          <button id="network-visualizer" class="btn btn-danger mt-2">
-            Visualize
-          </button>
-        </div>
-    </form>
       <footer>
         <div class="text-center p-3 bg-dark">
     <a class="text-light">© 2020 Copyright: Hisham Maged</a>

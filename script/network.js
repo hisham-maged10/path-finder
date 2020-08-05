@@ -28,7 +28,7 @@ function generateFormInput(e){
                 aria-describedby="preq-${taskCounter}"
                 required
               />
-              <label class="form-label" for="preq-1">Task #${taskCounter} Prerequisites</label>
+              <label class="form-label" for="preq-${taskCounter}">Task #${taskCounter} Prerequisites</label>
             </div>
           <div class="col-auto">
             <span id="textExample2" class="form-text">
@@ -45,48 +45,110 @@ function visualizeNetwork(e){
   e.preventDefault();
   let data = new FormData(form);
   let adjMap = new Map();
+  let inDegreeMap = new Map();
   for(let i = 0 ; i < taskCounter ; ++i){
-    let values = data.get(`preq-${i+1}`).split(",");
     let key = data.get(`task-${i+1}`).toLowerCase().trim();
+    if(!key){
+      continue;
+    }
+    let values = data.get(`preq-${i+1}`).split(",");
+    values = values.filter(str => str.trim().length > 0);
     for(let i = 0 ; i < values.length ; ++i){
       values[i] = values[i].toLowerCase().trim();
       if(!adjMap.has(values[i])){
-        adjMap.set(values[i],[]);
+        adjMap.set(values[i],[key]);
+        inDegreeMap.set(values[i],0);
+      }else{
+        adjMap.get(values[i]).push(key);
       }
-    // if(adjMap.has(key)){
-    //   adjMap.get(key).push(...values);
-    // }else{
-      adjMap.set(key, values);
-    // }
-  }
-  console.log(adjMap);
-  createNetwork(adjMap);
-  }
-}
-function createNetwork(adjMap){
-let dataSet = [];
-for(let [key,value] of adjMap){
-  console.log("----------------");
-  console.log(key,value);
-  console.log("----------------");
-}
-return;
-let network = new vis.DataSet([
-    {id: 1, label: 'Node 1'},
-    {id: 2, label: 'Node 2'},
-    {id: 3, label: 'Node 3'},
-    {id: 4, label: 'Node 4'},
-    {id: 5, label: 'Node 5'}
-  ]);
+    }
 
-  // create an array with edges
-  let edges = new vis.DataSet([
-    {from: 1, to: 3, width: 1},
-    {from: 1, to: 2, width: 1},
-    {from: 2, to: 4, width: 1},
-    {from: 2, to: 5, width: 1},
-    {from: 2, to: 3, width: 1},
-  ]);
+    if(key && !adjMap.has(key)){
+      adjMap.set(key,[]);
+    }
+    inDegreeMap.set(key,values.length);
+  }
+  console.log(adjMap)
+  createNetwork(adjMap);
+  topologicalSort(adjMap, inDegreeMap)
+}
+
+function hasCycle(adjMap){
+  let black = new Set();
+  for(let [key,value] of adjMap){
+    if(!black.has(key) && hasCycleUtil(key, adjMap, black)){
+      return true;
+    }
+  }
+  return false;
+
+}
+function hasCycleUtil(start, adjMap, black){
+  let gray = new Set();
+  let visited = new Set();
+  let s = [];
+  s.push(start);
+  let curr = start;
+  while(s.length){
+    curr = s[s.length - 1];
+    if(!visited.has(curr)){
+      visited.add(curr);
+      gray.add(curr);
+    }else{
+      gray.delete(curr);
+      black.add(s.pop());
+    }
+    let neighbours = adjMap.get(curr);
+    for(let i = 0 ; i < neighbours.length ; ++i){
+      if(!visited.has(neighbours[i])){
+        s.push(neighbours[i]);
+      }else if(gray.has(neighbours[i])){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function topologicalSort(adjMap, inDegreeMap){
+  if(hasCycle(adjMap)){
+    alert("Has Cycle, can't do topological sort on it!");
+    return;
+  }
+  let q = [];
+  for(let [key, value] of inDegreeMap){
+    if(value === 0){
+      q.push(key);
+    }
+  }
+  let answer = [];
+  while(q.length){
+    let curr = q.shift();
+    answer.push(curr);
+    let neighbours = adjMap.get(curr);
+    for(let i = 0 ; i < neighbours.length ; ++i){
+      inDegreeMap.set(neighbours[i],inDegreeMap.get(neighbours[i]) - 1);
+      if(inDegreeMap.get(neighbours[i]) === 0){
+        q.push(neighbours[i]);
+      }
+    }
+  }
+  console.log(...answer);
+}
+
+
+
+function createNetwork(adjMap){
+  let dataSet = [];
+  let edgesArr = [];
+  for(let [key,values] of adjMap){
+    dataSet.push({id: key, label: key});
+    for(let i = 0 ; i < values.length ; ++i){
+      edgesArr.push({from: key, to: values[i], width: 1});
+    }
+  }
+  let network = new vis.DataSet(dataSet);
+  let edges = new vis.DataSet(edgesArr);
 
   // create a network
   let container = document.getElementById('mynetwork');

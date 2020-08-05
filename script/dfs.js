@@ -79,68 +79,68 @@ function checkCycle(grid){
   }
 }
 
-function hasCycle(node, blackSet){
-  let curr = node;
-  let s = new Stack();
-  let visited = new Set();
-  let gray = new Set(); //recursion stack (Active sub-graph)
-  let choices = [[-1,0],[1,0],[0,1],[0,-1]];
-  s.push(curr);
-  while(!s.isEmpty()){
-    curr = s.peek();
-    if(visited.has(curr)){
-      s.pop();
-      gray.remove(curr);
-      blackSet.add(curr);
-      continue;
-    }
-    visited.add(curr);
-    gray.add(curr);
-    for(let i = 0 ; i < choices.length ; ++i){
-      if(grid[row] && grid[row][col]){
-        if(!visited.has(grid[row][col])){
-          s.push(grid[row][col]);
-        }else if(gray.has(grid[row][col])){
-          return true; // cycle
-        }
-        // else > black (explored and its children)
-      }
-    }
+// function hasCycle(node, blackSet){
+//   let curr = node;
+//   let s = new Stack();
+//   let visited = new Set();
+//   let gray = new Set(); //recursion stack (Active sub-graph)
+//   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
+//   s.push(curr);
+//   while(!s.isEmpty()){
+//     curr = s.peek();
+//     if(visited.has(curr)){
+//       s.pop();
+//       gray.remove(curr);
+//       blackSet.add(curr);
+//       continue;
+//     }
+//     visited.add(curr);
+//     gray.add(curr);
+//     for(let i = 0 ; i < choices.length ; ++i){
+//       if(grid[row] && grid[row][col]){
+//         if(!visited.has(grid[row][col])){
+//           s.push(grid[row][col]);
+//         }else if(gray.has(grid[row][col])){
+//           return true; // cycle
+//         }
+//         // else > black (explored and its children)
+//       }
+//     }
+//
+//   }
+//
+// }
 
-  }
-
-}
-
-function topologicalSort(adjMap){ //kahn algorithm
-  let inDegree = new Map();
-  for(let node of adjMap.keys()){
-    inDegree.put(node,adjMap.get(node).length);
-  }
-
-  let q = [];
-  let visited = 0;
-  for(let node of inDegree.keys()){
-    if(inDegree.get(node) === 0){
-      q.push(node);
-    }
-  }
-
-  let curr = null;
-  let sort = [];
-  while(q.length){
-    curr = q.shift();
-    sort.push(curr);
-    ++visited;
-    let neighbours = adjMap.get(curr);
-    for(let i = 0 ; i < neighbours.length ; ++i){
-      inDegree.put(neighbours[i],inDegree.get(neighbours[i]) - 1);
-      if(inDegree.get(neighbours[i]) === 0){
-        q.push(neighbours[i]);
-      }
-    }
-  }
-  if(visited != inDegree.length){
-    // cycle
-  }
-  return sort;
-}
+// function topologicalSort(adjMap){ //kahn algorithm
+//   let inDegree = new Map();
+//   for(let node of adjMap.keys()){
+//     inDegree.put(node,adjMap.get(node).length);
+//   }
+//
+//   let q = [];
+//   let visited = 0;
+//   for(let node of inDegree.keys()){
+//     if(inDegree.get(node) === 0){
+//       q.push(node);
+//     }
+//   }
+//
+//   let curr = null;
+//   let sort = [];
+//   while(q.length){
+//     curr = q.shift();
+//     sort.push(curr);
+//     ++visited;
+//     let neighbours = adjMap.get(curr);
+//     for(let i = 0 ; i < neighbours.length ; ++i){
+//       inDegree.put(neighbours[i],inDegree.get(neighbours[i]) - 1);
+//       if(inDegree.get(neighbours[i]) === 0){
+//         q.push(neighbours[i]);
+//       }
+//     }
+//   }
+//   if(visited != inDegree.length){
+//     // cycle
+//   }
+//   return sort;
+// }

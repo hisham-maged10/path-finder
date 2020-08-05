@@ -321,8 +321,8 @@ svg{
   }
 }
 
-/* #mynetwork{
-  width: 100vw;
+#mynetwork{
+  width: 99vw;
   height: 100vh;
   border: 2px solid black;
-} */
+}
