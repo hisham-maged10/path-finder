@@ -19,6 +19,9 @@ function recursiveBacktracker(grid, s, choices){
     setTimeout(recursiveBacktracker,0,grid,s,choices);
   }else{
     chooseRndStartEnd();
+    document.querySelector("#visualize").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
   }
 }
 
@@ -56,6 +59,9 @@ function recursiveBacktrackerRT(grid){
     }
   }
   chooseRndStartEnd();
+  document.querySelector("#visualize").disabled = false;
+  document.querySelector("#clear-path").disabled = false;
+  document.querySelector("#size-slider").disabled = false;
 }
 
 

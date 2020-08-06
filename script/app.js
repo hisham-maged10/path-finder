@@ -9,10 +9,10 @@
 document.querySelector("#clear-path").addEventListener("click",clearGrid);
 document.querySelector("#clear").addEventListener("click",()=>clearGrid(0,false,true));
 document.querySelector("#clear-path").addEventListener("click",()=>clearGrid());
-document.querySelector("#maze-prim").addEventListener("click",() => generateMazePrimRT(nodes));
-document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => recursiveBacktrackerRT(nodes));
-document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",executeRecursiveBacktrackerMazeGeneration);
-document.querySelector("#maze-prim-animation").addEventListener("click",executePrimMazeGeneration);
+document.querySelector("#maze-prim").addEventListener("click",() => generateMaze("prim"));
+document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => generateMaze("backtracker"));
+document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",() => generateMaze("backtracker-animated"));
+document.querySelector("#maze-prim-animation").addEventListener("click",() => generateMaze("prim-animated");
 document.querySelector("#visualize").addEventListener("click",visualize);
 document.querySelector("#dfs").addEventListener("click",() => makeChoice("DFS"));
 document.querySelector("#bfs").addEventListener("click",() => makeChoice("BFS"));
@@ -33,6 +33,25 @@ const height = window.innerHeight|| document.documentElement.clientHeight||
 document.body.clientHeight;
 const width = window.innerWdith || document.documentElement.clientWidth ||
 document.body.clientWidth;
+
+function generateMaze(choice){
+  document.querySelector("#visualize").disabled = true;
+  document.querySelector("#clear").disabled = true;
+  document.querySelector("#clear-path").disabled = true;
+  document.querySelector("#size-slider").disabled = true;
+  document.querySelector("#breakpoint-toggler").click();
+  if(width < height){
+    setTimeout(() => document.querySelector("#grid-container").scrollIntoView({behaviour:"smooth"}),0);
+  }else{
+    setTimeout(() => document.querySelector("#grid-helper").scrollIntoView({behaviour:"smooth"}),0);
+  }
+  switch(choice){
+    case "prim": generateMazePrimRT(nodes); break;
+    case "backtracker": recursiveBacktrackerRT(nodes); break;
+    case "prim-animated": executePrimMazeGeneration(); break;
+    case "backtracker-animated": executeRecursiveBacktrackerMazeGeneration(); break;
+  }
+}
 
 function pathFinderTab(){
   clearToasts();
@@ -66,7 +85,11 @@ function visualize(){
   document.querySelector("#clear-path").disabled = true;
   document.querySelector("#size-slider").disabled = true;
   document.querySelector("#breakpoint-toggler").click();
-  setTimeout(() => document.querySelector("#grid-helper").scrollIntoView({behaviour:"smooth"}),500);
+  if(width < height){
+    setTimeout(() => document.querySelector("#grid-container").scrollIntoView({behaviour:"smooth"}),0);
+  }else{
+    setTimeout(() => document.querySelector("#grid-helper").scrollIntoView({behaviour:"smooth"}),0);
+  }
   // document.querySelector("#grid-helper").scrollIntoView({
   //   behaviour:"smooth"
   // });

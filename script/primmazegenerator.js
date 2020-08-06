@@ -17,6 +17,9 @@ function generateMazePrim(grid,frontierList,choices){
       setTimeout(generateMazePrim,0,grid,frontierList,choices);
     }else{
       chooseRndStartEnd();
+      document.querySelector("#visualize").disabled = false;
+      document.querySelector("#clear-path").disabled = false;
+      document.querySelector("#size-slider").disabled = false;
     }
 }
 function generateMazePrimRT(grid){
@@ -51,6 +54,9 @@ function generateMazePrimRT(grid){
       }
     }
   chooseRndStartEnd();
+  document.querySelector("#visualize").disabled = false;
+  document.querySelector("#clear-path").disabled = false;
+  document.querySelector("#size-slider").disabled = false;
 }
 function computeFrontierCells(grid, cell, frontierList, choices){
   for(let i = 0 ; i < choices.length ; ++i){
