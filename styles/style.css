@@ -459,3 +459,21 @@ svg{
 #topological-helper{
   text-align:center;
 }
+
+.nav-tabs .nav-link{
+    color: rgb(239, 188, 5) !important;
+    background-color: #262727 !important;
+}
+.nav-link:hover{
+
+    color: #262727 !important;
+    background-color: rgb(239, 188, 5) !important;
+}
+
+.nav-link.active{
+
+    color: #262727 !important;
+    background-color: rgb(239, 188, 5) !important;
+    /* border:0px !important; */
+    border-color:#a2273e !important;
+}
