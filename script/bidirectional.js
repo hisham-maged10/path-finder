@@ -14,7 +14,12 @@ forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCur
 setTimeout(bidirectionalAStar,10,grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed, forwardHeuristic, backwardHeuristic,
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
   }else{
-    console.log("not found");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
 }
@@ -32,7 +37,12 @@ forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices){
 setTimeout(bidirectionalDijkstra,10,grid, start, end, forwardDistanceMap, backwardDistanceMap, forwardProcessed, backwardProcessed,
 forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCurr, backwardCurr, choices);
   }else{
-    console.log("not found");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
 }
@@ -50,7 +60,12 @@ function bidirectionalBFS(grid, start, end, forwardQueue, backwardQueue, forward
 
 setTimeout(bidirectionalBFS,10,grid, start, end, forwardQueue, backwardQueue,forwardParentMap, backwardParentMap, forwardCurr, backwardCurr, choices);
   }else{
-    console.log("not found");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
 }
@@ -68,7 +83,12 @@ function bidirectionalGreedyBFS(grid, start, end, forwardMinHeap, backwardMinHea
 
 setTimeout(bidirectionalGreedyBFS,10,grid, start, end, forwardMinHeap, backwardMinHeap,forwardParentMap, backwardParentMap, forwardHeuristic, backwardHeuristic, forwardCurr, backwardCurr, choices);
   }else{
-    console.log("not found");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
 }

@@ -49,6 +49,10 @@ function resizeGrid(size){
 
 }
 function generateGrid(){
+  let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
+  let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
+  shortcutToast.show()
+  setTimeout(() => shortcutToast.hide(),6500);
   grid = document.createElement("div");
   grid.id = "grid";
   document.querySelector("#grid-container").appendChild(grid);

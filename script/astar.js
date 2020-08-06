@@ -34,11 +34,16 @@ function astar(grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choic
         minHeap.push(grid[row][col]);
       }
     }
+  setTimeout(astar,10,grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choices);
   }else{
-    console.log("not found!");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
-  setTimeout(astar,10,grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choices);
 }
 function astarRT(grid, start, end){
   if(!grid || !start || !end){

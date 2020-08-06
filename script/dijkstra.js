@@ -52,9 +52,14 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
         // debugger
       }
     }
+  setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
   }else{
-    console.log("Not FOUND!");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
-  setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
 }

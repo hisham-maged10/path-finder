@@ -31,13 +31,16 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
       if(grid[row] && grid[row][col] && !grid[row][col].isWall && !parentMap.has(grid[row][col])){
         s.push(grid[row][col]);
         let childDiv = grid[row][col].divReference;
-        // childDiv.classList.add("node-child");
-        // setTimeout(() => childDiv.classList.remove("node-child"), 10);
       }
     }
     setTimeout(dfs,10,grid,start,end,s,parentMap,choices,curr);
   }else{
-    console.log("NOT FOUND!");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
 }
@@ -68,16 +71,16 @@ function dfsRT(grid, start, end){
   }
 }
 
-function checkCycle(grid){
-  let black = new Set();
-  for(let i = 0 ; i < grid.length ; ++i){
-    for(let j = 0 ; j < grid[i].length ; ++j){
-      if(!black.has(grid[row][col] && hasCycle(grid[row][col], black))){
-        return true;
-      }
-    }
-  }
-}
+// function checkCycle(grid){
+//   let black = new Set();
+//   for(let i = 0 ; i < grid.length ; ++i){
+//     for(let j = 0 ; j < grid[i].length ; ++j){
+//       if(!black.has(grid[row][col] && hasCycle(grid[row][col], black))){
+//         return true;
+//       }
+//     }
+//   }
+// }
 
 // function hasCycle(node, blackSet){
 //   let curr = node;

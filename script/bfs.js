@@ -37,9 +37,12 @@ function bfs(grid, start, end, q, parentMap, choices)
     }
   setTimeout(bfs,30,nodes,startNode,endNode,q,parentMap,choices);
   }else{
-    console.log("NOT FOUND!");
     document.querySelector("#clear").disabled = false;
     document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
     return;
   }
 }

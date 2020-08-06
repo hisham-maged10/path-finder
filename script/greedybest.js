@@ -28,8 +28,13 @@ function greedyBest(grid, start, end, heuristicMap,minHeap,parentMap,choices){
 
   setTimeout(greedyBest,10,grid, start, end, heuristicMap,minHeap,parentMap,choices);
 }else{
-  console.log("didn't find it!");
-  return;
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
+    return;
 }
 }
 

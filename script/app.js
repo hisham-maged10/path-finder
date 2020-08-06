@@ -36,6 +36,10 @@ function visualize(){
   document.querySelector("#clear-path").disabled = true;
   document.querySelector("#size-slider").disabled = true;
   document.querySelector("#breakpoint-toggler").click();
+  setTimeout(() => document.querySelector("#grid-helper").scrollIntoView({behaviour:"smooth"}),500);
+  // document.querySelector("#grid-helper").scrollIntoView({
+  //   behaviour:"smooth"
+  // });
   switch(running){
     case "DFS": executeDFS(); break;
     case "BFS": executeBFS(); break;
@@ -332,9 +336,21 @@ function executeDrawPath(parentMap,endNode){
   document.querySelector("#clear").disabled = false;
   document.querySelector("#clear-path").disabled = false;
   document.querySelector("#size-slider").disabled = false;
+  let toastTriggerEl = document.getElementById('info-toast')
+  let toast = new mdb.Toast(toastTriggerEl)
+  toast.show()
 }
 
 function clearGrid(statusVal = 0, keep = true, initials=true){
+  let failToastTriggerEl = document.getElementById('fail-toast')
+  let failToast = new mdb.Toast(failToastTriggerEl)
+  let infoToastTriggerEl = document.getElementById('info-toast')
+  let infoToast = new mdb.Toast(infoToastTriggerEl)
+  let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
+  let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
+  failToast.hide()
+  infoToast.hide()
+  shortcutToast.hide()
   if(!keep){
     grid.addEventListener("click",divClicked);
   }

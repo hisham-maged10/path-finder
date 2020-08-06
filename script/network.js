@@ -6,38 +6,73 @@ let taskCounter = 1;
 
 function generateFormInput(e){
   e.preventDefault();
-  console.log(form)
   ++taskCounter;
-  let formHTML = `
-          <div class="row g-3 align-items-center mt-1 ml-2">
-            <div class="form-outline col-auto mr-2">
-              <input
-                type="text"
-                name="task-${taskCounter}"
-                class="form-control"
-                aria-describedby="task-${taskCounter}"
-                required
-              />
-              <label class="form-label" for="task-${taskCounter}">Task #${taskCounter}</label>
-            </div>
-            <div class="form-outline col-auto">
-              <input
-                type="text"
-                name="preq-${taskCounter}"
-                class="form-control"
-                aria-describedby="preq-${taskCounter}"
-                required
-              />
-              <label class="form-label" for="preq-${taskCounter}">Task #${taskCounter} Prerequisites</label>
-            </div>
-          <div class="col-auto">
-            <span id="textExample2" class="form-text">
-              Prerequisites Must be comma separated Values
-            </span>
-          </div>
-        </div>
-        `;
-  document.querySelector("#tasks-input").insertAdjacentHTML("beforeEnd",formHTML);
+  document.querySelector(`#task-${taskCounter}-input`).hidden = false;
+  if(taskCounter === 5){
+    e.target.disabled = true;
+  }
+  // let div = document.createElement("div");
+  // div.className = "row g-3 align-items-center mt-1 ml-2";
+  // let formOutline = document.createElement("div");
+  // formOutline.className = "form-outline col-auto mr-2";
+  // let input = document.createElement("input");
+  // input.type = "text";
+  // input.name = `task-${taskCounter}`;
+  // input.className = "form-control";
+  // // input.required = true;
+  // input.placeholder="hello";
+  // let label = document.createElement("label");
+  // label.className = "form-label";
+  // label.for = `task-${taskCounter}`;
+  // label.textContent = `Task #${taskCounter}`;
+  // formOutline.appendChild(input);
+  // formOutline.appendChild(label);
+  // let formOutline2 = document.createElement("div");
+  // formOutline2.className = "form-outline col-auto";
+  // let input2 = document.createElement("input");
+  // input2.type = "text";
+  // input2.name = `preq-${taskCounter}`;
+  // input2.className = "form-control";
+  // input2.required = true;
+  // let label2 = document.createElement("label");
+  // label2.className = "form-label";
+  // label2.for = `preq-${taskCounter}`;
+  // label2.textContent = `Task #${taskCounter} Prerequisites`;
+  // formOutline2.appendChild(input2);
+  // formOutline2.appendChild(label2);
+  // div.appendChild(formOutline);
+  // div.appendChild(formOutline2);
+  // let formHTML = `
+  //         <div class="row g-3 align-items-center mt-1 ml-2">
+  //           <div class="form-outline col-auto mr-2">
+  //             <input
+  //               type="text"
+  //               name="task-${taskCounter}"
+  //               class="form-control"
+  //               aria-describedby="task-${taskCounter}"
+  //               required
+  //             />
+  //             <label class="form-label" for="task-${taskCounter}">Task #${taskCounter}</label>
+  //           </div>
+  //           <div class="form-outline col-auto">
+  //             <input
+  //               type="text"
+  //               name="preq-${taskCounter}"
+  //               class="form-control"
+  //               aria-describedby="preq-${taskCounter}"
+  //               required
+  //             />
+  //             <label class="form-label" for="preq-${taskCounter}">Task #${taskCounter} Prerequisites</label>
+  //           </div>
+  //         <div class="col-auto">
+  //           <span id="textExample2" class="form-text">
+  //             Prerequisites Must be comma separated Values
+  //           </span>
+  //         </div>
+  //       </div>
+  //       `;
+  // document.querySelector("#tasks-input").insertAdjacentElement("beforeEnd",div);
+  // form.insertAdjacentElement("beforeEnd",div);
 
 }
 
@@ -45,7 +80,6 @@ function visualizeNetwork(e){
   e.preventDefault();
   let data = new FormData(form);
   let adjMap = new Map();
-  let inDegreeMap = new Map();
   for(let i = 0 ; i < taskCounter ; ++i){
     let key = data.get(`task-${i+1}`).toLowerCase().trim();
     if(!key){
@@ -57,7 +91,6 @@ function visualizeNetwork(e){
       values[i] = values[i].toLowerCase().trim();
       if(!adjMap.has(values[i])){
         adjMap.set(values[i],[key]);
-        inDegreeMap.set(values[i],0);
       }else{
         adjMap.get(values[i]).push(key);
       }
@@ -66,11 +99,27 @@ function visualizeNetwork(e){
     if(key && !adjMap.has(key)){
       adjMap.set(key,[]);
     }
-    inDegreeMap.set(key,values.length);
   }
   console.log(adjMap)
   createNetwork(adjMap);
-  topologicalSort(adjMap, inDegreeMap)
+  topologicalSort(adjMap, computeInDegree(adjMap));
+}
+
+function computeInDegree(adjMap){
+  let inDegreeMap = new Map();
+  for(let [node, list] of adjMap){
+    if(!inDegreeMap.has(node)){
+      inDegreeMap.set(node,0);
+    }
+    for(let neighbour of list){
+      if(inDegreeMap.has(neighbour)){
+        inDegreeMap.set(neighbour, inDegreeMap.get(neighbour) + 1);
+      }else{
+        inDegreeMap.set(neighbour,1);
+      }
+    }
+  }
+  return inDegreeMap;
 }
 
 function hasCycle(adjMap){
@@ -123,6 +172,7 @@ function topologicalSort(adjMap, inDegreeMap){
   }
   let answer = [];
   while(q.length){
+    console.log("in loop")
     let curr = q.shift();
     answer.push(curr);
     let neighbours = adjMap.get(curr);
@@ -133,7 +183,7 @@ function topologicalSort(adjMap, inDegreeMap){
       }
     }
   }
-  console.log(...answer);
+  document.querySelector("#result").textContent = answer.toString();
 }
 
 
@@ -158,8 +208,6 @@ function createNetwork(adjMap){
   };
   let options = {
     autoResize: true,
-    height: '100%',
-    width: '100%',
     locale: 'en',
     clickToUse: false,
     edges: {
@@ -189,9 +237,4 @@ function createNetwork(adjMap){
     }
   }
   let graph = new vis.Network(container, data, options);
-}
-
-function generateAdjMap(){
-  let data = new FormData();
-
 }

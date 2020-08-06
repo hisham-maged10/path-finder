@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
     <meta name="author" content="Hisham Maged"/>
-    <meta name="description" content="Path finder project using different kind of graph algorithms"/>
-    <title> Graph Pathfinder </title>
+    <meta name="description" content="Graph Algorithms visualizer project which visualizes Different types of graph algorithms such as Path-finding algorithms, Minimum Spanning Tree Algorithms, Topological Sorting"/>
+    <title> Graph Algorithms Visualizer </title>
     <link
       href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
       rel="stylesheet"
@@ -15,6 +15,8 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="styles/style.css"/>
+    <link rel="stylesheet" href="styles/mdb.min.css" />
+    <script defer type="text/javascript" src="script/mdb.min.js"></script>
     <script defer type="text/javascript" src="script/node.js"></script>
     <script defer type="text/javascript" src="script/heap.js"></script>
     <script defer type="text/javascript" src="script/grid.js"></script>
@@ -32,164 +34,504 @@
     <script defer type="text/javascript" src="script/canvas.js"></script>
     <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="styles/mdb.min.css"/>
     <script defer type="text/javascript" src="script/network.js"></script>
-    <script defer type="text/javascript" src="script/mdb.min.js"></script>
   </head>
 
   <body>
-    <header>
-        <nav class="buttons-container navbar navbar-expand-lg navbar-dark bg-dark">
-        <!-- Container wrapper -->
-        <div class="container-fluid">
-          <!-- Navbar brand -->
-          <a class="navbar-brand" >Graph Algorithms Visualization</a>
-          <!-- Toggle button -->
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+      <!-- Tabs navs -->
+        <ul class="nav nav-tabs nav-justified " id="ex1" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link active"
+              id="path-finder"
+              data-toggle="tab"
+              href="#path-finder-tab"
+              role="tab"
+              aria-controls="ex3-tabs-1"
+              aria-selected="true"
+              >Path finding Algorithms</a
+            >
+          </li>
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link"
+              id="minimum-spanning-tree"
+              data-toggle="tab"
+              href="#minimum-spanning-tree-tab"
+              role="tab"
+              aria-controls="ex3-tabs-2"
+              aria-selected="false"
+              >Minimum Spanning Trees</a
+            >
+          </li>
+          <li class="nav-item" role="presentation">
+            <a
+              class="nav-link"
+              id="topological-sort"
+              data-toggle="tab"
+              href="#topological-sort-tab"
+              role="tab"
+              aria-controls="ex3-tabs-3"
+              aria-selected="false"
+              >Topological Sorting</a
+            >
+          </li>
+        </ul>
+        <!-- Tabs navs -->
+
+        <!-- Tabs content -->
+        <div class="tab-content" id="ex2-content">
+          <div
+            class="tab-pane fade show active"
+            id="path-finder-tab"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-1"
           >
-            <span class="navbar-toggler-icon" id="breakpoint-toggler"></span>
-          </button>
-
-          <!-- Collapsible wrapper -->
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left links -->
-            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <!-- <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li> -->
-              <!-- Navbar dropdown -->
-              <div class="btn-group shadow-5">
-                <button
-                  type="button"
-                  class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
-                  data-ripple-color="dark"
-                  data-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Path Finding Algorithms
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" id="dfs">DFS</a></li>
-                  <li><a class="dropdown-item" id="bfs">BFS</a></li>
-                  <li><a class="dropdown-item" id="dijkstra">Dijkstra (UCS)</a></li>
-                  <li><a class="dropdown-item" id="bidirectional-bfs">Bidirectional BFS</a></li>
-                  <li><a class="dropdown-item" id="bidirectional-dijkstra">Bidirectional Dijkstra (UCS)</a></li>
-                  <!-- <li><hr class="dropdown-divider" /></li> -->
-                  <li><a class="dropdown-item" id="astar">A* (Manhattan Distance)</a></li>
-                  <li><a class="dropdown-item" id="greedybest">Greedy Best-first (Manhattan Distance)</a></li>
-                  <li><a class="dropdown-item" id="bidirectional-astar">Bidirectional A*</a></li>
-                  <li><a class="dropdown-item" id="bidirectional-greedy-bfs">Bidirectional Greedy Best-first</a></li>
-                </ul>
-              </div>
-              <div class="btn-group shadow-0">
-                <button
-                  type="button"
-                  class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
-                  data-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Random Maze Generation Algorithms
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" id="maze-recursive-backtracker">Recursive Backtracker (real-time)</a></li>
-                  <li><a class="dropdown-item" id="maze-prim">Prim's Algorithm (real-time)</a></li>
-                  <!-- <li><hr class="dropdown-divider" /></li> -->
-                  <li><a class="dropdown-item" id="maze-animation-recursive-backtracker">Animated Recurisve Backtracker</a></li>
-                  <li><a class="dropdown-item" id="maze-prim-animation">Animated Prim's Algorithm</a></li>
-                </ul>
-              </div>
-              <li class="nav-item" >
-                <button
-                  disabled
-                  type="button"
-                  class="btn btn-outline-danger mr-2 ml-1 mt-2"
-                  data-ripple-color="light"
-                  id="visualize"
+            <header>
+                <nav class="buttons-container navbar navbar-expand-lg navbar-dark bg-dark">
+                <!-- Container wrapper -->
+                <div class="container-fluid">
+                  <!-- Navbar brand -->
+                  <a class="navbar-brand" >Path-Finding Algorithms</a>
+                  <!-- Toggle button -->
+                  <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
                   >
-                    Visualize
-                </button>
-              </li>
-              <li class="nav-item">
-                <button id="clear-path" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
-                    Clear Path
-                </button>
-              </li>
-              <li class="nav-item">
-                <button id="clear" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
-                    Clear All
-                </button>
-              </li>
-            </ul>
+                    <span class="navbar-toggler-icon" id="breakpoint-toggler"></span>
+                  </button>
 
-              <li class="nav-item">
-                <label class="text-warning" for="grid-size">  Grid Size: </label>
-                <input name="grid-size" type="range" class="form-range" id="size-slider" value="28" min="19" max="90"  />
-              </li>
-          </div>
-          <!-- Collapsible wrapper -->
-        </div>
-        <!-- Container wrapper -->
-        </nav>
-      </header>
-      <main>
-        <section id="grid-container">
-        </section>
-        <section id="canvas-container">
-        </section>
-        <section id="network-container">
-            <form name="tasks">
-              <div id="tasks-input">
-                <div class="row g-3 align-items-center ml-2">
-                  <div class="form-outline col-auto mr-2">
-                    <input
-                      type="text"
-                      name="task-1"
-                      class="form-control"
-                      aria-describedby="task-1"
-                      required
-                    />
-                    <label class="form-label" for="task-1">Task #1</label>
+                  <!-- Collapsible wrapper -->
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <!-- Left links -->
+                    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <!-- <a class="nav-link active" aria-current="page" href="#">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                      </li> -->
+                      <!-- Navbar dropdown -->
+                      <div class="btn-group shadow-5">
+                        <button
+                          type="button"
+                          class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
+                          data-ripple-color="dark"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Path Finding Algorithms
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" id="dfs">DFS</a></li>
+                          <li><a class="dropdown-item" id="bfs">BFS</a></li>
+                          <li><a class="dropdown-item" id="dijkstra">Dijkstra (UCS)</a></li>
+                          <li><a class="dropdown-item" id="bidirectional-bfs">Bidirectional BFS</a></li>
+                          <li><a class="dropdown-item" id="bidirectional-dijkstra">Bidirectional Dijkstra (UCS)</a></li>
+                          <!-- <li><hr class="dropdown-divider" /></li> -->
+                          <li><a class="dropdown-item" id="astar">A* (Manhattan Distance)</a></li>
+                          <li><a class="dropdown-item" id="greedybest">Greedy Best-first (Manhattan Distance)</a></li>
+                          <li><a class="dropdown-item" id="bidirectional-astar">Bidirectional A*</a></li>
+                          <li><a class="dropdown-item" id="bidirectional-greedy-bfs">Bidirectional Greedy Best-first</a></li>
+                        </ul>
+                      </div>
+                      <div class="btn-group shadow-0">
+                        <button
+                          type="button"
+                          class="btn btn-outline-info mr-2 dropdown-toggle mt-2"
+                          data-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          Random Maze Generation Algorithms
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" id="maze-recursive-backtracker">Recursive Backtracker (real-time)</a></li>
+                          <li><a class="dropdown-item" id="maze-prim">Prim's Algorithm (real-time)</a></li>
+                          <!-- <li><hr class="dropdown-divider" /></li> -->
+                          <li><a class="dropdown-item" id="maze-animation-recursive-backtracker">Animated Recurisve Backtracker</a></li>
+                          <li><a class="dropdown-item" id="maze-prim-animation">Animated Prim's Algorithm</a></li>
+                        </ul>
+                      </div>
+                      <li class="nav-item" >
+                        <button
+                          disabled
+                          type="button"
+                          class="btn btn-outline-danger mr-2 ml-1 mt-2"
+                          data-ripple-color="light"
+                          id="visualize"
+                          >
+                            Visualize
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button id="clear-path" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                            Clear Path
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button id="clear" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                            Clear All
+                        </button>
+                      </li>
+                    </ul>
+
+                      <li class="nav-item">
+                        <label class="text-warning" for="grid-size">  Grid Size: </label>
+                        <input name="grid-size" type="range" class="form-range" id="size-slider" value="28" min="19" max="90"  />
+                      </li>
                   </div>
-                  <div class="form-outline col-auto">
-                    <input
-                      type="text"
-                      name="preq-1"
-                      class="form-control"
-                      aria-describedby="preq-1"
-                      required
-                    />
-                    <label class="form-label" for="preq-1">Task #1 Prerequisites</label>
-                  </div>
-                <div class="col-auto">
-                  <span id="textExample2" class="form-text">
-                    Prerequisites Must be comma separated Values
-                  </span>
+                  <!-- Collapsible wrapper -->
                 </div>
-              </div>
-              </div>
-               <!-- Submit button -->
-               <div id="tasks-submit" class="mb-2">
-                <button id="task-adder" class="btn btn-danger ml-2 mt-2">
-                  Add more
+                <!-- Container wrapper -->
+                </nav>
+              </header>
+              <main>
+                <section id="grid-helper">
+                  <div class="helper-node-container">
+                    <div
+                    data-toggle="tooltip"
+                    data-html="true"
+                    title="<em><strong>Click</strong></em> and <u><b>drag</u></b> to move"
+                    id="start-node">
+                    </div>
+                    <div >
+                      Start Node
+                    </div>
+                  </div>
+                <div class="helper-node-container">
+                  <div
+                  data-toggle="tooltip"
+                  data-html="true"
+                  title="<em><strong>Click</strong></em> and <u><b>drag</u></b> to move"
+                  id="end-node">
+                  </div>
+                  <div>
+                    End Node
+                  </div>
+                </div>
+                <div class="helper-node-container">
+                  <div
+                  data-toggle="tooltip"
+                  data-html="true"
+                  title="<em><strong>Click</strong></em> and <u><b>drag</u></b> to <b>Create</b><br/><em><strong>Right Click</strong></em> and <u><b>drag</u></b>  to <b>Remove</b>"
+                  id="wall-node"
+                  class="justify-node">
+                  </div>
+                  <div> Wall Node</div>
+                </div>
+                <div class="helper-node-container">
+                  <div
+                  data-toggle="tooltip"
+                  data-html="true"
+                  title="<em><strong>Click+Shift/alt</strong></em> and <u><b>drag</u></b> to <b>Create</b><br/><em><strong>Right Click+Shift/alt</strong></em> and <u><b>drag</u></b>  to <b>Remove</b>"
+                  id="weight-node"
+                  class="justify-node">
+                  </div>
+                  <div>
+                    Weight Node
+                  </div>
+                </div>
+                <div class="helper-node-container">
+                  <div id="unvisited-node" class="justify-node">
+                  </div>
+                  <div>
+                    Unvisited Node
+                  </div>
+                </div>
+                <div class="helper-node-container">
+                  <div id="current-node" class="justify-node">
+                  </div>
+                  <div>Current Node</div>
+                </div>
+                <div class="helper-node-container">
+                  <div id="visited-container" class="justify-node">
+                    <div id="visited-node-forward">
+                    </div>
+                    <div id="visited-node-backward">
+                    </div>
+                  </div>
+                  <div> Visited Node</div>
+                </div>
+                <div class="helper-node-container">
+                  <div
+                    id="visited-node-backtrack"
+                    class="justify-node"
+                    >
+                  </div>
+                  <div>Backtrack Node</div>
+                </div>
+                </section>
+                <section id="grid-container">
+                </section>
+              </main>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="minimum-spanning-tree-tab"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-2"
+          >
+          <header>
+              <nav class="buttons-container navbar navbar-expand-lg navbar-dark bg-dark">
+              <!-- Container wrapper -->
+              <div class="container-fluid">
+                <!-- Navbar brand -->
+                <a class="navbar-brand" >Minimum Spanning Tree</a>
+                <!-- Toggle button -->
+                <button
+                  class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#navbarSupportedContent"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span class="navbar-toggler-icon" id="breakpoint-toggler"></span>
                 </button>
-                <button id="network-visualizer" class="btn btn-danger mt-2">
-                  Visualize
-                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <!-- Left links -->
+                  <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <!-- <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li> -->
+                    <li class="nav-item" >
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger mr-2 ml-1 mt-2"
+                        data-ripple-color="light"
+                        id="generate-mst"
+                        >
+                          Generate Random MST
+                      </button>
+                    </li>
+                    <li class="nav-item">
+                      <button id="clear-canvas" disabled type="button" class="btn btn-outline-warning mr-2 ml-1 mt-2" data-ripple-color="light">
+                          Clear Canvas
+                      </button>
+                    </li>
+                  </ul>
+
+                    <li class="nav-item">
+                      <label class="text-warning" for="nodes-amount">  Amount of nodes: </label>
+                      <input disabled name="nodes-amount" type="range" class="form-range" id="nodes-slider" value="28" min="19" max="90"  />
+                    </li>
+                </div>
+                <!-- Collapsible wrapper -->
               </div>
-          </form>
-          <div id="mynetwork"></div>
-        </section>
-      </main>
+              <!-- Container wrapper -->
+              </nav>
+            </header>
+            <main>
+              <section id="canvas-container">
+              </section>
+            </main>
+          </div>
+          <div
+            class="tab-pane fade"
+            id="topological-sort-tab"
+            role="tabpanel"
+            aria-labelledby="ex3-tab-3"
+          >
+          <header>
+              <nav class="buttons-container navbar navbar-expand-lg navbar-dark bg-dark">
+              <!-- Container wrapper -->
+              <div class="container-fluid">
+                <!-- Navbar brand -->
+                <a class="navbar-brand" >Topological Sort</a>
+                <!-- Toggle button -->
+              </div>
+              <!-- Container wrapper -->
+              </nav>
+            </header>
+            <main>
+              <section id="network-container">
+                  <form name="tasks">
+                    <div id="tasks-input">
+                      <div id="task-1-input" class="row g-3 align-items-center mt-1 ml-2">
+                        <div class="form-outline col-auto mb-2 mr-2">
+                          <input
+                            type="text"
+                            name="task-1"
+                            class="form-control"
+                            aria-describedby="task-1"
+                            required
+                          />
+                          <label class="form-label" for="task-1">Task #1</label>
+                        </div>
+                        <div class="form-outline col-auto">
+                          <input
+                            type="text"
+                            name="preq-1"
+                            class="form-control"
+                            aria-describedby="preq-1"
+                            required
+                          />
+                          <label class="form-label" for="preq-1">Task #1 Prerequisites</label>
+                        </div>
+                      <div class="col-auto">
+                        <span id="textExample2" class="form-text">
+                          Prerequisites Must be comma separated Values
+                        </span>
+                      </div>
+                    </div>
+                      <div id="task-2-input" hidden class="row g-3 align-items-center ml-2">
+                        <div class="form-outline col-auto mb-2 mr-2">
+                          <input
+                            type="text"
+                            name="task-2"
+                            class="form-control"
+                            aria-describedby="task-1"
+                            required
+                          />
+                          <label class="form-label" for="task-2">Task #2</label>
+                        </div>
+                        <div class="form-outline col-auto">
+                          <input
+                            type="text"
+                            name="preq-2"
+                            class="form-control"
+                            aria-describedby="preq-1"
+                            required
+                          />
+                          <label class="form-label" for="preq-2">Task #2 Prerequisites</label>
+                        </div>
+                    </div>
+                      <div id="task-3-input" hidden class="row g-3 align-items-center ml-2">
+                        <div class="form-outline col-auto mb-2 mr-2">
+                          <input
+                            type="text"
+                            name="task-3"
+                            class="form-control"
+                            aria-describedby="task-1"
+                            required
+                          />
+                          <label class="form-label" for="task-1">Task #3</label>
+                        </div>
+                        <div class="form-outline col-auto">
+                          <input
+                            type="text"
+                            name="preq-3"
+                            class="form-control"
+                            aria-describedby="preq-1"
+                            required
+                          />
+                          <label class="form-label" for="preq-3">Task #3 Prerequisites</label>
+                        </div>
+                    </div>
+                      <div id="task-4-input" hidden class="row g-3 align-items-center ml-2">
+                        <div class="form-outline col-auto mb-2 mr-2">
+                          <input
+                            type="text"
+                            name="task-4"
+                            class="form-control"
+                            aria-describedby="task-1"
+                            required
+                          />
+                          <label class="form-label" for="task-4">Task #4</label>
+                        </div>
+                        <div class="form-outline col-auto border">
+                          <input
+                            type="text"
+                            name="preq-4"
+                            class="form-control"
+                            aria-describedby="preq-1"
+                            required
+                          />
+                          <label class="form-label" for="preq-1">Task #4 Prerequisites</label>
+                        </div>
+                    </div>
+                      <div id="task-5-input" hidden class="row g-3 align-items-center ml-2">
+                        <div class="form-outline col-auto mb-2 mr-2">
+                          <input
+                            type="text"
+                            name="task-5"
+                            class="form-control"
+                            aria-describedby="task-1"
+                            required
+                          />
+                          <label class="form-label" for="task-1">Task #5</label>
+                        </div>
+                        <div class="form-outline col-auto">
+                          <input
+                            type="text"
+                            name="preq-5"
+                            class="form-control"
+                            aria-describedby="preq-1"
+                            required
+                          />
+                          <label class="form-label" for="preq-1">Task #5 Prerequisites</label>
+                        </div>
+                    </div>
+                    </div>
+                     <!-- Submit button -->
+                     <div id="tasks-submit" class="mb-2">
+                      <button id="task-adder" class="btn btn-danger ml-2 mt-2">
+                        Add more
+                      </button>
+                      <button id="network-visualizer" class="btn btn-danger mt-2">
+                        Visualize
+                      </button>
+                    </div>
+                </form>
+                <div id="mynetwork"></div>
+                <div id="result"></div>
+              </section>
+            </main>
+          </div>
+        </div>
+        <!-- Tabs content -->
+        <div id="shortcut-toast" class="toast bg-info text-white" role="alert" aria-live="assertive"
+  aria-atomic="true" data-autohide="false" data-content="11000">
+          <div class="toast-header bg-info text-white">
+            <i class="fas fa-info-circle fa-lg mr-2"></i>
+            <strong class="mr-auto">Path-Finder</strong>
+            <!-- <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast"
+              aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button> -->
+          </div>
+          <div class="toast-body">
+            <b><u>Click/Hover</u></b> on icons to see <u><b>Shortcuts</u></b>
+          </div>
+        </div>
+        <div id="info-toast" class="toast bg-success text-white" role="alert" aria-live="assertive"
+  aria-atomic="true" data-autohide="false">
+          <div class="toast-header bg-success text-white">
+            <i class="fas fa-info-circle fa-lg mr-2"></i>
+            <strong class="mr-auto">Path-Finder</strong>
+            <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast"
+              aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            You can <b><u>Drag</u></b> <b>Start</b> or <b>End</b> to see how path is affected in realtime
+          </div>
+        </div>
+        <!-- Danger toast -->
+        <div id="fail-toast" class="toast bg-danger text-white" data-autohide="false" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header bg-danger text-white">
+            <i class="fas fa-exclamation-triangle fa-lg mr-2"></i>
+            <strong class="mr-auto">Path-Finder</strong>
+            <button type="button" class="ml-2 my-1 close text-white" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            Sorry, I wasn't able to find End Node
+          </div>
+        </div>
       <footer>
         <div class="text-center p-3 bg-dark">
     <a class="text-light">© 2020 Copyright: Hisham Maged</a>
