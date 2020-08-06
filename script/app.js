@@ -40,6 +40,8 @@ function generateMaze(choice){
   document.querySelector("#clear").disabled = true;
   document.querySelector("#clear-path").disabled = true;
   document.querySelector("#size-slider").disabled = true;
+  document.querySelector("#path-finding-grp-btn").disabled = true;
+  document.querySelector("#maze-generation-grp-btn").disabled = true;
   document.querySelector("#breakpoint-toggler").click();
   if(width < height){
     setTimeout(() => document.querySelector("#grid-container").scrollIntoView({behaviour:"smooth"}),0);
@@ -85,6 +87,8 @@ function visualize(){
   document.querySelector("#clear").disabled = true;
   document.querySelector("#clear-path").disabled = true;
   document.querySelector("#size-slider").disabled = true;
+  document.querySelector("#path-finding-grp-btn").disabled = true;
+  document.querySelector("#maze-generation-grp-btn").disabled = true;
   document.querySelector("#breakpoint-toggler").click();
   if(width < height){
     setTimeout(() => document.querySelector("#grid-container").scrollIntoView({behaviour:"smooth"}),0);

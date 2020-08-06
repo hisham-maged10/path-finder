@@ -39,6 +39,8 @@ function astar(grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choic
     document.querySelector("#clear").disabled = false;
     document.querySelector("#clear-path").disabled = false;
     document.querySelector("#size-slider").disabled = false;
+  document.querySelector("#path-finding-grp-btn").disabled = false;
+  document.querySelector("#maze-generation-grp-btn").disabled = false;
     let toastTriggerEl = document.getElementById('fail-toast')
     let toast = new mdb.Toast(toastTriggerEl)
     toast.show()
@@ -98,5 +100,12 @@ function astarRT(grid, start, end){
     }
 
   }
-  console.log("not found");
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+  document.querySelector("#path-finding-grp-btn").disabled = false;
+  document.querySelector("#maze-generation-grp-btn").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
 }

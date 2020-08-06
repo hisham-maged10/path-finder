@@ -18,6 +18,8 @@ function drawPath(counter,path){
     document.querySelector("#clear").disabled = false;
     document.querySelector("#clear-path").disabled = false;
     document.querySelector("#size-slider").disabled = false;
+    document.querySelector("#path-finding-grp-btn").disabled = false;
+    document.querySelector("#maze-generation-grp-btn").disabled = false;
     let toastTriggerEl = document.getElementById('info-toast')
     let toast = new mdb.Toast(toastTriggerEl)
     toast.show()
