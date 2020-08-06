@@ -113,16 +113,6 @@ function visualize(){
 
 
 function visualizeRT(){
-  running = runningMessage;
-  document.querySelector("#visualize").disabled = true;
-  document.querySelector("#clear").disabled = true;
-  document.querySelector("#clear-path").disabled = true;
-  document.querySelector("#size-slider").disabled = true;
-  document.querySelector("#breakpoint-toggler").click();
-  setTimeout(() => document.querySelector("#grid-helper").scrollIntoView({behaviour:"smooth"}),500);
-  // document.querySelector("#grid-helper").scrollIntoView({
-  //   behaviour:"smooth"
-  // });
   switch(running){
     case "DFS": dfsRT(nodes,startNode,endNode); break;
     case "BFS": bfsRT(nodes,startNode,endNode); break;

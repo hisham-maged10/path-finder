@@ -283,6 +283,10 @@ svg{
   animation: wall 0.3s ease-in-out 0s, path-pulse 1s ease-in-out 10s 10;
   border:0;
 }
+.node-path-rt{
+  background-color:#ffd400 ;
+  border:0;
+}
 
 @keyframes path-pulse{
   0% {

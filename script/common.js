@@ -12,7 +12,7 @@ function getPath(parentMap,curr){
 function drawPath(counter,path){
   if(counter !== path.length){
     const curr = path[counter];
-    curr.divReference.classList.add("node-path");
+    curr.divReference.classList.add("node-path-rt");
     setTimeout(drawPath,45,++counter,path);
   }else{
     document.querySelector("#clear").disabled = false;
