@@ -52,6 +52,7 @@ function generateGrid(){
   let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
   let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
   shortcutToast.show()
+  document.querySelector("#breakpoint-toggler").click();
   setTimeout(() => shortcutToast.hide(),6500);
   grid = document.createElement("div");
   grid.id = "grid";

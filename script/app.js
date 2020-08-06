@@ -61,12 +61,14 @@ function pathFinderTab(){
   let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
   let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
   shortcutToast.show()
+  // document.querySelector("#breakpoint-toggler").click();
   setTimeout(() => shortcutToast.hide(),6500);
 
 }
 
 function minimumSpanningTab(){
   clearToasts();
+  // document.querySelector("#breakpoint-toggler").click();
   // let primToastTriggerEl = document.getElementById('prim-toast')
   // let primToast = new mdb.Toast(primToastTriggerEl)
   // primToast.show()
@@ -75,6 +77,7 @@ function minimumSpanningTab(){
 
 function topologicalSortTab(){
   clearToasts();
+  // document.querySelector("#breakpoint-toggler").click();
   // let kahnToastTriggerEl = document.getElementById('fail-kahn-toast')
   // let kahnToast = new mdb.Toast(kahnToastTriggerEl)
   // kahnToast.show()
