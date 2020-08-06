@@ -92,11 +92,15 @@ setTimeout(bidirectionalGreedyBFS,10,grid, start, end, forwardMinHeap, backwardM
     return;
   }
 }
-function doBFS(q,choices,grid,parentMap,type=""){
+function doBFS(q,choices,grid,parentMap,type="",realtime=false){
   let curr = q.shift();
   let div = curr.divReference;
-  div.classList.add(`node-current${type}`);
-  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  if(realtime){
+    div.classList.add(`node-check-rt${type}`);
+  }else{
+    div.classList.add(`node-current${type}`);
+    setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  }
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];
     let col = curr.col + choices[i][1];
@@ -107,14 +111,16 @@ function doBFS(q,choices,grid,parentMap,type=""){
   }
   return curr;
 }
-function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap,type=""){
+function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap,type="",realtime=false){
   minHeap.sort((a,b) => heuristicMap.get(b) - heuristicMap.get(a));
   let curr = minHeap.pop();
   let div = curr.divReference;
-  div.classList.add(`node-current${type}`);
-  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
-  // div.classList.add("node-current");
-  // setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")},1000);
+  if(realtime){
+    div.classList.add(`node-check-rt${type}`);
+  }else{
+    div.classList.add(`node-current${type}`);
+    setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  }
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];
     let col = curr.col + choices[i][1];
@@ -125,15 +131,19 @@ function doGreedyBFS(minHeap,heuristicMap,choices,grid,parentMap,type=""){
   }
   return curr;
 }
-function doDijkstra(minHeap, distanceMap, processed, choices, grid, parentMap, type=""){
+function doDijkstra(minHeap, distanceMap, processed, choices, grid, parentMap, type="",realtime = false){
   minHeap.sort((a,b) => distanceMap.get(b) - distanceMap.get(a));
   let curr = minHeap.pop();
   let div = curr.divReference;
   if(processed.has(curr)){
     return;
   }
-  div.classList.add(`node-current${type}`);
-  setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  if(realtime){
+    curr.divReference.classList.add(`node-check-rt${type}`);
+  }else{
+    div.classList.add(`node-current${type}`);
+    setTimeout(() => {div.classList.remove(`node-current${type}`); div.classList.add(`node-check${type}`)},1000);
+  }
   processed.add(curr);
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];
@@ -190,6 +200,17 @@ function checkIntersectionBFS(parentMap, curr, otherParentMap){
   }
   return false;
 }
+function checkIntersectionBFSRT(parentMap, curr, otherParentMap){
+  if(parentMap.has(curr)){
+    curr.divReference.classList.add("node-intersection");
+    let path = getPath(parentMap,curr);
+    drawPathRT(path);
+    path = getPath(otherParentMap,curr);
+    drawPathRT(path);
+    return true;
+  }
+  return false;
+}
 
 function checkIntersectionAStar(processed, curr, currentParentMap, otherParentMap){
   if(processed.has(curr)){
@@ -214,7 +235,144 @@ function checkIntersectionAStarRT(processed, curr, currentParentMap, otherParent
   }
   return false;
 }
-function bidirectionalRT(grid, start, end){
+function bidirectionalDijkstraRT(grid, start, end){
+  if(!grid || !start || !end){
+    console.log("invalid input");
+    return;
+  }
+
+  let forwardDistanceMap = new Map();
+  let backwardDistanceMap = new Map();
+  let forwardProcessed = new Set();
+  let backwardProcessed = new Set();
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardMinHeap = [];
+  let backwardMinHeap = [];
+  let forwardCurr = start;
+  let backwardCurr = end;
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
+  // for(let i = 0 ; i < grid.length ; ++i){
+  //   for(let j = 0 ; j < grid[i].length ; ++j){
+  //     forwardDistanceMap.set(grid[i][j],Infinity);
+  //     backwardDistanceMap.set(grid[i][j],Infinity);
+  //   }
+  // }
+  forwardDistanceMap.set(forwardCurr,0);
+  backwardDistanceMap.set(backwardCurr,0);
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardMinHeap.push(forwardCurr);
+  backwardMinHeap.push(backwardCurr);
+
+  while(forwardMinHeap.length || backwardMinHeap.length){
+    if(checkIntersectionAStarRT(forwardProcessed, backwardCurr, forwardParentMap, backwardParentMap)){ return;}
+    if(checkIntersectionAStarRT(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
+    if(forwardMinHeap.length){
+      forwardCurr = doDijkstra(forwardMinHeap,forwardDistanceMap,forwardProcessed,choices,grid,forwardParentMap,"",true);
+      console.log(forwardCurr);
+    }
+    if(backwardMinHeap.length){
+      backwardCurr = doDijkstra(backwardMinHeap,backwardDistanceMap,backwardProcessed,choices,grid,backwardParentMap,"-backward",true);
+      console.log(backwardCurr);
+    }
+  }
+
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
+    return;
+}
+function bidirectionalBFSRT(grid, start, end){
+  if(!grid || !start || !end){
+    console.log("invalid input");
+    return;
+  }
+
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardQueue = [];
+  let backwardQueue = [];
+  let forwardCurr = start;
+  let backwardCurr = end;
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardQueue.push(forwardCurr);
+  backwardQueue.push(backwardCurr);
+
+  while(forwardQueue.length || backwardQueue.length){
+    if(checkIntersectionBFSRT(forwardParentMap, backwardCurr, backwardParentMap)){ return;}
+    if(checkIntersectionBFSRT(backwardParentMap, forwardCurr, forwardParentMap)){ return;}
+    if(forwardQueue.length){
+      forwardCurr = doBFS(forwardQueue,choices,grid,forwardParentMap,"",true);
+      console.log(forwardCurr);
+    }
+    if(backwardQueue.length){
+      backwardCurr = doBFS(backwardQueue,choices,grid,backwardParentMap,"-backward",true);
+      console.log(backwardCurr);
+    }
+  }
+
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
+    return;
+}
+function bidirectionalGreedyBFSRT(grid, start, end){
+  if(!grid || !start || !end){
+    console.log("invalid input");
+    return;
+  }
+
+  let forwardProcessed = new Set();
+  let backwardProcessed = new Set();
+  let forwardHeuristic = new Map();
+  let backwardHeuristic = new Map();
+  let forwardParentMap = new Map();
+  let backwardParentMap = new Map();
+  let forwardMinHeap = [];
+  let backwardMinHeap = [];
+  let forwardCurr = start;
+  let backwardCurr = end;
+  let choices = [[-1,0],[1,0],[0,-1],[0,1]];
+  for(let i = 0 ; i < grid.length ; ++i){
+    for(let j = 0 ; j < grid[i].length ; ++j){
+      forwardHeuristic.set(grid[i][j], Math.abs(grid[i][j].row - end.row) + Math.abs(grid[i][j].col - end.col));
+      backwardHeuristic.set(grid[i][j], Math.abs(grid[i][j].row - start.row) + Math.abs(grid[i][j].col - start.col));
+    }
+  }
+  forwardParentMap.set(forwardCurr, null);
+  backwardParentMap.set(backwardCurr, null);
+  forwardMinHeap.push(forwardCurr);
+  backwardMinHeap.push(backwardCurr);
+
+  while(forwardMinHeap.length || backwardMinHeap.length){
+    if(checkIntersectionBFSRT(forwardParentMap, backwardCurr, backwardParentMap)){ return;}
+    if(checkIntersectionBFSRT(backwardParentMap, forwardCurr, forwardParentMap)){ return;}
+    if(forwardMinHeap.length){
+      forwardCurr = doGreedyBFS(forwardMinHeap,forwardHeuristic,choices,grid,forwardParentMap,"",true);
+    }
+    if(backwardMinHeap.length){
+      backwardCurr = doGreedyBFS(backwardMinHeap,backwardHeuristic,choices,grid,backwardParentMap,"-backward",true);
+    }
+  }
+
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
+    return;
+}
+function bidirectionalAStarRT(grid, start, end){
   if(!grid || !start || !end){
     console.log("invalid input");
     return;
@@ -260,7 +418,14 @@ function bidirectionalRT(grid, start, end){
       console.log(backwardCurr);
     }
   }
-  console.log("finished");
+
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('fail-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
+    return;
 }
 function doAStarRT(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap,type=""){
   minHeap.sort((a,b) => (distanceMap.get(b) + heursticMap.get(b)) - (distanceMap.get(a) + heursticMap.get(a)));

@@ -100,10 +100,10 @@ function visualizeRT(){
     case "BFS": bfsRT(nodes,startNode,endNode); break;
     case "Dijkstra (UCS)": dijkstraRT(nodes,startNode,endNode); break;
     case "A*": astarRT(nodes,startNode,endNode); break;
-    case "Bidirectional A*": bidirectionalRT(nodes,startNode,endNode); break;
-    // case "Bidirectional BFS": executeBidrectionalBFS(); break;
-    // case "Bidirectional Greedy Best First": executeBidrectionalGreedyBFS(); break;
-    // case "Bidirectional Dijkstra (UCS)" : executeBidrectionalDijkstra(); break;
+    case "Bidirectional A*": bidirectionalAStarRT(nodes,startNode,endNode); break;
+    case "Bidirectional BFS": bidirectionalBFSRT(nodes,startNode,endNode); break;
+    case "Bidirectional Greedy Best First": bidirectionalGreedyBFSRT(nodes,startNode,endNode); break;
+    case "Bidirectional Dijkstra (UCS)" : bidirectionalDijkstraRT(nodes,startNode,endNode); break;
     case "Greedy Best First": greedyBestRT(nodes,startNode,endNode); break;
   }
 }
