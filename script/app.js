@@ -7,8 +7,8 @@
 // document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",executeBidrectionalGreedyBFS);
 // document.querySelector("#greedybest").addEventListener("click",executeGreedyBestFirst);
 document.querySelector("#clear-path").addEventListener("click",clearGrid);
-document.querySelector("#clear").addEventListener("click",()=>clearGrid(0,false,true));
-document.querySelector("#clear-path").addEventListener("click",()=>clearGrid());
+document.querySelector("#clear").addEventListener("click",(e)=>{clearGrid(0,false,true); e.target.disabled = true; document.querySelector("#clear-path").disabled = true;});
+document.querySelector("#clear-path").addEventListener("click",(e)=>{clearGrid(); e.target.disabled = true;});
 document.querySelector("#maze-prim").addEventListener("click",() => generateMaze("prim"));
 document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => generateMaze("backtracker"));
 document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",() => generateMaze("backtracker-animated"));
@@ -130,6 +130,9 @@ function visualizeRT(){
     case "Bidirectional Dijkstra (UCS)" : bidirectionalDijkstraRT(nodes,startNode,endNode); break;
     case "Greedy Best First": greedyBestRT(nodes,startNode,endNode); break;
   }
+  document.querySelector("#clear").disabled = false;
+  document.querySelector("#clear-path").disabled = false;
+  document.querySelector("#size-slider").disabled = false;
 }
 function makeChoice(choice){
   running = "";
@@ -414,12 +417,6 @@ function executeDrawPath(parentMap,endNode){
   console.log("Entered here")
   let path = getPath(parentMap,endNode);
   setTimeout(drawPath,0,0,path);
-  document.querySelector("#clear").disabled = false;
-  document.querySelector("#clear-path").disabled = false;
-  document.querySelector("#size-slider").disabled = false;
-  let toastTriggerEl = document.getElementById('info-toast')
-  let toast = new mdb.Toast(toastTriggerEl)
-  toast.show()
 }
 
 function clearGrid(statusVal = 0, keep = true, initials=true){

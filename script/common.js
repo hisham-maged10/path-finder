@@ -14,6 +14,13 @@ function drawPath(counter,path){
     const curr = path[counter];
     curr.divReference.classList.add("node-path");
     setTimeout(drawPath,45,++counter,path);
+  }else{
+    document.querySelector("#clear").disabled = false;
+    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#size-slider").disabled = false;
+    let toastTriggerEl = document.getElementById('info-toast')
+    let toast = new mdb.Toast(toastTriggerEl)
+    toast.show()
   }
 }
 
