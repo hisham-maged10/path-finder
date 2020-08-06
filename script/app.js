@@ -28,6 +28,7 @@ document.querySelector("#minimum-spanning-tree").addEventListener("click",minimu
 document.querySelector("#topological-sort").addEventListener("click",topologicalSortTab);
 let status = 0;
 let running = "";
+let runningMessage = "";
 const height = window.innerHeight|| document.documentElement.clientHeight||
 document.body.clientHeight;
 const width = window.innerWdith || document.documentElement.clientWidth ||
@@ -52,13 +53,14 @@ function minimumSpanningTab(){
 
 function topologicalSortTab(){
   clearToasts();
-  let kahnToastTriggerEl = document.getElementById('kahn-toast')
-  let kahnToast = new mdb.Toast(kahnToastTriggerEl)
-  kahnToast.show()
-  setTimeout(() => kahnToast.hide(),6500);
+  // let kahnToastTriggerEl = document.getElementById('fail-kahn-toast')
+  // let kahnToast = new mdb.Toast(kahnToastTriggerEl)
+  // kahnToast.show()
+  // setTimeout(() => kahnToast.hide(),6500);
 }
 
 function visualize(){
+  running = runningMessage;
   document.querySelector("#visualize").disabled = true;
   document.querySelector("#clear").disabled = true;
   document.querySelector("#clear-path").disabled = true;
@@ -83,6 +85,7 @@ function visualize(){
 
 
 function visualizeRT(){
+  running = runningMessage;
   document.querySelector("#visualize").disabled = true;
   document.querySelector("#clear").disabled = true;
   document.querySelector("#clear-path").disabled = true;
@@ -105,7 +108,9 @@ function visualizeRT(){
   }
 }
 function makeChoice(choice){
-  running = choice;
+  running = "";
+  clearGrid(1);
+  runningMessage = choice;
   let btn = document.querySelector("#visualize");
   btn.disabled = false;
   btn.textContent = `Visualize ${choice}`
@@ -469,7 +474,7 @@ function clearToasts(){
   let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
   // let primToastTriggerEl = document.getElementById('prim-toast')
   // let primToast = new mdb.Toast(primToastTriggerEl)
-  let kahnToastTriggerEl = document.getElementById('kahn-toast')
+  let kahnToastTriggerEl = document.getElementById('fail-kahn-toast')
   let kahnToast = new mdb.Toast(kahnToastTriggerEl)
   kahnToast.hide()
   // primToast.hide()

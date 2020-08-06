@@ -24,7 +24,6 @@ function createCanvas(){
       let isInside = Math.sqrt(Math.pow(vertices[i].x - x, 2) + Math.pow(vertices[i].y - y, 2)) < node_radius;
       if(isInside){
         vertices.splice(i,1);
-        console.log("found it");
         break;
       }
     }
@@ -70,8 +69,6 @@ function generateRandomVertices(e,max = 25){
     v = new Vertix(x,y);
     vertices.push(v);
   }
-  console.log(max);
-  console.log(vertices);
   primsMST(vertices);
 }
 

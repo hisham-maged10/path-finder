@@ -48,6 +48,8 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
 function dfsRT(grid, start, end){
   let curr = start;
   let s = [];
+  let parentMap = new Map();
+  parentMap.set(curr,null);
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
   s.push(curr);
   let visited = new Set();
@@ -57,15 +59,18 @@ function dfsRT(grid, start, end){
       continue;
     }
     if(curr === end){
-      console.log("done");
+      let path = getPath(parentMap,curr);
+      drawPathRT(path);
       return;
     }
+    curr.divReference.classList.add("node-check-rt")
     visited.add(curr);
     for(let i = 0 ; i < choices.length ; ++i){
       let row = curr.row + choices[i][0];
       let col = curr.col + choices[i][1];
       if(grid[row] && grid[row][col] && !grid[row][col].isWall && !visited.has(grid[row][col])){
         s.push(grid[row][col]);
+        parentMap.set(grid[row][col],curr);
       }
     }
   }

@@ -63,10 +63,8 @@ function greedyBestRT(grid, start, end){
     let div = curr.divReference;
     div.classList.add("node-check-rt");
     if(curr === end){
-      console.log("found it");
-      console.log(curr);
-      console.log(end);
-      executeDrawPath(parentMap,curr);
+      let path = getPath(parentMap,curr);
+      drawPathRT(path);
       return;
     }
     for(let i = 0 ; i < choices.length ; ++i){

@@ -171,7 +171,7 @@ function generateGrid(){
         console.log(status);
         if(running !== ""){
           clearGrid(1);
-          visualize();
+          visualizeRT();
         }
         return;
       }
@@ -186,7 +186,7 @@ function generateGrid(){
         console.log(status);
         if(running !== ""){
           clearGrid(1);
-          visualize();
+          visualizeRT();
         }
         return;
       }

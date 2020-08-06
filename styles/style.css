@@ -180,6 +180,10 @@ svg{
   background-color: rgba(0,190,218,0.75);
   border:1px solid rgba(207,221,239,0.65);
 }
+.node-check-rt-backward{
+  background-color: #13EBA2;
+  border:1px solid rgba(207,221,239,0.65);
+}
 .node-backtrack{
   animation-name:backtrack;
   border:1px solid rgba(207,221,239,0.65);
@@ -329,12 +333,12 @@ svg{
 }
 
 #result{
-    text-align: right;
-    position: relative;
-    bottom: 2em;
-    right:2em;
+    text-align: center;
+    /* position: relative;
+    bottom: 4rem;
+    right:1rem; */
     font-size: 2em;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #262626;
 }
 
@@ -440,5 +444,15 @@ svg{
   margin-top:1rem;
 }
 #mst-helper{
+  text-align:center;
+}
+#network-helper{
+  display:flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-around;
+  margin-top:1rem;
+}
+#topological-helper{
   text-align:center;
 }

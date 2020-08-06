@@ -201,6 +201,19 @@ function checkIntersectionAStar(processed, curr, currentParentMap, otherParentMa
   }
   return false;
 }
+function checkIntersectionAStarRT(processed, curr, currentParentMap, otherParentMap){
+  if(processed.has(curr)){
+    curr.divReference.classList.add("node-intersection");
+    let path = getPath(currentParentMap,curr);
+    drawPathRT(path);
+    path = getPath(otherParentMap,curr);
+    drawPathRT(path);
+    // executeDrawPath(currentParentMap, curr);
+    // executeDrawPath(otherParentMap, curr);
+    return true;
+  }
+  return false;
+}
 function bidirectionalRT(grid, start, end){
   if(!grid || !start || !end){
     console.log("invalid input");
@@ -236,26 +249,26 @@ function bidirectionalRT(grid, start, end){
   backwardMinHeap.push(backwardCurr);
 
   while(forwardMinHeap.length || backwardMinHeap.length){
-    if(checkIntersection(forwardProcessed, backwardCurr, forwardParentMap, backwardParentMap)){ return;}
-    if(checkIntersection(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
+    if(checkIntersectionAStarRT(forwardProcessed, backwardCurr, forwardParentMap, backwardParentMap)){ return;}
+    if(checkIntersectionAStarRT(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
     if(forwardMinHeap.length){
       forwardCurr = doAStarRT(forwardMinHeap,forwardDistanceMap,forwardHeuristic,forwardProcessed,choices,grid,forwardParentMap);
       console.log(forwardCurr);
     }
     if(backwardMinHeap.length){
-      backwardCurr = doAStarRT(backwardMinHeap,backwardDistanceMap,backwardHeuristic,backwardProcessed,choices,grid,backwardParentMap);
+      backwardCurr = doAStarRT(backwardMinHeap,backwardDistanceMap,backwardHeuristic,backwardProcessed,choices,grid,backwardParentMap,"-backward");
       console.log(backwardCurr);
     }
   }
   console.log("finished");
 }
-function doAStarRT(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap){
+function doAStarRT(minHeap, distanceMap, heursticMap, processed, choices, grid, parentMap,type=""){
   minHeap.sort((a,b) => (distanceMap.get(b) + heursticMap.get(b)) - (distanceMap.get(a) + heursticMap.get(a)));
   let curr = minHeap.pop();
   if(processed.has(curr)){
     return curr;
   }
-  curr.divReference.classList.add("node-check-rt");
+  curr.divReference.classList.add(`node-check-rt${type}`);
   processed.add(curr);
   for(let i = 0 ; i < choices.length ; ++i){
     let row = curr.row + choices[i][0];

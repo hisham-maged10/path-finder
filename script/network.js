@@ -11,73 +11,11 @@ function generateFormInput(e){
   if(taskCounter === 5){
     e.target.disabled = true;
   }
-  // let div = document.createElement("div");
-  // div.className = "row g-3 align-items-center mt-1 ml-2";
-  // let formOutline = document.createElement("div");
-  // formOutline.className = "form-outline col-auto mr-2";
-  // let input = document.createElement("input");
-  // input.type = "text";
-  // input.name = `task-${taskCounter}`;
-  // input.className = "form-control";
-  // // input.required = true;
-  // input.placeholder="hello";
-  // let label = document.createElement("label");
-  // label.className = "form-label";
-  // label.for = `task-${taskCounter}`;
-  // label.textContent = `Task #${taskCounter}`;
-  // formOutline.appendChild(input);
-  // formOutline.appendChild(label);
-  // let formOutline2 = document.createElement("div");
-  // formOutline2.className = "form-outline col-auto";
-  // let input2 = document.createElement("input");
-  // input2.type = "text";
-  // input2.name = `preq-${taskCounter}`;
-  // input2.className = "form-control";
-  // input2.required = true;
-  // let label2 = document.createElement("label");
-  // label2.className = "form-label";
-  // label2.for = `preq-${taskCounter}`;
-  // label2.textContent = `Task #${taskCounter} Prerequisites`;
-  // formOutline2.appendChild(input2);
-  // formOutline2.appendChild(label2);
-  // div.appendChild(formOutline);
-  // div.appendChild(formOutline2);
-  // let formHTML = `
-  //         <div class="row g-3 align-items-center mt-1 ml-2">
-  //           <div class="form-outline col-auto mr-2">
-  //             <input
-  //               type="text"
-  //               name="task-${taskCounter}"
-  //               class="form-control"
-  //               aria-describedby="task-${taskCounter}"
-  //               required
-  //             />
-  //             <label class="form-label" for="task-${taskCounter}">Task #${taskCounter}</label>
-  //           </div>
-  //           <div class="form-outline col-auto">
-  //             <input
-  //               type="text"
-  //               name="preq-${taskCounter}"
-  //               class="form-control"
-  //               aria-describedby="preq-${taskCounter}"
-  //               required
-  //             />
-  //             <label class="form-label" for="preq-${taskCounter}">Task #${taskCounter} Prerequisites</label>
-  //           </div>
-  //         <div class="col-auto">
-  //           <span id="textExample2" class="form-text">
-  //             Prerequisites Must be comma separated Values
-  //           </span>
-  //         </div>
-  //       </div>
-  //       `;
-  // document.querySelector("#tasks-input").insertAdjacentElement("beforeEnd",div);
-  // form.insertAdjacentElement("beforeEnd",div);
-
 }
 
 function visualizeNetwork(e){
   e.preventDefault();
+  document.querySelector("#result").scrollIntoView({behaviour:"smooth"});
   let data = new FormData(form);
   let adjMap = new Map();
   for(let i = 0 ; i < taskCounter ; ++i){
@@ -100,7 +38,6 @@ function visualizeNetwork(e){
       adjMap.set(key,[]);
     }
   }
-  console.log(adjMap)
   createNetwork(adjMap);
   topologicalSort(adjMap, computeInDegree(adjMap));
 }
@@ -161,7 +98,10 @@ function hasCycleUtil(start, adjMap, black){
 
 function topologicalSort(adjMap, inDegreeMap){
   if(hasCycle(adjMap)){
-    alert("Has Cycle, can't do topological sort on it!");
+    let kahnToastTriggerEl = document.getElementById('fail-kahn-toast')
+    let kahnToast = new mdb.Toast(kahnToastTriggerEl)
+    kahnToast.show()
+    setTimeout(() => kahnToast.hide(),6500);
     return;
   }
   let q = [];
@@ -184,6 +124,7 @@ function topologicalSort(adjMap, inDegreeMap){
     }
   }
   document.querySelector("#result").textContent = answer.toString();
+  document.querySelector("#result").className = "lead";
 }
 
 
