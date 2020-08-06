@@ -12,7 +12,7 @@ document.querySelector("#clear-path").addEventListener("click",()=>clearGrid());
 document.querySelector("#maze-prim").addEventListener("click",() => generateMaze("prim"));
 document.querySelector("#maze-recursive-backtracker").addEventListener("click",() => generateMaze("backtracker"));
 document.querySelector("#maze-animation-recursive-backtracker").addEventListener("click",() => generateMaze("backtracker-animated"));
-document.querySelector("#maze-prim-animation").addEventListener("click",() => generateMaze("prim-animated");
+document.querySelector("#maze-prim-animation").addEventListener("click",() => generateMaze("prim-animated"));
 document.querySelector("#visualize").addEventListener("click",visualize);
 document.querySelector("#dfs").addEventListener("click",() => makeChoice("DFS"));
 document.querySelector("#bfs").addEventListener("click",() => makeChoice("BFS"));
@@ -35,6 +35,7 @@ const width = window.innerWdith || document.documentElement.clientWidth ||
 document.body.clientWidth;
 
 function generateMaze(choice){
+  document.querySelector("#visualize").textContent = `Visualize`
   document.querySelector("#visualize").disabled = true;
   document.querySelector("#clear").disabled = true;
   document.querySelector("#clear-path").disabled = true;

@@ -19,14 +19,13 @@ function recursiveBacktracker(grid, s, choices){
     setTimeout(recursiveBacktracker,0,grid,s,choices);
   }else{
     chooseRndStartEnd();
-    document.querySelector("#visualize").disabled = false;
-    document.querySelector("#clear-path").disabled = false;
+    document.querySelector("#clear").disabled = false;
     document.querySelector("#size-slider").disabled = false;
   }
 }
 
 function recursiveBacktrackerRT(grid){
-  clearGrid(0,false);
+  clearGrid(0,false,false);
   for(let i = 0 ; i < grid.length ; ++i){
     for(let j = 0 ; j < grid[i].length ; ++j){
       grid[i][j].isWall = true;
@@ -59,8 +58,7 @@ function recursiveBacktrackerRT(grid){
     }
   }
   chooseRndStartEnd();
-  document.querySelector("#visualize").disabled = false;
-  document.querySelector("#clear-path").disabled = false;
+  document.querySelector("#clear").disabled = false;
   document.querySelector("#size-slider").disabled = false;
 }
 

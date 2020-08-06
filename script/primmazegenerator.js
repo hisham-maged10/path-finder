@@ -17,13 +17,12 @@ function generateMazePrim(grid,frontierList,choices){
       setTimeout(generateMazePrim,0,grid,frontierList,choices);
     }else{
       chooseRndStartEnd();
-      document.querySelector("#visualize").disabled = false;
-      document.querySelector("#clear-path").disabled = false;
+      document.querySelector("#clear").disabled = false;
       document.querySelector("#size-slider").disabled = false;
     }
 }
 function generateMazePrimRT(grid){
-    clearGrid(0,false);
+    clearGrid(0,false,false);
     for(let i = 0 ; i < grid.length ; ++i){
       for(let j = 0 ; j < grid[i].length ; ++j){
         grid[i][j].divReference.classList.add("node-wall");
@@ -54,8 +53,7 @@ function generateMazePrimRT(grid){
       }
     }
   chooseRndStartEnd();
-  document.querySelector("#visualize").disabled = false;
-  document.querySelector("#clear-path").disabled = false;
+  document.querySelector("#clear").disabled = false;
   document.querySelector("#size-slider").disabled = false;
 }
 function computeFrontierCells(grid, cell, frontierList, choices){
