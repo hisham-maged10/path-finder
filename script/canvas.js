@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded",createCanvas);
+// document.querySelector("#generate-mst").addEventListener("click", generateRandomVertices);
+document.querySelector("#clear-canvas").addEventListener("click",clear);
+document.querySelector("#nodes-slider").addEventListener("input",changeAmount);
 let canvas = null;
 let ctx = null;
 let node_radius = 14;
@@ -29,9 +32,13 @@ function createCanvas(){
   }
 }
 
+function changeAmount(e){
+  generateRandomVertices(e,e.target.value);
+}
+
 function canvasClick(e){
   e.preventDefault();
-  let rect = canvas.getBoundingClientRect();
+  let rect = canvas.getBoundingClientRect(); //where canvas is
   let x = e.clientX - rect.left;
   let y = e.clientY - rect.top;
   let v = new Vertix(x,y);
@@ -46,6 +53,26 @@ function doPrim(){
 
 function euclideanDistance(x1,y1,x2,y2){
   return Math.sqrt(Math.pow(x1-x2,2) + Math.pow(y1-y2,2));
+}
+
+function clear(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  vertices = [];
+}
+function generateRandomVertices(e,max = 25){
+  clear();
+  let x = null
+  let y = null;
+  let v = null;
+  for(let i = 0 ; i < max ; ++i){
+    x = 50 + Math.floor(Math.random() * (canvas.width - 150)) ;
+    y = 50 + Math.floor(Math.random() * (canvas.height - 150)) ;
+    v = new Vertix(x,y);
+    vertices.push(v);
+  }
+  console.log(max);
+  console.log(vertices);
+  primsMST(vertices);
 }
 
 function primsMST(vertices){

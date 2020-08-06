@@ -23,12 +23,40 @@ document.querySelector("#bidirectional-bfs").addEventListener("click",() => make
 document.querySelector("#bidirectional-greedy-bfs").addEventListener("click",() => makeChoice("Bidirectional Greedy Best First"));
 document.querySelector("#bidirectional-dijkstra").addEventListener("click",() => makeChoice("Bidirectional Dijkstra (UCS)"));
 document.querySelector("#greedybest").addEventListener("click",() => makeChoice("Greedy Best First"));
+document.querySelector("#path-finder").addEventListener("click",pathFinderTab);
+document.querySelector("#minimum-spanning-tree").addEventListener("click",minimumSpanningTab);
+document.querySelector("#topological-sort").addEventListener("click",topologicalSortTab);
 let status = 0;
 let running = "";
 const height = window.innerHeight|| document.documentElement.clientHeight||
 document.body.clientHeight;
 const width = window.innerWdith || document.documentElement.clientWidth ||
 document.body.clientWidth;
+
+function pathFinderTab(){
+  clearToasts();
+  let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
+  let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
+  shortcutToast.show()
+  setTimeout(() => shortcutToast.hide(),6500);
+
+}
+
+function minimumSpanningTab(){
+  clearToasts();
+  // let primToastTriggerEl = document.getElementById('prim-toast')
+  // let primToast = new mdb.Toast(primToastTriggerEl)
+  // primToast.show()
+  // setTimeout(() => primToast.hide(),6500);
+}
+
+function topologicalSortTab(){
+  clearToasts();
+  let kahnToastTriggerEl = document.getElementById('kahn-toast')
+  let kahnToast = new mdb.Toast(kahnToastTriggerEl)
+  kahnToast.show()
+  setTimeout(() => kahnToast.hide(),6500);
+}
 
 function visualize(){
   document.querySelector("#visualize").disabled = true;
@@ -50,6 +78,30 @@ function visualize(){
     case "Bidirectional Greedy Best First": executeBidrectionalGreedyBFS(); break;
     case "Bidirectional Dijkstra (UCS)" : executeBidrectionalDijkstra(); break;
     case "Greedy Best First": executeGreedyBestFirst(); break;
+  }
+}
+
+
+function visualizeRT(){
+  document.querySelector("#visualize").disabled = true;
+  document.querySelector("#clear").disabled = true;
+  document.querySelector("#clear-path").disabled = true;
+  document.querySelector("#size-slider").disabled = true;
+  document.querySelector("#breakpoint-toggler").click();
+  setTimeout(() => document.querySelector("#grid-helper").scrollIntoView({behaviour:"smooth"}),500);
+  // document.querySelector("#grid-helper").scrollIntoView({
+  //   behaviour:"smooth"
+  // });
+  switch(running){
+    case "DFS": dfsRT(nodes,startNode,endNode); break;
+    case "BFS": bfsRT(nodes,startNode,endNode); break;
+    case "Dijkstra (UCS)": dijkstraRT(nodes,startNode,endNode); break;
+    case "A*": astarRT(nodes,startNode,endNode); break;
+    case "Bidirectional A*": bidirectionalRT(nodes,startNode,endNode); break;
+    // case "Bidirectional BFS": executeBidrectionalBFS(); break;
+    // case "Bidirectional Greedy Best First": executeBidrectionalGreedyBFS(); break;
+    // case "Bidirectional Dijkstra (UCS)" : executeBidrectionalDijkstra(); break;
+    case "Greedy Best First": greedyBestRT(nodes,startNode,endNode); break;
   }
 }
 function makeChoice(choice){
@@ -342,15 +394,7 @@ function executeDrawPath(parentMap,endNode){
 }
 
 function clearGrid(statusVal = 0, keep = true, initials=true){
-  let failToastTriggerEl = document.getElementById('fail-toast')
-  let failToast = new mdb.Toast(failToastTriggerEl)
-  let infoToastTriggerEl = document.getElementById('info-toast')
-  let infoToast = new mdb.Toast(infoToastTriggerEl)
-  let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
-  let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
-  failToast.hide()
-  infoToast.hide()
-  shortcutToast.hide()
+  clearToasts();
   if(!keep){
     grid.addEventListener("click",divClicked);
   }
@@ -414,4 +458,22 @@ function chooseRndStartEnd(){
  nodes[endRndRow][endRndCol].divReference.classList.add("node-end");
  endNode = nodes[endRndRow][endRndCol];
  nodes[endRndRow][endRndCol].isEnd = true;
+}
+
+function clearToasts(){
+  let failToastTriggerEl = document.getElementById('fail-toast')
+  let failToast = new mdb.Toast(failToastTriggerEl)
+  let infoToastTriggerEl = document.getElementById('info-toast')
+  let infoToast = new mdb.Toast(infoToastTriggerEl)
+  let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
+  let shortcutToast = new mdb.Toast(shortcutToastTriggerEl)
+  // let primToastTriggerEl = document.getElementById('prim-toast')
+  // let primToast = new mdb.Toast(primToastTriggerEl)
+  let kahnToastTriggerEl = document.getElementById('kahn-toast')
+  let kahnToast = new mdb.Toast(kahnToastTriggerEl)
+  kahnToast.hide()
+  // primToast.hide()
+  failToast.hide()
+  infoToast.hide()
+  shortcutToast.hide()
 }

@@ -432,3 +432,13 @@ svg{
   bottom:1rem;
   right:1rem;
 }
+#canvas-helper{
+  display:flex;
+  flex-direction: column;
+  /* align-items: center; */
+  justify-content: space-around;
+  margin-top:1rem;
+}
+#mst-helper{
+  text-align:center;
+}
