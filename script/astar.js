@@ -11,11 +11,7 @@ function astar(grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choic
     }
     div.classList.add("node-current");
     setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check");},1000)
-    // div.classList.add("node-check");
     if(curr === end){
-      console.log("Found it!");
-      console.log(curr);
-      console.log(end);
       executeDrawPath(parentMap,curr);
       return;
     }
@@ -49,7 +45,6 @@ function astar(grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choic
 }
 function astarRT(grid, start, end){
   if(!grid || !start || !end){
-    console.log("Invalid input!");
     return;
   }
   let parentMap = new Map();

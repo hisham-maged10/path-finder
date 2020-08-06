@@ -180,7 +180,6 @@ function executeRecursiveBacktrackerMazeGeneration(){
 }
 function executeDFS(){
   if(!nodes || !startNode || !endNode){
-    console.log("one of the inputs is empty");
     return;
   }
   clearGrid();
@@ -195,14 +194,12 @@ function executeDFS(){
 function executeBFS(){
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input");
     return;
   }
   clearGrid();
   let curr = null;
   let q = [];
   q.push(startNode);
-  console.log(q);
   let parentMap = new Map();
   parentMap.set(startNode, null);
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
@@ -212,7 +209,6 @@ function executeBFS(){
 
 function executeAstar(){
   if(!nodes || !startNode || !endNode){
-    console.log("Invalid input!");
     return;
   }
   clearGrid();
@@ -240,7 +236,6 @@ function executeAstar(){
 function executeDijkstra(){
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input!");
     return;
   }
   clearGrid();
@@ -268,7 +263,6 @@ function executeBidrectionalAStar(){
   // return;
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input!");
     return;
   }
   clearGrid();
@@ -307,7 +301,6 @@ forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCur
 function executeBidrectionalDijkstra(){
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input!");
     return;
   }
   clearGrid();
@@ -335,7 +328,6 @@ forwardParentMap, backwardParentMap, forwardMinHeap, backwardMinHeap, forwardCur
 function executeBidrectionalBFS(){
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input!");
     return;
   }
   clearGrid();
@@ -358,7 +350,6 @@ setTimeout(bidirectionalBFS,0,nodes, startNode, endNode, forwardQueue, backwardQ
 function executeBidrectionalGreedyBFS(){
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input!");
     return;
   }
   clearGrid();
@@ -387,7 +378,6 @@ setTimeout(bidirectionalGreedyBFS,0,nodes, startNode, endNode, forwardMinHeap, b
 function executeGreedyBestFirst(){
   if(!nodes || !startNode || !endNode)
   {
-    console.log("Empty input!");
     return;
   }
   clearGrid();
@@ -408,7 +398,6 @@ setTimeout(greedyBest,0,nodes, startNode, endNode, heuristicMap,minHeap,parentMa
 }
 
 function executeDrawPath(parentMap,endNode){
-  console.log("Entered here")
   let path = getPath(parentMap,endNode);
   setTimeout(drawPath,0,0,path);
 }

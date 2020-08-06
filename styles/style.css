@@ -31,8 +31,6 @@ svg{
 }
 .node{
   border:1px solid rgba(0,190,218,0.75);
-  /* width:28px;
-  height:28px; */
   box-sizing:border-box;
   display:inline-block;
   vertical-align: top;
@@ -341,11 +339,7 @@ svg{
 
 #result{
     text-align: center;
-    /* position: relative;
-    bottom: 4rem;
-    right:1rem; */
     font-size: 2em;
-    /* font-weight: bold; */
     color: #262626;
 }
 
@@ -446,7 +440,6 @@ svg{
 #canvas-helper{
   display:flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: space-around;
   margin-top:1rem;
 }
@@ -456,7 +449,6 @@ svg{
 #network-helper{
   display:flex;
   flex-direction: column;
-  /* align-items: center; */
   justify-content: space-around;
   margin-top:1rem;
 }
@@ -478,6 +470,5 @@ svg{
 
     color: #262727 !important;
     background-color: rgb(239, 188, 5) !important;
-    /* border:0px !important; */
     border-color:#a2273e !important;
 }

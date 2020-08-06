@@ -13,9 +13,6 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
     setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
     processed.add(curr);
     if(curr === end){
-      console.log("FOUND IT");
-      console.log(curr);
-      console.log(end);
       executeDrawPath(parentMap,curr);
       return;
     }

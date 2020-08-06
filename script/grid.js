@@ -100,7 +100,6 @@ function generateGrid(){
   }
 
   grid.appendChild(fragment);
-  console.log(grid);
   let prev = null;
   let prevEnd = null;
 
@@ -133,7 +132,6 @@ function generateGrid(){
   }
   let mouseUpClbk = (e) =>{
     e.preventDefault();
-    console.log(e);
     mouseDown = false;
     prev = null;
     prevEnd = null;
@@ -168,7 +166,6 @@ function generateGrid(){
         nodes[row][col].divReference.classList.add("node-start");
         startNode = nodes[row][col];
         prev = nodes[row][col];
-        console.log(status);
         if(running !== ""){
           clearGrid(1);
           visualizeRT();
@@ -183,7 +180,6 @@ function generateGrid(){
         nodes[row][col].divReference.classList.add("node-end");
         endNode = nodes[row][col];
         prevEnd = nodes[row][col];
-        console.log(status);
         if(running !== ""){
           clearGrid(1);
           visualizeRT();
@@ -265,7 +261,6 @@ function divOut(e){
     }
   if(startNode && endNode )
   {
-    console.log("should be removed!");
     e.target.classList.remove("node-wall-hover");
   }
   else if(startNode){

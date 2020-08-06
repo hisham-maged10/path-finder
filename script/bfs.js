@@ -4,7 +4,6 @@ function bfs(grid, start, end, q, parentMap, choices)
   let curr = null;
   if(q.length){
     size = q.length;
-      console.log(q.length);
     for(let i = 0 ; i < size ; ++i)
     {
       curr = q.shift();
@@ -16,10 +15,6 @@ function bfs(grid, start, end, q, parentMap, choices)
       setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
       // curr.divReference.classList.add("node-check");
       if(curr === end){
-        console.log("Found it!");
-        console.log(end);
-        console.log(curr);
-        console.log(parentMap);
         executeDrawPath(parentMap,curr);
         return;
       }
@@ -51,11 +46,7 @@ function bfs(grid, start, end, q, parentMap, choices)
 
 function bfsRT(grid, start, end)
 {
-  // console.log("entered here");
-  // console.log(start);
-  // console.log(start.divReference);
   if(!grid || !start || !end){
-    console.log("empty input!");
     return;
   }
   let curr = start;

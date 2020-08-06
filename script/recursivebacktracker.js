@@ -68,7 +68,6 @@ function recursiveBacktrackerRT(grid){
 
 
 function computeFrontierCellsRBT(grid, cell,choices){
-  console.log("this happened")
   let neighbours = [];
   for(let i = 0 ; i < choices.length ; ++i){
     let row = cell.row + choices[i][0];

@@ -31,7 +31,6 @@ function generateMazePrimRT(grid){
         grid[i][j].isWall = true;
       }
     }
-    // let choices = [[-1,0],[0,1],[1,0],[0,-1]];
     let choices = [[-2,0],[0,2],[2,0],[0,-2]];
     // picking random cell and making it a passage
     let cell = grid[Math.floor(Math.random() * grid.length)][Math.floor(Math.random() * grid[0].length)];

@@ -1,8 +1,6 @@
 function getPath(parentMap,curr){
   let path = [];
   while(curr !== null){
-    // console.log(curr);
-    // console.log(path);
     path.unshift(curr);
     curr = parentMap.get(curr);
   }

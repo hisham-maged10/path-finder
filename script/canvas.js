@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded",createCanvas);
-// document.querySelector("#generate-mst").addEventListener("click", generateRandomVertices);
 document.querySelector("#clear-canvas").addEventListener("click",clear);
 document.querySelector("#nodes-slider").addEventListener("input",changeAmount);
 let canvas = null;

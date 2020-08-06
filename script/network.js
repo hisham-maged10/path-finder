@@ -112,7 +112,6 @@ function topologicalSort(adjMap, inDegreeMap){
   }
   let answer = [];
   while(q.length){
-    console.log("in loop")
     let curr = q.shift();
     answer.push(curr);
     let neighbours = adjMap.get(curr);

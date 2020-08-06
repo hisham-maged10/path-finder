@@ -1,6 +1,5 @@
 function greedyBest(grid, start, end, heuristicMap,minHeap,parentMap,choices){
   if(!grid || !start || !end){
-    console.log("Invalid input");
     return;
   }
 
@@ -11,9 +10,6 @@ function greedyBest(grid, start, end, heuristicMap,minHeap,parentMap,choices){
     div.classList.add("node-current");
     setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")});
     if(curr === end){
-      console.log("found it");
-      console.log(curr);
-      console.log(end);
       executeDrawPath(parentMap,curr);
       return;
     }
@@ -43,7 +39,6 @@ function greedyBest(grid, start, end, heuristicMap,minHeap,parentMap,choices){
 
 function greedyBestRT(grid, start, end){
   if(!grid || !start || !end){
-    console.log("Invalid input");
     return;
   }
 

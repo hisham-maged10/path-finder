@@ -200,7 +200,6 @@ function doAStar(minHeap, distanceMap, heursticMap, processed, choices, grid, pa
 }
 function checkIntersectionBFS(parentMap, curr, otherParentMap){
   if(parentMap.has(curr)){
-    console.log("intersection");
     curr.divReference.classList.add("node-intersection");
     executeDrawPath(parentMap, curr);
     executeDrawPath(otherParentMap, curr);
@@ -222,7 +221,6 @@ function checkIntersectionBFSRT(parentMap, curr, otherParentMap){
 
 function checkIntersectionAStar(processed, curr, currentParentMap, otherParentMap){
   if(processed.has(curr)){
-    console.log("intersection");
     curr.divReference.classList.add("node-intersection");
     executeDrawPath(currentParentMap, curr);
     executeDrawPath(otherParentMap, curr);
@@ -245,7 +243,6 @@ function checkIntersectionAStarRT(processed, curr, currentParentMap, otherParent
 }
 function bidirectionalDijkstraRT(grid, start, end){
   if(!grid || !start || !end){
-    console.log("invalid input");
     return;
   }
 
@@ -278,11 +275,9 @@ function bidirectionalDijkstraRT(grid, start, end){
     if(checkIntersectionAStarRT(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
     if(forwardMinHeap.length){
       forwardCurr = doDijkstra(forwardMinHeap,forwardDistanceMap,forwardProcessed,choices,grid,forwardParentMap,"",true);
-      console.log(forwardCurr);
     }
     if(backwardMinHeap.length){
       backwardCurr = doDijkstra(backwardMinHeap,backwardDistanceMap,backwardProcessed,choices,grid,backwardParentMap,"-backward",true);
-      console.log(backwardCurr);
     }
   }
 
@@ -298,7 +293,6 @@ function bidirectionalDijkstraRT(grid, start, end){
 }
 function bidirectionalBFSRT(grid, start, end){
   if(!grid || !start || !end){
-    console.log("invalid input");
     return;
   }
 
@@ -319,11 +313,9 @@ function bidirectionalBFSRT(grid, start, end){
     if(checkIntersectionBFSRT(backwardParentMap, forwardCurr, forwardParentMap)){ return;}
     if(forwardQueue.length){
       forwardCurr = doBFS(forwardQueue,choices,grid,forwardParentMap,"",true);
-      console.log(forwardCurr);
     }
     if(backwardQueue.length){
       backwardCurr = doBFS(backwardQueue,choices,grid,backwardParentMap,"-backward",true);
-      console.log(backwardCurr);
     }
   }
 
@@ -339,7 +331,6 @@ function bidirectionalBFSRT(grid, start, end){
 }
 function bidirectionalGreedyBFSRT(grid, start, end){
   if(!grid || !start || !end){
-    console.log("invalid input");
     return;
   }
 
@@ -388,7 +379,6 @@ function bidirectionalGreedyBFSRT(grid, start, end){
 }
 function bidirectionalAStarRT(grid, start, end){
   if(!grid || !start || !end){
-    console.log("invalid input");
     return;
   }
 
@@ -425,11 +415,9 @@ function bidirectionalAStarRT(grid, start, end){
     if(checkIntersectionAStarRT(backwardProcessed, forwardCurr, backwardParentMap, forwardParentMap)){ return;}
     if(forwardMinHeap.length){
       forwardCurr = doAStarRT(forwardMinHeap,forwardDistanceMap,forwardHeuristic,forwardProcessed,choices,grid,forwardParentMap);
-      console.log(forwardCurr);
     }
     if(backwardMinHeap.length){
       backwardCurr = doAStarRT(backwardMinHeap,backwardDistanceMap,backwardHeuristic,backwardProcessed,choices,grid,backwardParentMap,"-backward");
-      console.log(backwardCurr);
     }
   }
 
