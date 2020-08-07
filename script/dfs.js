@@ -9,9 +9,6 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
       setTimeout(dfs,15,grid,start,end,s,parentMap,choices,curr);
       return;
     }
-    // div.classList.add("node-current");
-    // setTimeout(()=> div.classList.remove("node-current"),10);
-    // curr.divReference.classList.add("node-check");
     curr.divReference.classList.add("node-current");
     setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
     parentMap.set(curr,prev);
