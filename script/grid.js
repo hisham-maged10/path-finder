@@ -3,7 +3,7 @@ document.querySelector("#size-slider").addEventListener("input", (e) => resizeGr
 const NODE_SIZE = 28;
 let nodes = [];
 let startNode = null;
-let endNode = null;
+let endNode = null; 
 let grid = null;
 let mouseDown = false;
 function resizeGrid(size){
@@ -47,6 +47,7 @@ function resizeGrid(size){
   grid.textContent = "";
   grid.appendChild(documentFragment);
 
+  document.querySelector('#node-size').innerText = `${rows} X ${cols}`;
 }
 function generateGrid(){
   let shortcutToastTriggerEl = document.getElementById('shortcut-toast')
@@ -207,6 +208,7 @@ function generateGrid(){
   grid.addEventListener("mousedown",mouseDownClbk);
   grid.addEventListener("mouseup",mouseUpClbk);
   grid.addEventListener("mousemove",mouseMoveClbk);
+  document.querySelector('#node-size').innerText = `${rows} X ${cols}`;
 }
 
 function divClicked(e){
