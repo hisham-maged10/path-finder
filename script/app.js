@@ -34,6 +34,18 @@ document.body.clientHeight;
 const width = window.innerWdith || document.documentElement.clientWidth ||
 document.body.clientWidth;
 
+function makeNodeCountVisible(nodeCount) {
+  document.querySelector('#node-count-container').classList.remove("hidden");
+  const oldCount = document.querySelector('#node-count');
+  const count = typeof(nodeCount) === "function" ? nodeCount(+oldCount.innerText) : nodeCount;
+  oldCount.innerText = count + '';
+}
+
+function makeNodeCountHidden() {
+  document.querySelector('#node-count-container').classList.add("hidden");
+  document.querySelector('#node-count').innerHTML = '0';
+}
+
 function generateMaze(choice){
   document.querySelector("#visualize").textContent = `Visualize`
   document.querySelector("#visualize").disabled = true;
@@ -191,7 +203,6 @@ function executeDFS(){
   s.push(startNode);
   let choices = [[-1,0],[1,0],[0,1],[0,-1]];
   setTimeout(dfs,0,nodes,startNode,endNode,s,parentMap,choices);
-
 }
 
 function executeBFS(){
@@ -407,6 +418,7 @@ function executeDrawPath(parentMap,endNode){
 
 function clearGrid(statusVal = 0, keep = true, initials=true){
   clearToasts();
+  makeNodeCountHidden();
   if(!keep){
     grid.addEventListener("click",divClicked);
   }

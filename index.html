@@ -199,9 +199,13 @@
                     </ul>
 
                       <li class="nav-item">
-                        <label class="text-warning" for="grid-size">  Node Size: </label>
+                        <label class="text-warning" for="grid-size">  Node Size: <span id="node-size"></span> </label>
                         <input name="grid-size" type="range" class="form-range" id="size-slider" value="28" min="19" max="90"  />
                       </li>
+
+                      <div class="nav-item text-warning mx-2 hidden" id="node-count-container">
+                        <p> Nodes Checked: <span id="node-count" class="bold"></span> </p>
+                      </div>
                   </div>
                   <!-- Collapsible wrapper -->
                 </div>

@@ -473,3 +473,11 @@ svg{
     background-color: rgb(239, 188, 5) !important;
     border-color:#0b89b3 !important;
 }
+
+.hidden {
+  display: none;
+}
+
+.bold {
+  font-weight: bolder;
+}

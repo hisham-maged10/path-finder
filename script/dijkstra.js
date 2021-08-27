@@ -9,6 +9,7 @@ function dijkstra(grid, start, end,distanceMap,processed,choices,parentMap, minH
       setTimeout(dijkstra,0,grid,start,end,distanceMap,processed,choices,parentMap,minHeap)
       return;
     }
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     curr.divReference.classList.add("node-current");
     setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
     processed.add(curr);
@@ -60,6 +61,7 @@ function dijkstraRT(grid,start,end){
     if(processed.has(curr)){
       continue;
     }
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     curr.divReference.classList.add("node-check-rt");
     if(curr === end){
       let path = getPath(parentMap,curr);

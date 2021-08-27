@@ -10,6 +10,7 @@ function bfs(grid, start, end, q, parentMap, choices)
       if(curr.isWall){
         continue;
       }
+      makeNodeCountVisible((oldCount) => oldCount + 1);
       curr.divReference.classList.add("node-current");
       let div = curr.divReference;
       setTimeout(()=> {div.classList.remove("node-current"); div.classList.add("node-check");},1000);
@@ -60,6 +61,7 @@ function bfsRT(grid, start, end)
     size = q.length;
     for(let i = 0 ; i < size ; ++i){
       curr = q.shift();
+      makeNodeCountVisible((oldCount) => oldCount + 1);
       curr.divReference.classList.add("node-check-rt")
       if(curr === end){
         path = getPath(parentMap,curr);

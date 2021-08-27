@@ -7,6 +7,7 @@ function greedyBest(grid, start, end, heuristicMap,minHeap,parentMap,choices){
     minHeap.sort((a,b) => heuristicMap.get(b) - heuristicMap.get(a));
     curr = minHeap.pop();
     let div = curr.divReference;
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     div.classList.add("node-current");
     setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check")});
     if(curr === end){
@@ -58,6 +59,7 @@ function greedyBestRT(grid, start, end){
     minHeap.sort((a,b) => heuristicMap.get(b) - heuristicMap.get(a));
     curr = minHeap.pop();
     let div = curr.divReference;
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     div.classList.add("node-check-rt");
     if(curr === end){
       let path = getPath(parentMap,curr);

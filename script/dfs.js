@@ -3,6 +3,7 @@ function dfs(grid,start,end,s,parentMap,choices,prev = null)
   let curr = null;
   if(s.length){
     curr = s.pop();
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     let div = curr.divReference;
     if(parentMap.has(curr)){
       div.classList.add("node-backtrack");
@@ -50,6 +51,7 @@ function dfsRT(grid, start, end){
   let visited = new Set();
   while(s.length){
     curr = s.pop();
+    makeNodeCountVisible((oldCount) => oldCount + 1)
     if(visited.has(curr)){
       continue;
     }

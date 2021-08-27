@@ -9,6 +9,7 @@ function astar(grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choic
       setTimeout(astar,10,grid,start,end,parentMap,distanceMap,hMap,processed,minHeap,choices);
       return;
     }
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     div.classList.add("node-current");
     setTimeout(() => {div.classList.remove("node-current"); div.classList.add("node-check");},1000)
     if(curr === end){
@@ -78,6 +79,7 @@ function astarRT(grid, start, end){
       drawPathRT(path);
       return;
     }
+    makeNodeCountVisible((oldCount) => oldCount + 1);
     processed.add(curr);
     for(let i = 0 ; i < choices.length ; ++i){
       let row = curr.row + choices[i][0];
